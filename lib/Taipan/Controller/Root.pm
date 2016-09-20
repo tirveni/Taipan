@@ -10,6 +10,17 @@ BEGIN { extends 'Catalyst::Controller' }
 #
 __PACKAGE__->config(namespace => '');
 
+use TryCatch;
+
+
+use Class::Utils;
+use Class::Utils qw(today now trim unxss valid_date push_errors print_errors);
+
+use Class::Rock;
+use Class::Key;
+use Class::General;
+use Class::Appuser;
+
 =head1 NAME
 
 Taipan::Controller::Root - Root Controller for Taipan
@@ -44,6 +55,246 @@ sub default :Path {
     $c->response->body( 'Page not found' );
     $c->response->status(404);
 }
+
+=head2
+
+Runs on every request
+
+=cut
+
+sub auto : Private
+{
+  my ( $self, $c ) = @_;
+
+  my $error;
+  my @errors;
+  my $m = "R/auto";
+
+ TODAY_NOW:
+  my ($today,$now,$todaynow) = undef;
+  $today	= Class::Utils::today;
+  $now		= Class::Utils::now;
+  $todaynow	= $today . " " . $now;
+
+ GET_IP:
+  my $ip =  $c->request->address;
+
+ GET_URL:
+  my ($i_action,$i_path, $i_user_exist) = undef;
+  $i_action	= $c->action();
+  $i_path	= $c->request->path;
+
+ SET_DEFAULT_USER:
+  my ($i_login);
+  $i_login	= 'UNKN';
+
+ BUSINESS_AND_BRANCH_AND_APP:
+  my ($i_app_id,$i_business_id,$i_branch_id) = undef;
+  $i_app_id	= 'USERMAN';
+
+  my $h_attempt;
+  {
+    $h_attempt->{ip}	= $ip		;
+    $h_attempt->{date}	= $todaynow	;
+    $h_attempt->{url}   = $i_path	;
+    $c->log->debug("$m Start Action:$i_action ");
+  }
+
+
+ USER_IN_SESSION:
+  try
+  {
+    $i_user_exist = $c->user_exists;
+    $c->log->debug("$m IP:$ip Action:$i_action , ".
+		 " Path:$i_path");
+
+    my $first_args = $c->request->args->[0];
+    my $prospective_branchid;
+    $c->log->debug("$m path args: $first_args ");
+
+    ### IF User Exists,then
+  USER_EXISTS_THEN:
+    if ($i_user_exist)
+    {
+      $i_login = $c->user->get('userid');
+      $c->log->info("$m $i_action: LoginID: $i_login ..");
+    }
+  };
+
+
+  ##Default
+ FILL_IN_DISPLAY:
+  my %ah = ( user => $i_login );
+  $c->stash->{hello} = \%ah;
+
+  if ( ($i_action eq 'default'))
+  {
+    return 1;
+    ##Rx_1
+  }
+
+  ##--- Get PSQL,Redis DB Object.
+  my ($dbic,$o_redis);
+  {
+    $dbic = $c->model('TDB')->schema;
+    $o_redis = Class::Utils::get_redis();
+  }
+
+  ##--- Check On Redis,DBIC
+  if (!$o_redis || !$dbic)
+  {
+
+    if (!defined($dbic))
+    {
+      $c->log->info("$m Error:3110111 DBIc Object missing");
+    }
+    if (!defined($o_redis))
+    {
+      $c->log->info("$m Error:3110222 Redis Object missing");
+    }
+
+
+    $c->response->body( 'Page not found' );
+    $c->response->status(503);
+    ##Set this up when page is ready
+    $c->response->redirect( $c->uri_for('/default') );
+    return 0;
+    ##Rx_2
+  }
+
+
+ CHECK_USER_EXISTS:
+  my ($fruit_userid,$fruit_errors,$h_xkey);
+
+  ##--- B1: GET API KEYS And BranchID
+  ##--- Also BranchID
+ GET_API_KEYS:
+  {
+    my $is_key_given_but_failed;
+
+    ($h_xkey,$is_key_given_but_failed) = Class::General::input_keys($c);
+
+    if ($is_key_given_but_failed <= 0)
+    {
+      $fruit_userid = $h_xkey->{userid};
+      $fruit_errors = $h_xkey->{errors};
+      $c->log->info("$m  Key User: $fruit_userid ");
+    }
+    elsif ($is_key_given_but_failed > 0)
+    {
+      $c->log->info("$m Is_key_given_but_Failed:$is_key_given_but_failed");
+      ##Display Error, If Keys were used and Authorization Failed.
+      my $message = "Key Authorization Failed \n";
+
+      $c->response->body("$message");
+      $c->response->status(403);
+
+      ##--- If Keys invalid, Then Access Failed. Return 0
+      return 0;
+      ##Rx_3
+    }
+
+  }
+
+  my $path_default_fwd = "default?url=$i_action";
+
+  ##--- C. PERMISSION Handling BEGIN
+  ##-----------------------------------------------------------
+  ##--- Variables for User Permissions
+  ##---
+  my ($pg_allow,$user_role);
+  $pg_allow  = 0;
+
+  ##--- User  -> PSQL PERMIT
+#  try  {
+
+    my ($o_appuser);
+    $c->log->info("$m  Appuser($i_login): $o_appuser ");
+
+    ##--- C1. Get User Object
+    ##---
+  USER_OBJ:
+    $o_appuser = Class::Appuser->new($dbic,$i_login);
+    $c->log->info("$m  Appuser($i_login): $o_appuser ");
+
+
+    ##--- C2. Get Admit Permission
+    ##---
+    if ($o_appuser)
+    {
+      $c->log->info("$m Check Permission ");
+      $pg_allow = $o_appuser->url_allowed($dbic,$i_action);
+    }
+
+    $c->log->info("$m PG Result: $pg_allow");
+
+    ##--- C6: IF PSQL allows/dis-allow. This is the FINAL.
+  PSQL_CHECK:
+    if ($pg_allow > 1)
+    {
+      #    $c->log->info("$m Go Ahead More True:$is_go_ahead" );
+      ##Multiple Branches.
+      $c->response->redirect( $c->uri_for('/home') );
+    }
+    elsif ($pg_allow > 0)
+    {
+      #    $c->log->info("$m Go Ahead True:$is_go_ahead" );
+      return 1;##1
+      ##Rx_7
+    }
+    else
+    {
+      $c->log->info("$m Refused PG:$pg_allow  ");
+      $c->response->body( 'Page not found' );
+      $c->response->status(404);
+      ##Set this up when page is ready
+      $c->response->redirect( $c->uri_for('/default') );
+      return 0;
+      ##Rx_8
+    }
+
+#  }				##Try
+#    catch($error)
+#    {
+#      push_errors(\@errors,1110221,$error) if($error);
+#    }  ;
+
+  ##--- D. Errors are put in the Log
+  ##---
+ ERROR_LOG:
+  if (@errors)
+  {
+    Class::Utils::print_errors(\@errors);
+  }
+
+
+  ##--- E. ELSE FAILURE.
+  ##----
+  ##--- Every thing has Failed. No Reason
+  ##--- We assume No Permission.Security First
+  ##--- Hence ZERO
+  ##---
+ NOTHING_WORKS:
+  {
+    $c->log->info("$m Nothing Working 1110222");
+    $c->response->body( 'Page not found' );
+    $c->response->status(404);
+    ##Set this up when page is ready
+    $c->response->redirect( $c->uri_for('/default') );
+    return 0;
+    ##Rx_9
+  }
+
+
+  ## IF nothing works then move to Home
+  ## $c->response->redirect( $c->uri_for('/') );
+
+# Comment: Action and USer END
+
+
+
+}
+
 
 =head2 end
 
