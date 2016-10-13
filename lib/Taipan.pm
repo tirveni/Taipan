@@ -22,9 +22,15 @@ use Catalyst qw/
     Static::Simple
 
 
+
        Session
         Session::State::Cookie
         Session::Store::Redis
+
+        Authentication
+        Authorization::Roles
+        Authorization::ACL
+
 
         Unicode::Encoding
 
