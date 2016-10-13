@@ -104,7 +104,7 @@ sub index :Path :Args(0) {
  }
 
 #End Recaptcha, google
-  my $dbic = $c->model('HDB')->schema;
+  my $dbic = $c->model('TDB')->schema;
   my $user_validated;
   my $app_user;
 
