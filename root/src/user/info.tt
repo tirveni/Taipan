@@ -1,0 +1,68 @@
+<ul class="collection collapsible popout " data-collapsible="accordion">
+
+	 	<li> 
+	   <div class="collapsible-header btn active waves-effect waves-purple lime lighten-3 black-text">
+	   				<div class='row'>
+		  							<div class='col l1 m1 s1'>&rarr;</div> 
+	   							<div class='col l10 m10 s10'>Info</div>
+	   					</div>
+	   		</div>
+ 	    			<div class="collapsible-body" > 	
+ 	    				[% PROCESS src/User/user_info.tt %] 
+ 	    			</div>
+		</li>
+  
+
+	 	<li>
+	   <div class="collapsible-header btn waves-effect waves-purple lime lighten-3 black-text">
+	   				<div class='row'>
+		  							<div class='col l1 m1 s1'>&rarr;</div> 
+	   							<div class='col l10 m10 s10'>Edit</div>
+	   					</div>
+	   		</div>
+ 	    			<div class="collapsible-body" > 	
+
+ 	    					[% PROCESS src/User/edit.tt %]
+ 	    			</div>
+		</li>
+
+	 	<li> 
+	   <div class="collapsible-header btn waves-effect waves-purple lime lighten-3 black-text">
+	   				<div class='row'>
+		  							<div class='col l1 m1 s1'>&rarr;</div> 
+	   							<div class='col l10 m10 s10'>Change Password</div>
+	   					</div>
+	   		</div>
+ 	    			<div class="collapsible-body" > 	
+ 	    				[% PROCESS src/User/edit_password.tt %] 
+ 	    			</div>
+		</li>
+
+	 	<li>
+	   <div class="collapsible-header btn waves-effect waves-purple lime lighten-3 black-text">
+	   				<div class='row'>
+		  							<div class='col l1 m1 s1'>&rarr;</div> 
+	   							<div class='col l10 m10 s10'>Address</div>
+	   					</div>
+	   		</div>
+ 	    			<div class="collapsible-body" >
+ 	    				[% PROCESS src/User/address_edit.tt %] 
+ 	    			</div>
+		</li>
+
+
+		[% IF key.role == 'BUSINESS' %]
+	 	<li>     
+	   <div class="collapsible-header btn waves-effect waves-purple lime lighten-3 black-text">
+	   				<div class='row'>
+		  							<div class='col l1 m1 s1'>&rarr;</div> 
+	   							<div class='col l10 m10 s10'>API Key</div>
+	   					</div>
+	   		</div>
+ 	    			<div class="collapsible-body" > 	
+ 	    				[% PROCESS src/User/edit_key.tt %] 
+ 	    			</div>
+		</li>
+		[% END %]
+
+</ul>

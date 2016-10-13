@@ -1,0 +1,62 @@
+<ul class='collection'>
+      <div class='collection-item row'>
+      	 <div class='col s4'>UserID</div>
+      	 <div class='col s6'>[% userinfo.userid %]</div>
+       </div>
+
+      <div class='collection-item row'>
+      	 <div class='col s4'>Name</div>
+      	 <div class='col s6'>[% userinfo.name %]</div>
+       </div>
+      	 	
+      <div class='collection-item row'>
+      	 <div class='col s4'>Email</div>
+			 <div class='col s6'>
+      	[% userinfo.email %]</div>
+      </div>
+
+      <div class='collection-item row'>
+      	 <div class='col s4'>Date of Birth</div>
+			 <div class='col s6'>
+      	[% userinfo.dob %]</div>
+      </div>
+
+      <div class='collection-item row'>
+      	 <div class='col s4'>Sex</div>
+			 <div class='col s6'>
+      	[% userinfo.sex %]</div>
+      </div>
+      
+		[% IF key.key1 %]
+
+      <div class='collection-item row deep-orange accent-2'>
+      	 <div class='col s8'>API ID & Key</div>
+		</div>		
+		
+      <div class='collection-item row'>
+      	 <div class='col s4'>ID</div>
+			 <div class='col s6'>
+      	[% key.key1 %]</div>
+      </div>
+      
+      <div class='collection-item row'>
+      	 <div class='col s4'>Key</div>
+			 <div class='col s6'>
+      	[% key.key2 %]</div>
+      </div>
+      <div class='collection-item row'>
+      	 <div class='col s4'>Expires On</div>
+			 <div class='col s6'>
+      	[% key.valid_till %]</div>
+      </div>
+      
+      <div class='collection-item row'>
+      	 <div class='col s10'>Note: Both the keys have to be used together for API access.</div>
+		</div>      
+      [% ELSE %]
+            <div class='collection-item row'>
+            	<div class='col s4'>You do not have a key for API access currently. </div>
+            </div>	
+      [% END %]
+      
+</ul>
