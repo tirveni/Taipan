@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>
 	[% IF page.title  %][% page.title %][% END %]
-	- Bael 
+	- Taipan 
 				
 </title>
 

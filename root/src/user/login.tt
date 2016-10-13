@@ -3,9 +3,7 @@
 
  <div class="col l6 m4 s12 center">
             <p class="center">
-            	<h5 class=''>BAEL</h5>	
-            	<h5 class='hide-on-med-and-down'>Business Accelerate Elements</h5>
-            	
+            	<h5 class=''>Taipan</h5>	
             </p>
      </div>
           
@@ -63,51 +61,14 @@
       </form>
 
 
-	<div class="row">
-				<a class='col s10 m10 l10 offset-s1 offset-l1 offset-m1 
-						btn green waves-effect waves-light ' href="/login/facebook" >
-				Sign In with F
-			</a>
-	</div>
-		
-   <div class="row">            		
-				<a class='col s10 m10 l10 offset-s1 offset-l1 offset-m1 
-						btn green waves-effect waves-light ' href="/login/google" >
-					Sign In with G+</a>
-	</div>
-
-      
-
 </div>
 
 
-
-<div class="card-panel col l6 m8 s12 offset-l6 offset-m4	">
-
-        <div class="row">
-            <a class='col s10 m10 l10 offset-s1 offset-l1 offset-m1
-            		btn green  waves-effect waves-dark' href="/registration">Register Now!
-            		<b>&#9998;</b>
-            	</a>
-				</div>
-				
-
-        <div class="row">            		
-            <a class='col s10 m10 l10 offset-s1 offset-l1 offset-m1
-            		btn green waves-effect waves-dark' href="/registration/validate">
-            			Verify Email Address</b></a>
-        </div>
-</div>
 
 <div class="col l12 m12 s12 center">
 
             <p align='justify'>
 
-            This site uses cookies to simplify and improve your usage and experience of this website. 
-            Cookies are small text files stored on the device you are using to access this website. 
-            If you ignore this message and continue without changing your browser settings, 
-            we will assume that you are consenting to our use of cookies. 
-            
             For further information on our use of cookies, please see our Privacy Statement.
 
             </p>

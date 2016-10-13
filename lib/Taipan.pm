@@ -20,6 +20,15 @@ use Catalyst qw/
     -Debug
     ConfigLoader
     Static::Simple
+
+
+       Session
+        Session::State::Cookie
+        Session::Store::Redis
+
+        Unicode::Encoding
+
+
 /;
 
 extends 'Catalyst';
@@ -40,7 +49,37 @@ __PACKAGE__->config(
     # Disable deprecated behavior needed by old applications
     disable_component_resolution_regex_fallback => 1,
     enable_catalyst_header => 1, # Send X-Catalyst header
+
+    ##testing
+    testing => $ENV{TESTING} || 0,
+
+    ## Set the right headers for nginx
+    using_frontend_proxy => 1,
+
 );
+
+
+#ADD view to config
+__PACKAGE__->config( default_view => 'HTML' );
+
+
+##Session
+__PACKAGE__->config
+  (
+
+##-- Session::Store::Redis
+   'Plugin::Session' => 
+   {
+    expires => 3600,
+    redis_server => '127.0.0.1:6379',
+    #redis_debug => 0 # or 1!
+
+    redis_reconnect     => 5,
+    redis_every         => 500, 
+   },
+
+);
+
 
 # Start the application
 __PACKAGE__->setup();
