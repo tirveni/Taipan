@@ -295,6 +295,41 @@ sub auto : Private
 
 }
 
+=head2 home
+
+=cut
+sub home : Path('home') :Args(0)
+{
+  my ( $self, $c) = @_;
+
+  my $m = "R/home";
+
+  my ( $i_action, $i_user_exist, $i_login );
+  $i_action = $c->action();
+  $i_login  = $c->user->get('userid');
+
+  $c->log->info("$m We are here at index: $i_action");
+
+  $c->stash->{page} = {'title' => 'Taipan: Home',};
+  $c->stash->{template} = 'src/home.tt';
+
+  my $pageid = 'home';
+
+  my ($o_redis,$dbic,$aparams,$o_appuser,$verify_list,$role,$userid);
+  $aparams	= $c->request->params;
+  $o_redis	= Class::Utils::get_redis;
+  $dbic = $c->model('TDB')->schema;
+
+
+  ##User
+  $o_appuser = Class::Appuser->new($dbic,$i_login);
+  $role  = $o_appuser->role;
+
+
+
+
+}
+
 
 =head2 end
 
