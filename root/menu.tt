@@ -1,0 +1,55 @@
+<div class="navbar-fixed blue-grey menu_top">
+
+	<nav class="blue-grey lighten-4 menu_top center" role="navigation">
+
+
+      <a href="#" data-activates="nav-mobile" class="menu_top red-text button-collapse">
+                <h4 class="top-margin"> &nbsp; &#8801; &nbsp; </h4>
+            </a>
+            
+	   <a id="logo-container" href="/home" class="button-collapse">
+                  <img src="[% c.uri_for('/static/images/udyansh_logo.png') %]" alt="B"
+              height='40' width='40' />
+             </a>
+            
+	
+     <ul class="center row">
+
+			<li class='left hide-on-med-and-down '>
+		      <a id="logo-container" href="/" >
+                  <img src="[% c.uri_for('/static/images/udyansh_logo.png') %]" alt="BAEL"
+              height='40' width='40' /></a>
+         </li>
+
+			<li class='hide-on-med-and-down middle'>[% PROCESS menub/search.tt %]<li>
+			<li id='rest_messages'></li>
+
+         
+      	<li class='hide-on-med-and-down right '>
+        			[% IF (hello.user != 'UNKN') %] 
+        		<a class="btn dropdown-button blue lighten-2 waves-effect waves-light" href="#!" 
+        				data-activates="dropdown1" data-beloworigin="true">
+    							[% xhello.name || hello.user %]     
+        		</a>
+        			[% ELSE %] 
+        		<a class='btn waves-effect waves-light green' href='/login'> &#x279f; &#x25a1;
+        			Sign In</a>
+        			[% END %]
+       	</li>
+
+
+      </ul>
+
+		<ul id="dropdown1" class="dropdown-content collection">
+							[% PROCESS menub/user.tt %]	 	
+			 </ul>
+
+		<ul id="nav-mobile" class="white blue-text side-nav">
+	 		[% PROCESS sidenav.tt %]
+	 		</ul>
+    
+  </nav>
+
+</div>
+
+

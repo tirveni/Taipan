@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html  xmlns="http://www.w3.org/1999/xhtml" 
+xml:lang="[% c.session.mlanguage_type %]" lang="[% c.session.mlanguage_type %]">
+
+		    
+<body>
+
+<!-- Content Start -->
+
+	<!-- BEGIN: Main Content -->
+<header>
+[% PROCESS header.tt %]
+[%# PROCESS menu.tt %]
+[%# PROCESS breadcrumb.tt %]
+</header>
+
+<main class="container">
+<div id="tt_content" class="printable">
+				 
+   		[%# This is where TT will stick all of your template's contents. -%]
+   		[%# Status and Error messages %]
+     			[% IF error_msg %]	
+     				<span class="red-text">
+     					<blockquote id='error_msg'>[% error_msg %]</blockquote>
+     				</span>
+     			[% END %]
+     			[% IF status_msg %]
+     				<span class="green-text">
+     						<blockquote id='status_msg'>[% status_msg %]</blockquote>
+     					</span>
+     			[% END %]	
+
+   		[% content %]
+
+</div>
+</main>
+	<!-- END: Main Content -->
+
+<footer class="xpage-footer">
+          [% PROCESS footer.tt %]
+</footer>
+<!-- Footer Section END -->
+
+
+</body>
+
+
+
+</html>

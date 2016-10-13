@@ -1,0 +1,29 @@
+
+[% IF result.has_error %]
+    <ul>
+        [% FOREACH key IN result.error %]
+            [% FOREACH type IN result.error(key) %]
+            <li>invalid: [% key %] - [% type %]</li>
+            [% END %]
+        [% END %]
+    </ul>
+[% END %]
+
+
+<nav class='blue-grey lighten-4 breadcrumb'>
+ <div class="nav-wrapper">
+
+ 	<ul class=''>
+ 		<li>&copy; Taipan 2016.</li>
+	</ul>
+   <ul class='right'>
+    		[%# PROCESS menub/every.tt %]
+   	</ul>
+
+	</div>
+</nav>	
+
+
+  
+
+<script src="[% c.uri_for('/static/js/ender.js') %]"></script>

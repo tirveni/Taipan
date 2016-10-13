@@ -1,0 +1,24 @@
+
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>
+	[% IF page.title  %][% page.title %][% END %]
+	- Bael 
+				
+</title>
+
+<head>
+	<link rel="shortcut icon" 
+	href="[% c.uri_for('/static/images/btn_88x31_built.png') %]">
+
+
+
+
+<link rel="stylesheet" href="[% c.uri_for('/static/css/materialize.css') %]" type="text/css" rel="stylesheet" media="screen,projection,print" />
+<link rel="stylesheet" href="[% c.uri_for('/static/css/style.css') %]" type="text/css" rel="stylesheet" media="screen,projection,print"/>
+
+<script src="[% c.uri_for('/static/js/react/jquery-2.1.4.min.js') %]"></script>
+<script src="[% c.uri_for('/static/js/mustache.js') %]"></script>
+
+</head>
+	
