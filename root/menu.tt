@@ -8,7 +8,7 @@
             </a>
             
 	   <a id="logo-container" href="/home" class="button-collapse">
-                  <img src="[% c.uri_for('/static/images/udyansh_logo.png') %]" alt="B"
+                  <img src="[% c.uri_for('/static/images/udyansh_logo.png') %]" alt="Taipan"
               height='40' width='40' />
              </a>
             
@@ -17,12 +17,10 @@
 
 			<li class='left hide-on-med-and-down '>
 		      <a id="logo-container" href="/" >
-                  <img src="[% c.uri_for('/static/images/udyansh_logo.png') %]" alt="BAEL"
+                  <img src="[% c.uri_for('/static/images/udyansh_logo.png') %]" alt="Taipan"
               height='40' width='40' /></a>
          </li>
 
-			<li class='hide-on-med-and-down middle'>[% PROCESS menub/search.tt %]<li>
-			<li id='rest_messages'></li>
 
          
       	<li class='hide-on-med-and-down right '>
@@ -44,9 +42,6 @@
 							[% PROCESS menub/user.tt %]	 	
 			 </ul>
 
-		<ul id="nav-mobile" class="white blue-text side-nav">
-	 		[% PROCESS sidenav.tt %]
-	 		</ul>
     
   </nav>
 

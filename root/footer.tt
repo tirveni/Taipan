@@ -25,5 +25,6 @@
 
 
   
-
+<!--
 <script src="[% c.uri_for('/static/js/ender.js') %]"></script>
+-->

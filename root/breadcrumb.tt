@@ -43,13 +43,12 @@
 	  		</ul>
 		
 			<ul class='right hide-on-med-and-down'>
-						[% PROCESS menub/ops.tt %]
+						[%# PROCESS menub/ops.tt %]
 					</ul>
 		</div>
 	</nav>
 </div>
 
-	[% PROCESS menub/sticky.tt %]
 		
 [% END %]
   		

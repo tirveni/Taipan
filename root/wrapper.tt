@@ -11,8 +11,8 @@ xml:lang="[% c.session.mlanguage_type %]" lang="[% c.session.mlanguage_type %]">
 	<!-- BEGIN: Main Content -->
 <header>
 [% PROCESS header.tt %]
-[%# PROCESS menu.tt %]
-[%# PROCESS breadcrumb.tt %]
+[% PROCESS menu.tt %]
+[% PROCESS breadcrumb.tt %]
 </header>
 
 <main class="container">
