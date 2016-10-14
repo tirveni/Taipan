@@ -105,22 +105,23 @@ sub index :Path :Args(0) {
 
 #End Recaptcha, google
   my $dbic = $c->model('TDB')->schema;
+  my $rs_appuser = $dbic->resultset('Appuser');
   my $user_validated;
-  my $app_user;
+  my $row_appuser;
 
   # If the username and password values were found in form
   if ($app_userid && $password && $captcha_valid)
   {
 
-    $app_user = $c->find_user({ userid => $app_userid });
+    $row_appuser = $rs_appuser->find({ userid => $app_userid });
     my $user_validated;
-    $c->log->debug("$m: User Obj: $app_user");
+    $c->log->debug("$m: User Obj: $row_appuser");
 
-    $user_validated = $app_user->get_column('active')
-      if($app_user);
+    $user_validated = $row_appuser->get_column('active')
+      if($row_appuser);
     $c->log->debug("$m Validated:$user_validated ");
 
-    if ($app_user && ($user_validated > 0 || $user_validated eq 't'))
+    if ($row_appuser )
     {
 
       my $encoded_password = 
@@ -138,7 +139,7 @@ sub index :Path :Args(0) {
       $c->log->debug("$m: Going for authentication.");
       if($c->authenticate($h_user_au, 'simpledb'))
       {
-	#      $c->set_authenticated($app_user); 
+	#      $c->set_authenticated($row_appuser); 
 	$c->log->info("L/index: We are through");
 
 	##For increased security change the session after Login
@@ -166,7 +167,7 @@ sub index :Path :Args(0) {
     if (!$user_is_logged_in)
     {
       my $err_msg;
-      if ($app_user &&
+      if ($row_appuser &&
 	     ($user_validated < 1 || $user_validated eq 'f')
 	    )
       {
