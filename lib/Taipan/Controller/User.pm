@@ -21,6 +21,35 @@ Catalyst Controller.
 
 =cut
 
+=head2 auto
+
+=cut
+
+sub auto : Private
+{
+  my $self		= shift;
+  my $c			= shift;
+
+  my $f = "User/auto";
+  my $dbic = $c->model('TDB')->schema;
+  my $home_url = "/";
+
+  my $c_userid = Class::Utils::user_login($c);
+
+  if ($c_userid)
+  {
+    $c->log->info("$f U:$c_userid");
+  }
+  else
+  {
+    $c->log->info("$f ");
+    $c->response->redirect( $home_url);
+    $c->detach();
+  }
+
+}
+
+
 =head2 index
 
 Info of User
