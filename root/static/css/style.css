@@ -1,0 +1,390 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+nav ul a,
+nav .brand-logo {
+  color: #444;
+}
+
+p {
+  line-height: 2rem;
+}
+
+.button-collapse {
+  color: #26a69a;
+}
+
+.parallax-container {
+  min-height: 380px;
+  line-height: 0;
+  height: auto;
+  color: rgba(255,255,255,.9);
+}
+  .parallax-container .section {
+    width: 100%;
+  }
+
+@media only screen and (max-width : 992px) {
+  .parallax-container .section {
+    position: absolute;
+    top: 40%;
+  }
+  #index-banner .section {
+    top: 10%;
+  }
+}
+
+@media only screen and (max-width : 600px) {
+  #index-banner .section {
+    top: 0;
+  }
+}
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+  font-size: inherit;
+}
+.lhight {
+   line-height: 2;
+}
+
+.lmargin {
+    margin: 0;
+}
+footer.page-footer {
+  margin: 0;
+}
+
+/* the below section is for search bar on top of menu*/
+.cf:before, .cf:after{
+    content:"";
+    display:table;
+}
+
+.cf:after{
+    clear:both;
+}
+
+.cf{
+/*    zoom:1; */
+}    
+
+/* Form wrapper styling */
+.form-wrapper {
+    width: 100%;
+/*    padding: 15px; */
+    margin: 2px auto 0px auto;
+}
+
+/* Form text input */
+
+.form-wrapper input {
+    width: 70%;
+    height: 20px;
+    padding: 10px 5px;
+    float: left;    
+    font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    border: 0;
+    background: #fff;
+    border-radius: 3px 0 0 3px;      
+}
+
+.form-wrapper input:focus {
+    outline: 0;
+    background: #fff;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+}
+
+.form-wrapper input::-webkit-input-placeholder {
+   color: #999;
+   font-weight: normal;
+   font-style: italic;
+}
+
+.form-wrapper input:-moz-placeholder {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;
+}
+
+.form-wrapper input:-ms-input-placeholder {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;
+}    
+
+/* Form submit button */
+.form-wrapper button {
+    overflow: visible;
+/*    position: relative;
+    float: right; */
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    height: 40px;
+    width: 20%;
+    font: bold 15px/20px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    color: #fff;
+    text-transform: uppercase;
+    background: #d83c3c;
+    border-radius: 0 3px 3px 0;      
+    text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
+}   
+  
+.form-wrapper button:hover{		
+    background: #e54040;
+}	
+  
+.form-wrapper button:active,
+.form-wrapper button:focus{   
+    background: #c42f2f;
+	outline: 0;   
+}
+
+.form-wrapper button:before { /* left arrow */
+ /*   content: '';*/
+    position: absolute;
+    border-width: 8px 8px 8px 0;
+    border-style: solid solid solid none;
+    border-color: transparent #d83c3c transparent;
+    top: 12px;
+    left: -6px;
+}
+
+.form-wrapper button:hover:before{
+    border-right-color: #e54040;
+}
+
+.form-wrapper button:focus:before,
+.form-wrapper button:active:before{
+        border-right-color: #c42f2f;
+}      
+
+.form-wrapper button::-moz-focus-inner { /* remove extra button spacing for Mozilla Firefox */
+    border: 0;
+    padding: 0;
+}    
+
+/* ends here*/
+/* this section is to keep the footer at bootom*/
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+/* Footer bootom ends here */
+.top-margin { 
+    margin-top: .45rem;
+}
+
+
+
+/* Form wrapper styling */
+.form-wrapper1 {
+    width: 310px;
+/*    padding: 15px; */
+    margin: 2px auto 0px auto;
+    background: #444;
+    background: rgba(0,0,0,.2);
+    border-radius: 10px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
+}
+
+/* Form text input */
+
+.form-wrapper1 input {
+    width: 250px;
+    height: 20px;
+    padding: 10px 5px;
+    float: left;    
+    font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    border: 0;
+    background: #eee;
+    border-radius: 3px 0 0 3px;      
+}
+
+.form-wrapper1 input:focus {
+    outline: 0;
+    background: #fff;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
+}
+
+.form-wrapper1 input::-webkit-input-placeholder {
+   color: #999;
+   font-weight: normal;
+   font-style: italic;
+}
+
+.form-wrapper1 input:-moz-placeholder {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;
+}
+
+.form-wrapper1 input:-ms-input-placeholder {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;
+}    
+
+/* Form submit button */
+.form-wrapper1 button {
+    overflow: visible;
+/*    position: relative;
+    float: right; */
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    height: 40px;
+    width: 50px;
+    font: bold 15px/20px 'lucida sans', 'trebuchet MS', 'Tahoma';
+    color: #fff;
+    text-transform: uppercase;
+    background: #d83c3c;
+    border-radius: 0 3px 3px 0;      
+    text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
+}   
+  
+.form-wrapper1 button:hover{		
+    background: #e54040;
+}	
+  
+.form-wrapper1 button:active,
+.form-wrapper1 button:focus{   
+    background: #c42f2f;
+	outline: 0;   
+}
+
+.form-wrapper1 button:before { /* left arrow */
+ /*   content: '';*/
+    position: absolute;
+    border-width: 8px 8px 8px 0;
+    border-style: solid solid solid none;
+    border-color: transparent #d83c3c transparent;
+    top: 12px;
+    left: -6px;
+}
+
+.form-wrapper1 button:hover:before{
+    border-right-color: #e54040;
+}
+
+.form-wrapper1 button:focus:before,
+.form-wrapper1 button:active:before{
+        border-right-color: #c42f2f;
+}      
+
+.form-wrapper1 button::-moz-focus-inner { /* remove extra button spacing for Mozilla Firefox */
+    border: 0;
+    padding: 0;
+}    
+
+/* ends here*/
+/* Border */
+.border 
+{
+    border: 1px solid grey;
+}
+
+/*  Menu   */
+.menu_top, .breadcrumb
+{
+	height :44px;
+	line-height: 44px;
+	color: black
+}
+
+.menu_sign
+{
+	font-size: 23px;
+	color: black;
+}
+
+.no_padding
+{
+		padding: 0px;
+}
+
+.fixed_bottom
+{
+	position: absolute;
+	bottom: 0px;
+#	z-index: 998;
+	height :44px;
+#	line-height: 44px;
+}
+
+.line_height
+{
+	line-height: 44px;
+}
+
+
+.navbar-fixed1 
+{
+  position: relative;
+  height: 56px;
+  z-index: 990; 
+}
+
+.navbar-fixed1 nav 
+{
+    position: fixed; 
+}
+ 
+
+
+.datepicker_display_only
+{
+	max-width: 115px;	
+	text-align: center;
+}
+
+.timepicker_display_only
+{
+	max-width: 85px;	
+}
+
+.margin2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tag
+{
+      color: green;
+}
+
+
+.collapsible-header.active .tag
+{
+        -ms-transform: rotate(90deg);
+        /* IE 9 */
+        -webkit-transform: rotate(90deg);
+        /* Chrome, Safari, Opera */
+
+        transform: rotate(90deg);
+        color: green;
+        
+}
+
+.collapsible-header.active i
+{
+        -ms-transform: rotate(90deg);
+        /* IE 9 */
+        -webkit-transform: rotate(90deg);
+        /* Chrome, Safari, Opera */
+
+        transform: rotate(90deg);
+}
