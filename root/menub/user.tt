@@ -1,0 +1,20 @@
+[% IF (hello.user != 'UNKN') %]
+ 		[% IF hello.user != 'UNKN' %]
+		<li ><a class='waves-effect waves-teal'  href="/user">
+			 <span >&#9881; Settings  </span>  
+			 	</a>
+ 		</li>
+		[% END %]			 
+      <li><a class='waves-effect waves-teal' href="/logout"> 
+          <span >	Sign Out &#x25a1; &#x279f; </span>  
+		       	</a>
+		</li>
+[% ELSE %]
+        <li><a class='waves-effect waves-teal' href="/login"> 
+        			<span class='menu_sign'>	&#x279f; &#x25a1; <span>
+        				Sign In     
+        		</a>
+        </li>
+        <li><a class='waves-effect waves-teal' href="/registration"> <b>&#9998;</b> Register
+        		</a></li>
+[% END %]
