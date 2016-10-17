@@ -306,7 +306,7 @@ sub home : Path('home') :Args(0)
 
   my ( $i_action, $i_user_exist, $i_login );
   $i_action = $c->action();
-  $i_login  = $c->user->get('userid');
+  $i_login  = Class::Utils::user_login($c);
 
   $c->log->info("$m We are here at index: $i_action");
 
@@ -324,8 +324,6 @@ sub home : Path('home') :Args(0)
   ##User
   $o_appuser = Class::Appuser->new($dbic,$i_login);
   $role  = $o_appuser->role;
-
-
 
 
 }
