@@ -1,7 +1,7 @@
 
 [% IF hello.user != 'UNKN' %]
 <div class="navbar-fixed1 menu_top">
-<nav class='white menu_top'>
+<nav class='white menu_top right-align'>
 
  		<div class="nav-wrapper">
 
@@ -13,27 +13,6 @@
 	   					</a>
 		   		</li>
 
-			[% IF business_branch.branchid || br.branchid %]
-			<li>/</li>	
-			
-			<li>
-
-			<a class='flat-btn waves-effect blue-text' 
-				href="/homebranch/[% business_branch.branchid || br.branchid %]" 
-				class="breadcrumb">
-
-			<span class='hide-on-small-and-down'>				
-					[% 		br.branch_name || business_branch.branch_name 
-						|| 	page_branch.branch_name || 'Branch' %]
-							[% IF br.business_name %] ([% br.business_name %] )[% END %]
-						</span>
-						
-			<span class='hide-on-med-and-up' >[B]
-					</span>						
-			</a>
-
-				</li>
-   		[% END %]
 
 			[% FOREACH roti = bcrumbs %]
 				<li>/</li>
