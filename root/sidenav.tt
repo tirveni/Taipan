@@ -1,0 +1,27 @@
+
+       <li class="valign-wrapper">
+                <a href="#">
+                        <img src="[% c.uri_for('/static/images/udyansh_logo.png') %]"
+                                         alt="BAEL" height='40' width='40'>
+                                </a>    
+                </li>
+                                
+  
+                <li class="no-padding">
+
+         [%# PROCESS menub/ops.tt %]
+        [% PROCESS menub/user.tt %]    
+                
+        <ul class="collapsible collapsible-accordion">
+                        <li>
+                                <a class="collapsible-header">More  &#x25BC </a>
+                                        <div class="collapsible-body">
+                                        <ul>
+                                                [%# PROCESS menub/every.tt %]
+                                        </ul>
+                         </div>
+                </li>
+        </ul>
+        </li>   
+
+
