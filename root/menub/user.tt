@@ -1,4 +1,3 @@
-xxxx
 [% IF (hello.user != 'UNKN') %]
  		[% IF hello.user != 'UNKN' %]
 		<li ><a class='waves-effect waves-teal'  href="/user">
