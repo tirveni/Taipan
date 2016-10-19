@@ -61,4 +61,14 @@ INSERT into access VALUES ('default','SU');
 
 
 
+-- TypeValues(config):Redis Cache Keys
+INSERT INTO typevalues (dtable,tableuniq,cfield,cvalue,description,valid,internal,ctype)
+        values ('redkey','apikey','expiry','60','API Key Cache Expires in seconds','t','t','int');
+INSERT INTO typevalues (dtable,tableuniq,cfield,cvalue,description,valid,internal,ctype)
+        values ('redkey','apikey','max_expiry','600','API Key Cache Expires in Max seconds','t','t','int');
+INSERT INTO typevalues (dtable,tableuniq,cfield,cvalue,description,valid,internal,ctype)
+        values ('redkey','user','expiry','600','User Object Expires in seconds','t','t','int');
+INSERT INTO typevalues (dtable,tableuniq,cfield,cvalue,description,valid,internal,ctype)
+        values ('redkey','user','max_expiry','3600','User Object Cache Expires in Max seconds','t','t','int');
+
 

@@ -1,0 +1,40 @@
+1|MISC|UNKNOWN|Check this issue
+200|HTTP|OK|status_ok
+201|HTTP|Created|status_created
+202|HTTP|Accepted|status_accepted
+203|HTTP|Non-Authoriative Info|
+204|HTTP|No Content|status_no_content
+205|HTTP|Reset Content|
+206|HTTP|Partial Content|
+300|HTTP|Multiple choices|status_multiple_choices
+301|HTTP|Moved|status_moved
+302|HTTP|Found|status_found
+303|HTTP|See Other|status_see_other
+304|HTTP|Note Modified|
+307|HTTP|Temporary Redirect|
+400|HTTP|Bad Request|status_bad_request
+401|HTTP|UnAuthorized|
+403|HTTP|Forbidden|status_forbidden
+404|HTTP|Not Found|status_not_found
+405|HTTP|Method Not Allowed|
+408|HTTP|Request Timeout|
+410|HTTP|Gone|status_gone
+411|HTTP|Length Required|
+412|HTTP|Precondition Failed|
+413|HTTP|Request Entity too Large|
+414|HTTP|Request URI too Long|
+415|HTTP|Unsupported Media Type|
+416|HTTP|Requested Range Not satisfiable|
+417|HTTP|Expectation Failed|
+500|HTTP|Internal Server Error|
+502|HTTP|Bad Gateway|
+503|HTTP|Service unavailable|
+504|HTTP|Gateway Timeout|
+505|HTTP|Http Version not supported.|
+3110111|ERROR|Database Object Failure|Database: PG Failure
+3110222|ERROR|Red DB object   Failure|Database: Red Failure
+1010101|ERROR|Red Permit Failure|Permission Red Failure
+3931100|ERROR|Verify object failed	|Verify Object Failed
+3931221|ERROR|Vefify object failed	|Verify  Create Failed
+3060403|ERROR|API invalid apikey	|API Key invalid
+3070403|ERROR|API invalid userpass	|API User Password Failure
