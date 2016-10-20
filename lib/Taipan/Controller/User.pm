@@ -217,7 +217,7 @@ sub apikey  :Path('/user/apikey')
   my $c		= shift;
 
   $c->stash->{page} = {'title' => 'Edit' };
-  $c->stash->{template} = 'User/add.tt.html';
+  $c->stash->{template} = 'user/add.tt.html';
 
   my $aparams   = $c->request->params;
   my $dbic = $c->model('TDB')->schema;

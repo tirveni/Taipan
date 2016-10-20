@@ -1,0 +1,21 @@
+
+
+
+[% PROCESS src/pagination.tt %]
+<table>
+
+	<tr>	<th>UserID</th><th>Name</th> <th>Details</th> <th>Date Joined</th> 
+			<th>Active</th> <th>Role</th> <th>Modify</th>
+	</tr>
+[% FOREACH a = users %]			 		
+	<tr>	<td>[% a.userid %]</td> <td>[% a.name %]</td>  <td>[% a.details %]</td> <td>[% a.datejoined %]</td>
+			<td>[% a.active %]</td> <td>[% a.role %]</td> 
+					<td> <a href="[% c.uri_for('/staff/')  %][% a.userid %]">Info</a> </td>	
+	</tr>	
+[% END %]	
+</table>
+
+
+
+[% PROCESS src/pagination.tt %]
+
