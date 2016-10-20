@@ -66,6 +66,8 @@ INSERT INTO Access VALUES ('user/address',      'GUEST');
 INSERT INTO Access VALUES ('staff/index',      	'SU');
 INSERT INTO Access VALUES ('staff/add',         'SU');
 INSERT INTO Access VALUES ('staff/list',        'SU');
+INSERT INTO Access VALUES ('config/index',     	'SU');
+INSERT INTO Access VALUES ('config/list',       'SU');
 
 \echo *** Add Default Page *** 
 INSERT into access VALUES ('default','GUEST');
