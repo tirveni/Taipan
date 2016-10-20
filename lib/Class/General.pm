@@ -227,6 +227,181 @@ sub input_keys
 }
 
 
+=back
+
+=head2 paginationx ($c ,$search_attribs , $rs_table)
+
+Handles  Pagination.With Multiple Search Parameters.
+
+If hashindisplay is given then create display string from that else
+used hashinsearch.
+
+=cut
+
+sub paginationx 
+{
+  my $c        = shift;
+  my $attribs  = shift;
+  my $rs_table = shift;
+
+  my $fn = "G/paginationx:";
+
+  my $desired_page   = $attribs->{desiredpage};
+  my $startpage      = $attribs->{startpage} ;
+  my $listname       = $attribs->{listname};
+  my $namefn         = $attribs->{namefn};
+  my $nameclass      = $attribs->{nameclass};
+  my $input_search   = $attribs->{inputsearch};
+  my $order          = $attribs->{order};
+  my $in_rowsperpage = $attribs->{rowsperpage};
+
+  $c->log->debug("$fn START Fx A, SP:$startpage, DP:$desired_page");
+
+  #This is the Difference, Hash of Search Keys And Values
+  my $in_search_h    = $attribs->{hashinsearch};
+  my $in_display_h   = $attribs->{hashindisplay};
+
+  #Search String 
+  my $search_string  = undef;
+
+  #Display String
+  my $display_string = undef;
+
+#Do the Search String / Display String
+#1. Search String is always there
+  if ($in_search_h)
+  {
+    my $s_count;
+    $c->log->debug("$fn Create Search and Display String");
+    while ( ( my $key, my $value ) = each(%$in_search_h) )
+    {
+      $c->log->debug("$fn SEARCH HASH $key : $value");
+      if ( $key && $value )
+      {
+        $s_count++;
+        my $str = "$key=$value";
+        if ( $s_count != 1 )
+        {
+          $search_string   = "$search_string/" . $str;
+          $display_string  = "$display_string, " . $str;
+        }
+        else
+        {
+          $search_string  = $str;
+          $display_string = $str;
+        }
+      }
+    }
+    $c->log->debug("$fn \$search_string  : $search_string");
+  }
+#2. Display String is there
+  if ($in_display_h)
+  {
+    my @key_vals;
+    $c->log->debug("$fn :Create Display String as required");
+    $display_string = undef;
+
+    while ( ( my $key, my $value ) = each(%$in_display_h) )
+    {
+      $c->log->debug("G/paginationx :DISPLAY HASH $key : $value");
+      if ( $key && $value )
+      {
+        my $str = "$key: $value";
+        push(@key_vals,$str);
+      }
+    }
+    $display_string = commify_series(@key_vals);
+    $c->log->debug("$fn \$display_string : $display_string");
+  }
+
+  $c->log->debug("$fn START Fx B, SP:$startpage, DP:$desired_page");
+  $startpage = 1 unless defined($startpage);
+  if ( defined($desired_page) )
+  {
+    $startpage--
+      if $desired_page eq 'previous';
+    $startpage++
+      if $desired_page eq 'next';
+    $startpage = 1
+      if $startpage < 1;
+  }
+
+  $c->log->debug("$fn START Fx C, SP:$startpage, DP:$desired_page");
+
+
+  my $rows_per_page;
+  if ( !$in_rowsperpage )
+  {
+    $rows_per_page = 2;
+    $rows_per_page = Maavalan->config->{display}->{generic}->{lines_per_page}
+      if Maavalan->config->{display}->{generic}->{lines_per_page};
+  }
+  else
+  {
+    $rows_per_page = $in_rowsperpage;
+  }
+ $c->log->debug ("$fn RS input :  ".
+                  " Rows : $rows_per_page"
+                 );
+
+  my $rs_table_search ;
+
+#Search : only if something has been found
+  if ($rs_table)
+  {
+    $rs_table_search =  $rs_table->search
+      (
+       {},
+       {
+        order_by => $order,
+        rows     => $rows_per_page
+       }
+      );
+  }
+
+  my $allitems = $rs_table_search->search(@$input_search);
+  my $max_count;
+
+  my $items    = $allitems->page($startpage);
+  my $itempage = $items->pager();
+
+  if ( $startpage > $itempage->last_page() )
+  {
+    $startpage = $itempage->last_page();
+    $items     = $allitems->page($startpage);
+    $itempage  = $items->pager();
+  }
+  $max_count = $itempage->total_entries;
+
+  my $itempage_entries_per_page = $itempage->entries_per_page();
+  my $itempage_page = $itempage->current_page();
+  my $itempage_start = $itempage_entries_per_page * ( $itempage_page - 1 ) + 1;
+  my $itempage_end = $itempage_start + $itempage->entries_on_this_page() - 1;
+  my $itempage_total = $max_count;
+
+  $c->log->debug("$fn \$itempage_entries_per_page: " .
+                 " $itempage_entries_per_page" );
+  $c->log->debug("$fn \$itempage_page:  $itempage_page");
+  $c->log->debug("$fn \$itempage_start  $itempage_start");
+  $c->log->debug("$fn \$itempage_end:   $itempage_end");
+  $c->log->debug("$fn \$itempage_total: $itempage_total");
+  $c->log->debug("$fn \$search_string:  $search_string");
+  $c->stash->{listpage} =
+    {
+     start         => $itempage_start,
+     end           => $itempage_end,
+     total         => $itempage_total,
+     page          => $itempage_page,
+     listname      => $listname,
+     namefn        => $namefn,
+     nameclass     => $nameclass,
+     searchstring  => $search_string,
+     displaystring => $display_string,
+    };
+
+  return $items;
+
+}
 
 
 
