@@ -939,77 +939,121 @@ sub role_name
 
 }
 
-#=head1 Authorisation
+=head1 Authorisation
 
-#=head2 user_allowed($dbic,$i_action)
+=head2 user_allowed($dbic,$i_action)
 
-#check if user is allowed to use this action.
+check if user is allowed to use this action.
 
-#=cut
+=cut
 
-#sub user_allowed
-#{
-#  my $self	= shift;
-#  my $dbic	= shift;
-#  my $i_action	= shift;
+sub user_allowed
+{
+  my $self	= shift;
+  my $dbic	= shift;
+  my $i_action	= shift;
 
-#  my $rs	= $dbic->resultset('Access');
+  my $rs	= $dbic->resultset('Access');
 
-#  ##
-#  my $m = "C/appuser->user_allowed";
-#  my $role   = $self->role;
+  ##
+  my $m = "C/appuser->user_allowed";
+  my $role   = $self->role;
 
-#  ##
-#  my $action = "/$i_action";
-#  print STDERR "$m  ROLE: $role CHECK: $action";
+  ##
+  my $action = "/$i_action";
+  print STDERR "$m  ROLE: $role CHECK: $action";
 
-###Find if available in the HDB::Access
-#  my $row_access = $rs->find
-#    (
-#     {
-#       role => $role,
-#       privilege => $action,
-#      } 
-#    );
+##Find if available in the HDB::Access
+  my $row_access = $rs->find
+    (
+     {
+       role => $role,
+       privilege => $action,
+      } 
+    );
 
-#  return $row_access;
+  return $row_access;
 
-#}
-##END method user_allowed
+}
+#END method user_allowed
 
-#=head2 privilege_exist($dbic,$i_action)
+=head2 privilege_exist($dbic,$i_action)
 
-#check if privilege exist is allowed to use this action
+check if privilege exist is allowed to use this action
 
-#Returns the row_privilege
+Returns the row_privilege
 
-#=cut
+=cut
 
-#sub privilege_exist
-#{
-#  my $self		= shift;
-#  my $dbic		= shift;
-#  my $i_action		= shift;
+sub privilege_exist
+{
+  my $self		= shift;
+  my $dbic		= shift;
+  my $i_action		= shift;
 
-#  my $rs_privilege      = $dbic->resultset('Privilege');
-#  my $m			= "C/Appuser->privilege_exist";
+  my $rs_privilege      = $dbic->resultset('Privilege');
+  my $m			= "C/Appuser->privilege_exist";
 
-#  my $action = "/$i_action";
-#  #print STDERR "$m CHECK if $action exist in HDB \n";
+  my $action = "/$i_action";
+  #print STDERR "$m CHECK if $action exist in HDB \n";
 
-#  my $row_privilege ;
+  my $row_privilege ;
 
-#  if ($rs_privilege && $i_action)
-#  {
-#    $row_privilege = $rs_privilege->search( {privilege => $action,} );
-#    #print STDERR "$m: $row_privilege \n";
-#  }
+  if ($rs_privilege && $i_action)
+  {
+    $row_privilege = $rs_privilege->search( {privilege => $action,} );
+    #print STDERR "$m: $row_privilege \n";
+  }
 
-#  return $rs_privilege;
+  return $rs_privilege;
 
 
-#}
-##END method privilege exist
+}
+#END method privilege exist
+
+=head2 url_allowed($dbic,$url)
+
+Returns: 1 if allowed, 0 if not allowed.
+
+=cut
+
+sub url_allowed
+{
+  my $self	= shift;
+  my $dbic	= shift;
+  my $url	= shift;
+
+  my $m = "C/appuser->url_allowed";
+
+  my $user_role = $self->role;
+  $url = trim($url);
+  print "$m $dbic Role: $user_role, Url:$url. \n";
+
+  my $rs_access = $dbic->resultset('Access');
+  my $row_access;
+
+  if (defined($rs_access))
+  {
+    $row_access = $rs_access->search
+      (
+       {
+	role		=> $user_role,
+	privilege	=> $url,
+       },
+      );
+    print "$m Row: $row_access \n";
+  }
+
+  if ($row_access > 0)
+  {
+    return 1;
+  }
+
+
+  return;
+
+}
+
 
 
 =item B<encode_password($password )>
@@ -1204,49 +1248,6 @@ sub validate_user
   }				#o_appuser
 
   return $self->active;
-
-}
-
-=head2 url_allowed($dbic,$url)
-
-Returns: 1 if allowed, 0 if not allowed.
-
-=cut
-
-sub url_allowed
-{
-  my $self	= shift;
-  my $dbic	= shift;
-  my $url	= shift;
-
-  my $m = "C/appuser->url_allowed";
-
-  my $user_role = $self->role;
-  $url = trim($url);
-  print "$m $dbic Role: $user_role, Url:$url. \n";
-
-  my $rs_access = $dbic->resultset('Access');
-  my $row_access;
-
-  if (defined($rs_access))
-  {
-    $row_access = $rs_access->search
-      (
-       {
-	role		=> $user_role,
-	privilege	=> $url,
-       },
-      );
-    print "$m Row: $row_access \n";
-  }
-
-  if (defined($row_access))
-  {
-    return 1;
-  }
-
-
-  return;
 
 }
 
