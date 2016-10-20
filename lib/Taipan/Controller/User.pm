@@ -136,7 +136,7 @@ sub edit :Path('/user/edit')
   my $c		= shift;
 
   $c->stash->{page} = {'title' => 'Edit' };
-  $c->stash->{template} = 'src/User/edit.tt';
+  $c->stash->{template} = 'src/user/edit.tt';
 
   my $aparams   = $c->request->params;
   my $dbic = $c->model('TDB')->schema;
@@ -217,7 +217,7 @@ sub apikey  :Path('/user/apikey')
   my $c		= shift;
 
   $c->stash->{page} = {'title' => 'Edit' };
-  $c->stash->{template} = 'user/add.tt.html';
+  $c->stash->{template} = 'src/user/add.tt.html';
 
   my $aparams   = $c->request->params;
   my $dbic = $c->model('TDB')->schema;
