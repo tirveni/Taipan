@@ -1250,6 +1250,24 @@ sub url_allowed
 
 }
 
+
+=head2 list($dbic)
+
+Returns: RS of Appusers (not UNKN)
+
+=cut
+
+sub list
+{
+  my $dbic	= shift;
+
+  my $table_users = $dbic->resultset('Appuser');
+  $table_users    = $table_users->search({'userid'=> {'!=','UNKN'} });
+
+  return $table_users;
+
+}
+
 no Moose;
 
 =back

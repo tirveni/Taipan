@@ -24,35 +24,68 @@ Catalyst Controller.
 
 =head2 index
 
+Dispaly User Info.
+
+AND Edit: Change Role OR Disable/Enable
+
 =cut
 
-sub index :Path('/staff/index') :Args(1)
+sub index :Path('/staff') :Args(1)
 {
   my ( $self, $c, $in_userid ) = @_;
 
   my $fn	= "staff/index";
-  #$c->response->body('Matched Taipan::Controller::Staff in Staff.');
-  $c->stash->{page} = {'title' => 'Modify User' };
-  $c->stash->{template} = 'User/add.tt.html';
+  $c->stash->{page} = {'title' => 'User' };
+  $c->stash->{template} = 'src/user/staff.tt';
+  my $dbic = $c->model('TDB')->schema;
 
   # Input Types
   my $pars      = makeparm(@_);
   my $aparams   = $c->request->params;
 
+  my ($c_userid,$o_sel_appuser);
+  $c_userid = Class::Utils::user_login($c);
+  if ($in_userid)
+  {
+    $o_sel_appuser = Class::Appuser->new( $dbic, $in_userid );
+  }
+
   ##Edit User(Can Change the role of the User)/(Disable  the User).
 
   ##Display User
+  my $updated;
 
+  if ( $o_sel_appuser )
+  {
+    $c->log->debug("$fn Update Appuser");
 
-  $c->stash->{page} = {'title' => 'User' };
-  $c->stash->{template} = 'src/user/staff.tt';
+    ##--- Update Password
+    if ($aparams->{passwordx})
+    {
+      $c->log->debug("$fn Update Password");
+      $updated = $o_sel_appuser->edit($dbic,$aparams);
+    }
+
+    if ($updated)
+    {
+      my $str_redirect = "/staff/$in_userid";
+      $c->log->debug("$fn REDIRECT URL:$str_redirect");
+
+      ##--- Redirect
+      $c->res->redirect( $c->uri_for($str_redirect) );
+      $c->detach();
+    }
+
+  }
+#Update/Modify End.
+
 
 }
 
 
 =head2 list
 
-List Users
+List Staff
 
 =cut
 
@@ -114,8 +147,8 @@ sub list :Path('/staff/list') :Args(2)
      nameclass    => 'user',
     );
 
-  my $table_users = $c->model('TDB::Appuser')->search() ;
-  my $rs_users = Class::General::paginationx
+  my $table_users	= Class::Appuser::list($dbic);
+  my $rs_users		= Class::General::paginationx
     ( $c, \%page_attribs,$table_users );
 
   my @list;
