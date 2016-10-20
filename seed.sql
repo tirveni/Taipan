@@ -29,8 +29,16 @@ INSERT INTO Privilege VALUES ('user/index',     'GUEST', 'User Edit');
 INSERT INTO Privilege VALUES ('user/edit',      'GUEST', 'User Edit');
 INSERT INTO Privilege VALUES ('user/apikey',    'GUEST', 'User API Key');
 INSERT INTO Privilege VALUES ('user/address',   'GUEST', 'User Edit Key');
+INSERT INTO Privilege VALUES ('staff/index',    'SU', 'User Edit');
+INSERT INTO Privilege VALUES ('staff/list',    	'SU', 'User add');
+INSERT INTO Privilege VALUES ('staff/add',    	'SU', 'User add');
+INSERT INTO Privilege VALUES ('config/index',   'SU', 'Config Edit');
+INSERT INTO Privilege VALUES ('config/list',   	'SU', 'Config List');
+
+-- Login/Logout/Default
 INSERT INTO Privilege VALUES ('login/index',    'UNKN', 'Login Page');
 INSERT INTO Privilege VALUES ('logout/index',   'GUEST', 'Logout for All users other than UNKN');
+INSERT into privilege VALUES ('default','UNKN','Default');
 
 \echo ** Access Logout For Everyone.
 insert into access values ('logout/index','SU');
@@ -40,21 +48,26 @@ insert into access values ('logout/index','GUEST');
 INSERT INTO Access VALUES ('',                  'UNKN');
 INSERT INTO Access VALUES ('index',             'UNKN');
 INSERT INTO Access VALUES ('login/index',       'UNKN');
-INSERT INTO Access VALUES ('index',                     'SU');
-INSERT INTO Access VALUES ('index',                     'GUEST');
+--index and home
+INSERT INTO Access VALUES ('index',             'SU');
+INSERT INTO Access VALUES ('index',             'GUEST');
 INSERT INTO Access VALUES ('home',              'SU');
 INSERT INTO Access VALUES ('home',              'GUEST');
-INSERT INTO Access VALUES ('user/index',              'SU');
-INSERT INTO Access VALUES ('user/index',              'GUEST');
-INSERT INTO Access VALUES ('user/edit',              'SU');
-INSERT INTO Access VALUES ('user/edit',              'GUEST');
-INSERT INTO Access VALUES ('user/apikey',            'SU');
-INSERT INTO Access VALUES ('user/apikey',            'GUEST');
-INSERT INTO Access VALUES ('user/address',            'SU');
-INSERT INTO Access VALUES ('user/address',            'GUEST');
+-- Self Editing
+INSERT INTO Access VALUES ('user/index',        'SU');
+INSERT INTO Access VALUES ('user/index',        'GUEST');
+INSERT INTO Access VALUES ('user/edit',         'SU');
+INSERT INTO Access VALUES ('user/edit',         'GUEST');
+INSERT INTO Access VALUES ('user/apikey',       'SU');
+INSERT INTO Access VALUES ('user/apikey',       'GUEST');
+INSERT INTO Access VALUES ('user/address',      'SU');
+INSERT INTO Access VALUES ('user/address',      'GUEST');
+-- Staff Add/Edit
+INSERT INTO Access VALUES ('staff/index',      	'SU');
+INSERT INTO Access VALUES ('staff/add',         'SU');
+INSERT INTO Access VALUES ('staff/list',        'SU');
 
 \echo *** Add Default Page *** 
-INSERT into privilege VALUES ('default','UNKN','Default');
 INSERT into access VALUES ('default','GUEST');
 INSERT into access VALUES ('default','UNKN');
 INSERT into access VALUES ('default','SU');
