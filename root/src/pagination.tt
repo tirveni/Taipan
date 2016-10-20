@@ -1,0 +1,73 @@
+
+
+[% #Page Variables
+	pagex.fp="<<";
+	pagex.pp="<";
+	pagex.np=">";
+	pagex.lp=">>";
+%]
+
+ <ul class="pagination">
+
+	[% IF listpage.total > 0 %]
+		<li>  
+				[% listpage.start %]-[% listpage.end %] 
+			of [% listpage.total %] [% listpage.listname %]
+		</li>	
+	[% END %]
+   [% IF listpage.displaystring %] 
+		<li> || Results for <font color="Green" size="+1" style="text-align:right;">[% listpage.displaystring %] </font>
+				</li>
+	[% END %]
+
+[% IF (listpage.page > 1) || ( listpage.total != listpage.end)  %]
+[% END %]
+
+	[% IF (listpage.searchstring) %]
+		[% IF (listpage.page > 1) %]
+			<li class=''>
+				<a class="btn waves-effect blue lighten-1" href="/[% listpage.nameclass %]/[% listpage.namefn %]/1/previous/[% 
+				listpage.searchstring %]">[% pagex.fp %]</a>
+					</li>
+			<li class=''>
+			<a class="btn waves-effect blue lighten-1"  href="/[% listpage.nameclass %]/[% listpage.namefn %]/[% 
+				listpage.page %]/previous/[% listpage.searchstring %]"> [% pagex.pp %]</a>
+					</li>
+		[% END %]
+
+		[% IF ( listpage.total != listpage.end)  %]
+			<li class=''>
+				<a class="btn waves-effect blue lighten-2" href="/[% listpage.nameclass %]/[% 
+				listpage.namefn %]/[% listpage.page %]/next/[% listpage.searchstring %]">[% pagex.np %]
+					</a></li>
+			<li class=''><a class="btn waves-effect blue lighten-1" href="/[% listpage.nameclass %]/[% 
+				listpage.namefn %]/[% listpage.total %]/next/[% listpage.searchstring %]">[% pagex.lp %]
+						</a></li>
+		[% END %]
+	[% ELSE %]
+		[% IF (listpage.page > 1) %]
+			<li class=''>
+			<a class="btn waves-effect blue lighten-1" href="/[% listpage.nameclass %]/[% listpage.namefn %]">[% pagex.fp %]</a>
+				</li>
+				<li class=''>
+			<a class="btn waves-effect blue lighten-2" href="/[% listpage.nameclass %]/[% listpage.namefn %]/[% 
+				listpage.page %]/previous/">[% pagex.pp %]</a>
+					</li>
+		[% END %]
+		[% IF ( listpage.total != listpage.end)  %]
+		
+			<li class=''>
+		<a class="btn waves-effect blue lighten-2" href="/[% listpage.nameclass %]/[% 
+			listpage.namefn %]/[% listpage.page %]/next/">[% pagex.np %]</a>
+				</li>
+			<li class=''>
+		<a class="btn waves-effect blue lighten-1" href="/[% listpage.nameclass %]/[% 
+			listpage.namefn %]/[% listpage.total %]">[% pagex.lp %]</a>
+				</li>
+		
+		[% END %]
+	[% END %] 
+	</ul>
+
+
+<!-- BEGINOF BaseConfig/xpagination.tt  -->
