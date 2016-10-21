@@ -14,44 +14,19 @@
   
 
 	 	<li>
-	   <div class="collapsible-header btn waves-effect waves-purple lime lighten-3 black-text">
-	   				<div class='row'>
-		  							<div class='col l1 m1 s1'>&rarr;</div> 
-	   							<div class='col l10 m10 s10'>Edit</div>
-	   					</div>
-	   		</div>
- 	    			<div class="collapsible-body" > 	
-
- 	    					[% PROCESS src/user/edit.tt %]
- 	    			</div>
-		</li>
 
 	 	<li> 
 	   <div class="collapsible-header btn waves-effect waves-purple lime lighten-3 black-text">
 	   				<div class='row'>
 		  							<div class='col l1 m1 s1'>&rarr;</div> 
-	   							<div class='col l10 m10 s10'>Change Password</div>
+	   							<div class='col l10 m10 s10'>Change Role</div>
 	   					</div>
 	   		</div>
  	    			<div class="collapsible-body" > 	
- 	    				[% PROCESS src/user/edit_password.tt %] 
+ 	    				[% PROCESS src/user/edit_role.tt %] 
  	    			</div>
 		</li>
 
 	 	<li>
-
-		[% IF key.role == 'BUSINESS' %]
-	 	<li>     
-	   <div class="collapsible-header btn waves-effect waves-purple lime lighten-3 black-text">
-	   				<div class='row'>
-		  							<div class='col l1 m1 s1'>&rarr;</div> 
-	   							<div class='col l10 m10 s10'>API Key</div>
-	   					</div>
-	   		</div>
- 	    			<div class="collapsible-body" > 	
- 	    				[% PROCESS src/user/edit_key.tt %] 
- 	    			</div>
-		</li>
-		[% END %]
 
 </ul>

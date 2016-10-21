@@ -80,6 +80,7 @@ sub index :Path('/staff') :Args(1)
 
   ##Display User
   my $name = $o_sel_appuser->aname;
+  my $user_role = $o_sel_appuser->role;
   my $userinfo;
   if ($name)
   {
@@ -88,10 +89,14 @@ sub index :Path('/staff') :Args(1)
     $userinfo->{email}   = $o_sel_appuser->email || $o_sel_appuser->userid;
     $userinfo->{details} = $o_sel_appuser->details;
     $userinfo->{active}  = $o_sel_appuser->active;
-    $userinfo->{role}	 = $o_sel_appuser->role;
+    $userinfo->{role}	 = $user_role;
 
     $c->stash->{userinfo} = $userinfo;
   }
+  my $all_roles			= Class::Appuser::roles($dbic);
+  $c->stash->{roles}		= $all_roles;
+  $c->stash->{selected_role}	= $user_role;
+
 }
 
 
@@ -142,7 +147,7 @@ sub list :Path('/staff/list') :ChainedArgs(0)
   }
 
 
-  my $rows_per_page = 1;
+  my $rows_per_page = 10;
   my @order_list = ('userid','role');
 
   my %page_attribs;
