@@ -13,6 +13,8 @@
 
 			[% IF hello.role %]
 		                <a href="/staff/list/1/1"> Staff </a>
+		                <a href="/config/list/1/1"> Config </a>
+
 			[%END %]
 
 		        [% PROCESS menub/user.tt %]    
