@@ -7,21 +7,26 @@
                 </li>
                                 
   
-                <li class="no-padding">
+       <li class="no-padding">
 
-         [%# PROCESS menub/ops.tt %]
-        [% PROCESS menub/user.tt %]    
+		        [%# PROCESS menub/ops.tt %]
+
+			[% IF hello.role %]
+		                <a href="/staff/list/1/1"> Staff </a>
+			[%END %]
+
+		        [% PROCESS menub/user.tt %]    
                 
-        <ul class="collapsible collapsible-accordion">
-                        <li>
-                                <a class="collapsible-header">More  &#x25BC </a>
+		        <ul class="collapsible collapsible-accordion">
+                	        <li>
+                        	        <a class="collapsible-header">More  &#x25BC </a>
                                         <div class="collapsible-body">
-                                        <ul>
-                                                [%# PROCESS menub/every.tt %]
-                                        </ul>
-                         </div>
-                </li>
-        </ul>
+                	                        <ul>
+	                                               [%# PROCESS menub/every.tt %]
+                        	                </ul>
+		                         </div>
+		                </li>
+		        </ul>
         </li>   
 
 
