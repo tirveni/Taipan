@@ -7,9 +7,11 @@
 \copy message (msgid,type,name,message)  from 'SQL/errors.csv' delimiter '|'  ;
 
 \echo roles
-INSERT into Roles VALUES ('SU',         1,  'Super User');
-INSERT INTO Roles VALUES ('GUEST' ,     51, 'Client of Tenant');
+INSERT into Roles VALUES ('SU',         1,   'Administrator');
+INSERT into Roles VALUES ('MANAGER',    10,   'Manager');
+INSERT INTO Roles VALUES ('GUEST' ,     51,  'Client');
 INSERT INTO Roles VALUES ('UNKN' ,      101, 'Not Logged In');
+INSERT INTO Roles VALUES ('DISABLED' ,   1001,  'DISABLED');
 
 
 -- User
