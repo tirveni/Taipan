@@ -11,7 +11,7 @@
 
 		        [%# PROCESS menub/ops.tt %]
 
-			[% IF hello.role %]
+			[% IF hello.role == 'SU' %]
 		                <a href="/staff/list/1/1"> Staff </a>
 		                <a href="/config/list/1/1"> Config </a>
 
