@@ -45,6 +45,8 @@ INSERT into privilege VALUES ('default','UNKN','Default');
 \echo ** Access Logout For Everyone.
 insert into access values ('logout/index','SU');
 insert into access values ('logout/index','GUEST');
+insert into access values ('logout/index','MANAGER');
+insert into access values ('logout/index','DISABLED');
 
 -- Access
 INSERT INTO Access VALUES ('',                  'UNKN');
@@ -52,17 +54,23 @@ INSERT INTO Access VALUES ('index',             'UNKN');
 INSERT INTO Access VALUES ('login/index',       'UNKN');
 --index and home
 INSERT INTO Access VALUES ('index',             'SU');
+INSERT INTO Access VALUES ('index',             'MANAGER');
 INSERT INTO Access VALUES ('index',             'GUEST');
 INSERT INTO Access VALUES ('home',              'SU');
+INSERT INTO Access VALUES ('home',              'MANAGER');
 INSERT INTO Access VALUES ('home',              'GUEST');
 -- Self Editing
 INSERT INTO Access VALUES ('user/index',        'SU');
 INSERT INTO Access VALUES ('user/index',        'GUEST');
+INSERT INTO Access VALUES ('user/index',        'MANAGER');
 INSERT INTO Access VALUES ('user/edit',         'SU');
+INSERT INTO Access VALUES ('user/edit',         'MANAGER');
 INSERT INTO Access VALUES ('user/edit',         'GUEST');
 INSERT INTO Access VALUES ('user/apikey',       'SU');
+INSERT INTO Access VALUES ('user/apikey',       'MANAGER');
 INSERT INTO Access VALUES ('user/apikey',       'GUEST');
 INSERT INTO Access VALUES ('user/address',      'SU');
+INSERT INTO Access VALUES ('user/address',      'MANAGER');
 INSERT INTO Access VALUES ('user/address',      'GUEST');
 -- Staff Add/Edit
 INSERT INTO Access VALUES ('staff/index',      	'SU');
@@ -72,8 +80,9 @@ INSERT INTO Access VALUES ('config/index',     	'SU');
 INSERT INTO Access VALUES ('config/list',       'SU');
 
 \echo *** Add Default Page *** 
-INSERT into access VALUES ('default','GUEST');
 INSERT into access VALUES ('default','UNKN');
+INSERT into access VALUES ('default','GUEST');
+INSERT into access VALUES ('default','MANAGER');
 INSERT into access VALUES ('default','SU');
 
 
