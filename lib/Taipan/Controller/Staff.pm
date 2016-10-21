@@ -52,7 +52,6 @@ sub index :Path('/staff') :Args(1)
 
   ##Edit User(Can Change the role of the User)/(Disable  the User).
 
-  ##Display User
   my $updated;
 
   if ( $o_sel_appuser )
@@ -79,7 +78,20 @@ sub index :Path('/staff') :Args(1)
   }
 #Update/Modify End.
 
+  ##Display User
+  my $name = $o_sel_appuser->aname;
+  my $userinfo;
+  if ($name)
+  {
+    $userinfo->{userid}  = $o_sel_appuser->userid;
+    $userinfo->{name}    = $o_sel_appuser->aname;
+    $userinfo->{email}   = $o_sel_appuser->email || $o_sel_appuser->userid;
+    $userinfo->{details} = $o_sel_appuser->details;
+    $userinfo->{active}  = $o_sel_appuser->active;
+    $userinfo->{role}	 = $o_sel_appuser->role;
 
+    $c->stash->{userinfo} = $userinfo;
+  }
 }
 
 
@@ -89,11 +101,11 @@ List Staff
 
 =cut
 
-sub list :Path('/staff/list') :Args(2)
+sub list :Path('/staff/list') :ChainedArgs(0)
 {
   my $self		= shift;
   my $c			= shift;
-  my $startpage		= shift;
+  my $startpage		= shift || 1;
   my $desired_page      = shift || 1 ;
 
   my $f = "User/list";
@@ -130,7 +142,7 @@ sub list :Path('/staff/list') :Args(2)
   }
 
 
-  my $rows_per_page = 10;
+  my $rows_per_page = 1;
   my @order_list = ('userid','role');
 
   my %page_attribs;
@@ -142,9 +154,9 @@ sub list :Path('/staff/list') :Args(2)
      rowsperpage  => $rows_per_page,
      inputsearch  => $user_searchterm,
      order	  => \@order_list,
-     listname     => 'Users',
+     listname     => 'staff',
      namefn       => 'list',
-     nameclass    => 'user',
+     nameclass    => 'staff',
     );
 
   my $table_users	= Class::Appuser::list($dbic);
@@ -177,6 +189,15 @@ sub list :Path('/staff/list') :Args(2)
   $c->stash->{users} = \@list;
   $c->stash->{page} = {'title' => 'List Users' };
   $c->stash->{template} = 'src/user/listusers.tt';
+
+  ##BreadCrumbs
+  {
+    my @crumbs;
+    my $parent_url  = "/staff/list";
+    push(@crumbs,{url => $parent_url,  name=> "staff"});
+    $c->stash->{bcrumbs} = \@crumbs;
+  }
+
 
 }
 
