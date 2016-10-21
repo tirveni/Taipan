@@ -578,8 +578,14 @@ sub reset_password
   my $self	= shift;
 
   my $str_password = mkpasswd(-length=>10);
+  my $enc_password = Class::Appuser::encode_password($str_password);
 
-  my $row_appuser = Class::Appuser::set_password($row_appuser,$str_password);
+  my $dbic = $self->db_object;
+  my $userid = $self->userid;
+
+  my $row_appuser	= Class::Appuser::get_dbrow($dbic,$userid);
+  my $updated		=
+    Class::Appuser::set_password($row_appuser,$enc_password);
 
   return $str_password;
 

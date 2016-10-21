@@ -26,7 +26,7 @@ Catalyst Controller.
 
 Dispaly User Info.
 
-AND Edit: Change Role OR Disable/Enable
+AND Edit: Change Role OR Disable/Enable OR Password.
 
 =cut
 
@@ -34,14 +34,21 @@ sub index :Path('/staff') :Args(1)
 {
   my ( $self, $c, $in_userid ) = @_;
 
-  my $fn	= "staff/index";
-  $c->stash->{page} = {'title' => 'User' };
+  my $fn		= "staff/index";
+  $c->stash->{page}	= {'title' => 'User' };
   $c->stash->{template} = 'src/user/staff.tt';
-  my $dbic = $c->model('TDB')->schema;
+  my $dbic		= $c->model('TDB')->schema;
 
   # Input Types
   my $pars      = makeparm(@_);
   my $aparams   = $c->request->params;
+
+  ##--- Input
+  my ($inrole,$inpassword);
+  {
+    $inrole	= $aparams->{inrole};
+    $inpassword = $aparams->{reset_password};
+  }
 
   my ($c_userid,$o_sel_appuser);
   $c_userid = Class::Utils::user_login($c);
@@ -52,17 +59,33 @@ sub index :Path('/staff') :Args(1)
 
   ##Edit User(Can Change the role of the User)/(Disable  the User).
 
-  my $updated;
+  my $sel_user_role = $o_sel_appuser->role;
+  my $updated = 0;
+  my ($new_role,$new_password);
 
   if ( $o_sel_appuser )
   {
     $c->log->debug("$fn Update Appuser");
 
-    ##--- Update Password
-    if ($aparams->{passwordx})
+    ##-- Edit Role
+    if (defined($inrole) && $sel_user_role ne 'SU')
     {
-      $c->log->debug("$fn Update Password");
-      $updated = $o_sel_appuser->edit($dbic,$aparams);
+      if ($inrole eq 'DISABLED')
+      {
+	$new_role = $o_sel_appuser->set_role($inrole);
+	$updated++;
+      }
+      elsif ($inrole ne 'SU' && $inrole ne 'UNKN')
+      {
+	$new_role = $o_sel_appuser->set_role($inrole);
+	$updated++;
+      }
+    }
+
+    ##--- Set New Password
+    if ($inpassword && ($c_userid ne $in_userid))
+    {
+      $new_password = $o_sel_appuser->reset_password();
     }
 
     if ($updated)
@@ -80,7 +103,6 @@ sub index :Path('/staff') :Args(1)
 
   ##Display User
   my $name = $o_sel_appuser->aname;
-  my $user_role = $o_sel_appuser->role;
   my $userinfo;
   if ($name)
   {
@@ -89,13 +111,19 @@ sub index :Path('/staff') :Args(1)
     $userinfo->{email}   = $o_sel_appuser->email || $o_sel_appuser->userid;
     $userinfo->{details} = $o_sel_appuser->details;
     $userinfo->{active}  = $o_sel_appuser->active;
-    $userinfo->{role}	 = $user_role;
+    $userinfo->{role}	 = $sel_user_role;
 
     $c->stash->{userinfo} = $userinfo;
   }
+
+  {
+    $c->stash->{updated}->{password}	= $new_password;
+    $c->stash->{updated}->{role}	= $new_role;
+  }
+
   my $all_roles			= Class::Appuser::roles($dbic);
   $c->stash->{roles}		= $all_roles;
-  $c->stash->{selected_role}	= $user_role;
+  $c->stash->{selected_role}	= $sel_user_role;
 
 }
 

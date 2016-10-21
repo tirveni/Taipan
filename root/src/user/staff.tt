@@ -1,3 +1,8 @@
+
+	[% IF updated.password %]
+		<p class='green-text'>New Password: [% updated.password %] </p>
+	[% END %]
+
 <ul class="collection collapsible popout " data-collapsible="accordion">
 
 	 	<li> 
@@ -28,5 +33,17 @@
 		</li>
 
 	 	<li>
+
+	 	<li> 
+	   <div class="collapsible-header btn waves-effect waves-purple lime lighten-3 black-text">
+	   				<div class='row'>
+		  							<div class='col l1 m1 s1'>&rarr;</div> 
+	   							<div class='col l10 m10 s10'>Reset Password</div>
+	   					</div>
+	   		</div>
+ 	    			<div class="collapsible-body" > 	
+ 	    				[% PROCESS src/user/reset_password.tt %] 
+ 	    			</div>
+		</li>
 
 </ul>
