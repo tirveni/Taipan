@@ -121,7 +121,7 @@ sub index :Path :Args(0) {
       if($row_appuser);
     $c->log->debug("$m Validated:$user_validated ");
 
-    if ($row_appuser )
+    if ($row_appuser && ($user_validated eq 't' || $user_validated > 0) )
     {
 
       my $encoded_password = 
