@@ -567,6 +567,23 @@ sub set_password
 
 }
 
+=head2 reset_password()
+
+Return: the New Password.
+
+=cut
+
+sub reset_password
+{
+  my $self	= shift;
+
+  my $str_password = mkpasswd(-length=>10);
+
+  my $row_appuser = Class::Appuser::set_password($row_appuser,$str_password);
+
+  return $str_password;
+
+}
 
 =head1 Get/Set methods
 
