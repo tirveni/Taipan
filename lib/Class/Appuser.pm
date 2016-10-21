@@ -908,6 +908,8 @@ sub role
   my $data  = $self->{data};
 
   $value = $o_redis->hget($data,$field);
+  $value = trim($value);
+
   return $value;
 
 }
@@ -937,6 +939,38 @@ sub role_name
 
   return $r_name;
 
+}
+
+=head2 roles($dbic)
+
+Returns: Red Array of Hash  {role,level,description}
+
+This is a function.
+
+=cut
+
+sub roles
+{
+  my $dbic	=	shift;
+  my $rs_roles	= $dbic->resultset('Role');
+
+  $rs_roles = $rs_roles->search({'role'=> {'!=','UNKN'} });
+
+  my @list;
+  while ( my $row = $rs_roles->next() )
+  {
+    my $role = $row->role;
+    $role	= trim($role);
+    push(@list,
+	 {
+	  role		=> $role,
+	  level		=> $row->level,
+	  description	=> $row->description,
+	 });
+
+  }
+
+  return \@list;
 }
 
 =head1 Authorisation
@@ -1054,7 +1088,7 @@ sub url_allowed
 
 }
 
-
+=head1 Password/KEys
 
 =item B<encode_password($password )>
 
