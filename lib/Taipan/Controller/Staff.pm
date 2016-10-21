@@ -32,7 +32,7 @@ AND Edit: Change Role OR Disable/Enable OR Password.
 
 sub index :Path('/staff') :Args(1)
 {
-  my ( $self, $c, $in_userid ) = @_;
+  my ( $self, $c, $sel_userid ) = @_;
 
   my $fn		= "staff/index";
   $c->stash->{page}	= {'title' => 'User' };
@@ -52,9 +52,9 @@ sub index :Path('/staff') :Args(1)
 
   my ($c_userid,$o_sel_appuser);
   $c_userid = Class::Utils::user_login($c);
-  if ($in_userid)
+  if ($sel_userid)
   {
-    $o_sel_appuser = Class::Appuser->new( $dbic, $in_userid );
+    $o_sel_appuser = Class::Appuser->new( $dbic, $sel_userid );
   }
 
   ##Edit User(Can Change the role of the User)/(Disable  the User).
@@ -73,24 +73,26 @@ sub index :Path('/staff') :Args(1)
       if ($inrole eq 'DISABLED')
       {
 	$new_role = $o_sel_appuser->set_role($inrole);
+	$o_sel_appuser->set_active('f');
 	$updated++;
       }
       elsif ($inrole ne 'SU' && $inrole ne 'UNKN')
       {
 	$new_role = $o_sel_appuser->set_role($inrole);
+	$o_sel_appuser->set_active('t');
 	$updated++;
       }
     }
 
     ##--- Set New Password
-    if ($inpassword && ($c_userid ne $in_userid))
+    if ($inpassword && ($c_userid ne $sel_userid))
     {
       $new_password = $o_sel_appuser->reset_password();
     }
 
     if ($updated)
     {
-      my $str_redirect = "/staff/$in_userid";
+      my $str_redirect = "/staff/$sel_userid";
       $c->log->debug("$fn REDIRECT URL:$str_redirect");
 
       ##--- Redirect
@@ -124,6 +126,18 @@ sub index :Path('/staff') :Args(1)
   my $all_roles			= Class::Appuser::roles($dbic);
   $c->stash->{roles}		= $all_roles;
   $c->stash->{selected_role}	= $sel_user_role;
+
+  ##BreadCrumbs
+  {
+    my @crumbs;
+    my $parent_url  = "/staff/list";
+    push(@crumbs,{url => $parent_url,  name=> "staff"});
+    my $child_url  = "/staff/$sel_userid";
+    push(@crumbs,{url => $parent_url,  name=> "$sel_userid"});
+    $c->stash->{bcrumbs} = \@crumbs;
+    $c->stash->{page}	= {'title' => "$sel_userid" };
+
+  }
 
 }
 
