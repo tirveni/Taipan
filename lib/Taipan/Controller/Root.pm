@@ -216,7 +216,7 @@ sub auto : Private
   USER_OBJ:
     $o_appuser = Class::Appuser->new($dbic,$i_login);
     $c->log->info("$m  Appuser($i_login): $o_appuser ");
-
+    $user_role = $o_appuser->role;
 
     ##--- C2. Get Admit Permission
     ##---
@@ -224,21 +224,15 @@ sub auto : Private
     {
       $c->log->info("$m Check Permission ");
       $pg_allow = $o_appuser->url_allowed($dbic,$i_action);
+
     }
 
     $c->log->info("$m PG Result: $pg_allow");
 
-    ##--- C6: IF PSQL allows/dis-allow. This is the FINAL.
-  PSQL_CHECK:
-    if ($pg_allow > 1)
-    {
-      #    $c->log->info("$m Go Ahead More True:$is_go_ahead" );
-      ##Multiple Branches.
-      $c->response->redirect( $c->uri_for('/home') );
-    }
-    elsif ($pg_allow > 0)
+    if ($pg_allow > 0)
     {
       #    $c->log->info("$m Go Ahead True:$is_go_ahead" );
+      $c->stash->{hello}->{role} = $user_role;
       return 1;##1
       ##Rx_7
     }
