@@ -1,0 +1,58 @@
+<!--
+-- $Id: privinfo.tt.html,v 1.1 2009-06-05 12:54:32 tirveni Exp $
+--
+--
+-->
+
+<!-- BEGINOF user/infolist.tt.html -->
+
+
+<div id="centeronly">
+
+<form name="userform" type="POST" action="/privileges/info" >
+
+
+<input type="hidden" name="role" value="[% input.role %]">
+<input type="hidden" name="privilege" value="[% input.privilege %]">
+		
+<P>Role:<strong>[% display.roledesc %]</strong></P>
+
+<table width="100%" border="1" class='tablen'>
+<tr class='main'>
+	<th width="8%">Category</th>
+	<th width="15%">Privilege</th>
+	<th width="50">Description</th>
+	<th width="10%">Access</th>
+	<th width="10%">Permission</th>
+</tr>
+
+		<TR>
+			<TD>[% display.category %]</TD>
+			<TD>
+			<a href="/privileges/info?privilege=[% display.privilege %]&role=[% thisrole %]">[% display.privilege %]</a>
+			</TD>
+			<TD>[% display.description %]</TD>
+			[% IF (display.accessprivilege) %]
+				<td class='okay'>[% display.accessallowed %]</td>
+			[% ELSE %]
+				<td  class='error'>[% display.accessallowed %]</td>
+			[% END %]
+			<td> <input TYPE='checkbox' NAME="[% display.privilege %]" [% display.value %] id='perm'/ >
+				      <label for="perm">Red</label>
+			 </td>
+		</TR>
+
+<TR><TD colspan="5">&nbsp;</TD></TR>
+<tr>	
+	<TD colspan="5" align="center">
+		<INPUT class='new' type="submit" name="Change" value="Change">
+	</td>
+</tr>
+
+</table>
+
+</form>
+
+</div>
+
+<!-- ENDOF user/info.tt.html -->

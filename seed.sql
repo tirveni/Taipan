@@ -36,6 +36,11 @@ INSERT INTO Privilege VALUES ('staff/list',    	'SU', 'User add');
 INSERT INTO Privilege VALUES ('staff/add',    	'SU', 'User add');
 INSERT INTO Privilege VALUES ('config/index',   'SU', 'Config Edit');
 INSERT INTO Privilege VALUES ('config/list',   	'SU', 'Config List');
+INSERT INTO Privilege VALUES ('privileges/list',	  	'SU', 'List permissions');
+INSERT INTO Privilege VALUES ('privileges/rolelist',	  	'SU', 'List Roles');
+INSERT INTO Privilege VALUES ('privileges/accesslist',  	'SU', 'Available Permissions for a role');
+INSERT INTO Privilege VALUES ('privileges/allowed',	  	'SU', 'Allowed Permissions for a role');
+INSERT INTO Privilege VALUES ('privileges/info',	  	'SU', 'Edit Permission');
 
 -- Login/Logout/Default
 INSERT INTO Privilege VALUES ('login/index',    'UNKN', 'Login Page');
@@ -72,6 +77,13 @@ INSERT INTO Access VALUES ('user/apikey',       'GUEST');
 INSERT INTO Access VALUES ('user/address',      'SU');
 INSERT INTO Access VALUES ('user/address',      'MANAGER');
 INSERT INTO Access VALUES ('user/address',      'GUEST');
+
+INSERT INTO Access VALUES ('privileges/list',      	'SU');
+INSERT INTO Access VALUES ('privileges/rolelist',      	'SU');
+INSERT INTO Access VALUES ('privileges/accesslist',      	'SU');
+INSERT INTO Access VALUES ('privileges/allowed',      	'SU');
+INSERT INTO Access VALUES ('privileges/info',      	'SU');
+
 -- Staff Add/Edit
 INSERT INTO Access VALUES ('staff/index',      	'SU');
 INSERT INTO Access VALUES ('staff/add',         'SU');

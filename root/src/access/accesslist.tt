@@ -1,0 +1,97 @@
+<!--
+-- $Id: accesslist.tt.html,v 1.11 2009-06-05 12:54:32 tirveni Exp $
+--
+--
+-->
+
+<!-- BEGINOF privilege/privilegelist.tt.html -->
+
+
+
+<div id="centeronly">
+
+<p>Role: [% roledesc %]</p>
+
+<P>
+	<a href="/privileges/rolelist/">
+		Roles List</a>
+</P>
+
+[% PROCESS src/pagination.tt %]
+
+<form name="userform" type="[% userform.type %]" action="[% userform.action %]"
+ class="codesnip" style="background-color:#FFF;z-index:10;" >
+
+
+<input type="hidden" name="id" value="[% thisrole %]">
+
+[% IF privilegelist %]
+<table class="tablen" width="100%" border='1'>
+<tr>	
+		<TD>
+			<SELECT name="pcategory" >
+				[% FOREACH category = categoryvals %]
+					<OPTION Value="[% category.categorycode %]" [% category.selected %]>
+						[% category.categoryname %]</OPTION>
+				[% END %]
+			</SELECT>
+		</TD>
+		<td><strong> &nbsp;Select Privileges Category</strong></td>
+		<TD>
+			<INPUT  type="submit" name="List" value="List">
+		</td>
+		<td></td>
+</tr>
+
+<tr class='main'>
+	<th>Category</th>
+	<th>Privilege</th>
+	<th>Description</th>
+	<th>Access</th>
+</tr>
+	
+	[% FOREACH privilege = privilegelist %]
+		<TR>
+			<TD>[% privilege.category %]</TD>
+			<TD>
+			<a href="/privileges/info?privilege=[% privilege.privilege %]&role=[% thisrole %]">[% privilege.privilege %]</a>
+			</TD>
+			<TD>[% privilege.description %]</TD>
+			[% IF (privilege.accessprivilege) %]
+				<td class='okay'>[% privilege.accessallowed %]</td>
+			[% ELSE %]
+				<td  class='error'>[% privilege.accessallowed %]</td>
+			[% END %]
+		</TR>
+	[% END %]
+	
+</table>
+[% END %]
+
+<table width="100%">
+
+<br/>
+
+
+<tr>	
+	<TD>
+		<INPUT class='new' type="submit" name="Change" value="Change">
+	</td>
+	<td>: Press this Button to change Priviliges 
+	</td>
+</tr>
+
+[% PROCESS src/pagination.tt %]
+
+</table>
+
+<P>
+	<a href="/privileges/rolelist/">
+		Roles List</a>
+</P>
+
+</form>
+
+</div>
+
+<!-- ENDOF privilege/privilegelist.tt.html -->

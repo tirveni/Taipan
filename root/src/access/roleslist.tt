@@ -1,0 +1,48 @@
+<!--
+-- $Id: roleslist.tt.html,v 1.7 2009-06-04 11:43:59 tirveni Exp $
+--
+-->
+
+<!-- BEGINOF role/rolelist.tt.html -->
+
+
+<div id="centeronly">
+
+[% PROCESS src/pagination.tt %]
+
+<table class="tableo" width="100%" border='1' id='zebratable'>
+
+<tr class="main">
+	<th>Role</th>
+	<th>Description</th>
+	<th  align="center">All Privileges</th>
+	<th>Allowed Privileges</th>
+</tr>
+
+[% FOREACH role = rolelist %]
+	<TR>
+		<TD>[% role.role %]</TD>
+		<TD>[% role.description %]</TD>
+		<TD align="center">
+			<a href="/privileges/accesslist?id=[% role.role %]">List
+		</TD>
+		<TD>
+			<a href="/privileges/accesslista?id=[% role.role %]">[% role.description %]- Allowed
+		</TD>
+	</TR>
+[% END %]
+</table>
+
+[% PROCESS src/pagination.tt %]
+
+<p> 
+	Allowed Privileges: All the Allowed Privileges for a Role, To Remove a Privilege
+</p>
+
+<p>
+	All Privileges: All the Privileges, To Add/ Remove a Privilege
+</p>
+
+
+</div>
+<!-- ENDOF role/rolelist.tt.html -->
