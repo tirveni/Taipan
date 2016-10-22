@@ -157,7 +157,16 @@ sub rolelist :Path('/privileges/rolelist') :ChainedArgs(0)
   my $total;
   my $rows_per_page = 10;
 
-  my $table_roles  = $dbic->resultset('Role')->search({});
+
+  my @ignore_roles = [qw(UNKN DISABLED)];
+
+  my $rs_roles	= $dbic->resultset('Role');
+  $rs_roles	= $rs_roles->search
+    (
+     {
+      -and =>	[role => {'!=','UNKN'}, role => {'!=','DISABLED'}],
+     }
+    );
 
   my @order_list = [qw(role)];
   my %page_attribs;
@@ -172,12 +181,11 @@ sub rolelist :Path('/privileges/rolelist') :ChainedArgs(0)
 		   nameclass    => 'privileges',
                   );
 
-  my $roles;
-  $roles =  paginationx( $c, \%page_attribs, $table_roles );
+  $rs_roles =  paginationx( $c, \%page_attribs, $rs_roles );
 
   my @list = ();
 
-  while ( my $role = $roles->next() )
+  while (my $role = $rs_roles->next)
   {
     push(
 	 @list,
