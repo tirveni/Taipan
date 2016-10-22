@@ -112,6 +112,51 @@ sub keys
   return ( ('privilegecategory') );
 }
 
+    
+
+=head2 category
+
+Returns: category
+
+=cut
+
+sub category
+{
+  my $self = shift;
+
+  my $field = 'category';
+  my $value = $self->dbrecord->get_column($field);
+
+  return $value;
+
+}
+
+sub privilegecategory
+{
+  my $self = shift;
+
+  return $self->category;
+
+}
+
+=head2 description
+
+Returns: Description
+
+=cut
+
+sub description
+{
+  my $self = shift;
+
+  my $field = 'description';
+  my $value = $self->dbrecord->get_column($field);
+
+  return $value;
+
+}
+
+
 =back
 
 =head1 METHODS
@@ -133,7 +178,7 @@ sub getallprivilegecategorys
   my
     @privilegecategorys;
   my
-    $pcs = $dbic->resultset('PrivilegeCategory')->search(undef);
+    $pcs = $dbic->resultset('Privilegecategory')->search(undef);
 
   while( my $row_pc = $pcs->next )
   {

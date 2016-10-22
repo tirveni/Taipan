@@ -57,7 +57,7 @@ sub new
 
   unless( ref( $argprivilege) )
   {
-    $privilege = $dbic->resultset( 'Privileges' )
+    $privilege = $dbic->resultset( 'Privilege' )
       ->find( $argprivilege );
   }
 
@@ -89,6 +89,39 @@ sub privileges_dbrecord
   return( $self->{privileges_dbrecord} );
 }
 
+=head2 privilege
+
+Returns: Privilege
+
+=cut
+
+sub privilege
+{
+  my $self = shift;
+
+  my $field = 'privilege';
+  my $value = $self->dbrecord->get_column($field);
+
+  return $value;
+
+}
+
+=head2 description
+
+Returns: Description
+
+=cut
+
+sub description
+{
+  my $self = shift;
+
+  my $field = 'description';
+  my $value = $self->dbrecord->get_column($field);
+
+  return $value;
+
+}
 
 =item B<keys()>
 
@@ -122,9 +155,14 @@ sub category
     $self = shift;
   my
     $category = shift;
-  $self->privileges_dbrecord->set_column('category', $category)
-    if defined($category);
-  $self->update;
+
+  if (defined($category))
+  {
+    my $row_prv = $self->dbrecord;
+    $row_prv->set_column('category', $category)    ;
+    $row_prv->update;
+  }
+
   return( $self->privileges_dbrecord->get_column('category') );
 }
 

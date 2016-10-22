@@ -50,7 +50,7 @@ sub new
 
   unless( ref($argrole) )
   {
-     $role = $dbic->model( 'Roles' )->find( $argrole );
+     $role = $dbic->resultset( 'Role' )->find( $argrole );
   }
 
   return( undef )
@@ -93,6 +93,42 @@ sub keys
 {
   return ( ('role') );
 }
+
+=head2 role
+
+Returns: Role
+
+=cut
+
+sub role
+{
+  my $self = shift;
+
+  my $field = 'role';
+  my $value = $self->dbrecord->get_column($field);
+
+  return $value;
+
+}
+
+=head2 description
+
+Returns: Description
+
+
+=cut
+
+sub description
+{
+  my $self = shift;
+
+  my $field = 'description';
+  my $value = $self->dbrecord->get_column($field);
+
+  return $value;
+
+}
+
 
 =back
 
