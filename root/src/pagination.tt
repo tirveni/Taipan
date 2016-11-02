@@ -16,7 +16,7 @@
 		</li>	
 	[% END %]
    [% IF listpage.displaystring %] 
-		<li> || Results for <font color="Green" size="+1" style="text-align:right;">[% listpage.displaystring %] </font>
+		<li class='black-text'> || Results for [% listpage.displaystring %] </font>
 				</li>
 	[% END %]
 
@@ -66,8 +66,9 @@
 				</li>
 		
 		[% END %]
-	[% END %] 
-	</ul>
+	[% END %]
+	 
+</ul>
 
 
 <!-- BEGINOF BaseConfig/xpagination.tt  -->
