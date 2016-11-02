@@ -1,55 +1,58 @@
-<!--
--- $Id: privinfo.tt.html,v 1.1 2009-06-05 12:54:32 tirveni Exp $
---
---
--->
-
-<!-- BEGINOF user/infolist.tt.html -->
-
 
 <div id="centeronly">
 
-<form name="userform" type="POST" action="/privileges/info" >
+<form name="userform" type="POST" >
 
 
 <input type="hidden" name="role" value="[% input.role %]">
 <input type="hidden" name="privilege" value="[% input.privilege %]">
 		
-<P>Role:<strong>[% display.roledesc %]</strong></P>
+<p>Role:<strong>[% display.roledesc %]</strong></p>
 
-<table width="100%" border="1" class='tablen'>
-<tr class='main'>
-	<th width="8%">Category</th>
-	<th width="15%">Privilege</th>
-	<th width="50">Description</th>
-	<th width="10%">Access</th>
-	<th width="10%">Permission</th>
-</tr>
+<div class='collection'>
 
-		<TR>
-			<TD>[% display.category %]</TD>
-			<TD>
-			<a href="/privileges/info?privilege=[% display.privilege %]&role=[% thisrole %]">[% display.privilege %]</a>
-			</TD>
-			<TD>[% display.description %]</TD>
+<div class='collection-item row'>
+			<div class='col l4 m4 s4'>Category</div>
+			<div class='col l8 m8 s8'>[% display.category %]</div>
+</div>
+<div class='collection-item row'>
+
+			<div class='col l4 m4 s4'>url</div>
+			<div class='col l8 m8 s8'>
+									[% display.privilege %]
+			</div>
+</div>
+<div class='collection-item row'>
+
+			<div class='col l4 m4 s4'>Description</div>
+			<div class='col l8 m8 s8'>[% display.description %]</div>
+</div>
+<div class='collection-item row'>
+
+			<div class='col l4 m4 s4'>Access</div>
 			[% IF (display.accessprivilege) %]
-				<td class='okay'>[% display.accessallowed %]</td>
+				<div class='col l8 m8 s8 green-text'>[% display.accessallowed %]</div>
 			[% ELSE %]
-				<td  class='error'>[% display.accessallowed %]</td>
+				<div class='col l8 m8 s8 red-text'>[% display.accessallowed %]</div>
 			[% END %]
-			<td> <input TYPE='checkbox' NAME="[% display.privilege %]" [% display.value %] id='perm'/ >
-				      <label for="perm">Red</label>
-			 </td>
-		</TR>
+</div>
+<div class='collection-item row'>
 
-<TR><TD colspan="5">&nbsp;</TD></TR>
-<tr>	
-	<TD colspan="5" align="center">
-		<INPUT class='new' type="submit" name="Change" value="Change">
-	</td>
-</tr>
+			<div class='col l4 m4 s4'>Edit</div>		
+			<div class='col l8 m8 s8'> <input TYPE='checkbox' NAME="[% display.privilege %]" 
+					[% display.value %] id='perm'/ > <label for="perm"></label>
+	 		  </div>
 
-</table>
+</div>
+<div class='collection-item row'>
+
+			<div class='col l4 m4 s4'>Save</div>		
+			<div class='col l8 m8 s8' >
+					<input class='new' type="submit" name="Change" value="Change" />
+			</div>
+</div>
+
+</div>
 
 </form>
 

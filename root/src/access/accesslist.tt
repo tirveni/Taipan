@@ -1,97 +1,70 @@
-<!--
--- $Id: accesslist.tt.html,v 1.11 2009-06-05 12:54:32 tirveni Exp $
---
---
--->
-
-<!-- BEGINOF privilege/privilegelist.tt.html -->
-
-
 
 <div id="centeronly">
 
 <p>Role: [% roledesc %]</p>
 
-<P>
+<p>
 	<a href="/privileges/rolelist/">
-		Roles List</a>
-</P>
+		<< Back to List of Roles</a>
+</p>
 
 [% PROCESS src/pagination.tt %]
 
 <form name="userform" type="[% userform.type %]" action="[% userform.action %]"
  class="codesnip" style="background-color:#FFF;z-index:10;" >
 
-
 <input type="hidden" name="id" value="[% thisrole %]">
 
-[% IF privilegelist %]
-<table class="tablen" width="100%" border='1'>
-<tr>	
-		<TD>
-			<SELECT name="pcategory" >
-				[% FOREACH category = categoryvals %]
-					<OPTION Value="[% category.categorycode %]" [% category.selected %]>
-						[% category.categoryname %]</OPTION>
-				[% END %]
-			</SELECT>
-		</TD>
-		<td><strong> &nbsp;Select Privileges Category</strong></td>
-		<TD>
-			<INPUT  type="submit" name="List" value="List">
-		</td>
-		<td></td>
-</tr>
+[% IF privilegelist && categoryvals %]
+<div class='row red-text card-panel'>
 
-<tr class='main'>
-	<th>Category</th>
-	<th>Privilege</th>
-	<th>Description</th>
-	<th>Access</th>
-</tr>
+		<div class='col l6 m6 s6'><strong>Select Privileges Category</strong></div>
+		<div class='col l2 m2 s2'>
+			<select name="pcategory" class='browser-default' >
+				[% FOREACH category = categoryvals %]
+					<option Value="[% category.categorycode %]" [% category.selected %]>
+						[% category.categoryname || category %]</option>
+				[% END %]
+			</select>
+			 &nbsp;
+		</div>
+		<div class='col l2 m2 s2'>
+			<input  type="submit" name="List" value="List" />
+		</div>
+</div>
+
+<div class='collection'>
+
+<div class='row collection-item red '>
+
+	<div class='col l2 m2 s2'>Category</div>
+	<div class='col l4 m4 s4'>	Privilege(URL)</div>
+	<div class='col l4 m4 s4'>	Description</div>
+	<div class='col l2 m2 s2'>	Access</div>
+</div>
 	
 	[% FOREACH privilege = privilegelist %]
-		<TR>
-			<TD>[% privilege.category %]</TD>
-			<TD>
-			<a href="/privileges/info?privilege=[% privilege.privilege %]&role=[% thisrole %]">[% privilege.privilege %]</a>
-			</TD>
-			<TD>[% privilege.description %]</TD>
+	<div class='row collection-item '>
+			<div class='col l2 m2 s2'>[% privilege.category %]</div>
+			<div class='col l4 m4 s4'>
+				<a href="/privileges/info?privilege=[% privilege.privilege %]&role=[% thisrole %]">[% privilege.privilege %]</a>
+			</div>
+			<div class='col l4 m4 s4'>[% privilege.description %]</div>
+			
 			[% IF (privilege.accessprivilege) %]
-				<td class='okay'>[% privilege.accessallowed %]</td>
+				<div class='col l2 m2 s2 okay'>[% privilege.accessallowed %]</div>
 			[% ELSE %]
-				<td  class='error'>[% privilege.accessallowed %]</td>
+				<div  class='col l2 m2 s2 error'>[% privilege.accessallowed %]</div>
 			[% END %]
-		</TR>
+		</div>
 	[% END %]
+</div>	
 	
-</table>
 [% END %]
 
-<table width="100%">
-
-<br/>
-
-
-<tr>	
-	<TD>
-		<INPUT class='new' type="submit" name="Change" value="Change">
-	</td>
-	<td>: Press this Button to change Priviliges 
-	</td>
-</tr>
-
 [% PROCESS src/pagination.tt %]
-
-</table>
-
-<P>
-	<a href="/privileges/rolelist/">
-		Roles List</a>
-</P>
 
 </form>
 
 </div>
 
-<!-- ENDOF privilege/privilegelist.tt.html -->

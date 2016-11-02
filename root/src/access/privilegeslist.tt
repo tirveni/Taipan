@@ -1,32 +1,27 @@
-<!--
--- $Id: privilegeslist.tt.html,v 1.6 2009-06-04 11:43:59 tirveni Exp $
---
--->
-
-<!-- BEGINOF privilege/privilegelist.tt.html -->
 
 
 <div id="centeronly">
 
 [% PROCESS src/pagination.tt %]
 
-<table class="tableo" width="100%" border='1' id='zebratable'>
+<div class='collection'>
 
-<tr class='member'>
-	<th>Category</th>
-	<th>Privilege</th>
-	<th>Description</th>
+<div class='row collection-item red '>
+	<div class='col l2 m2 s2'>Category</div>
+	<div class='col l4 m4 s4'>Privilege(URL)</div>
+	<div class='col l6 m6 s6'>Description</div>
+</div>
 
-</tr>
 
 [% FOREACH privilege = privilegelist %]
-	<TR>
-		<TD>[% privilege.category %]</TD>
-		<TD>[% privilege.privilege %]</TD>
-		<TD>[% privilege.description %]</TD>
-	</TR>
+<div class='row collection-item '>
+		<div class='col l2 m2 s2'>[% privilege.category %]</div>
+		<div class='col l4 m4 s4'>[% privilege.privilege %]</div>
+		<div class='col l6 m6 s6'>[% privilege.description %]</div>
+	</div>	
 [% END %]
-</table>
+
+</div>
 
 [% PROCESS src/pagination.tt %]
 
