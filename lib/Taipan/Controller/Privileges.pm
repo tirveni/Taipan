@@ -30,6 +30,12 @@ use strict;
 use warnings;
 use base 'Catalyst::Controller';
 
+
+my ($c_rows_per_page);
+{
+  $c_rows_per_page = 10;
+}
+
 =head1 NAME
 
 Eloor::Controller::Privileges - Catalyst Controller
@@ -39,6 +45,9 @@ Eloor::Controller::Privileges - Catalyst Controller
 Catalyst Controller.
 
 =head1 METHODS
+
+Cannot use Paths without POST/GET as urls might contain the slash(/).
+Which might cause all sorts of trouble.
 
 =cut
 
@@ -74,7 +83,6 @@ sub list :Path('/privileges/list') :ChainedArgs(0)
   $c->stash->{page} = {'title' => 'List Privilege',};
 
   my $total;
-  my $rows_per_page = 10;
 
   if ( !defined($privilegelistsearchterm) ) # All privileges
   {
@@ -82,7 +90,7 @@ sub list :Path('/privileges/list') :ChainedArgs(0)
 				undef,
 				{
 				 order_by => [qw( privilege )],
-				 rows     => $rows_per_page,
+				 rows     => $c_rows_per_page,
 				}
 			       ];
 
@@ -97,7 +105,7 @@ sub list :Path('/privileges/list') :ChainedArgs(0)
 		   desiredpage  => $desired_page,
 		   startpage    => $startpage,
 		   inputsearch  => $privilegelistsearchterm,
-		   rowsperpage  => $rows_per_page,
+		   rowsperpage  => $c_rows_per_page,
 		   order        => \@order_list,
 		   listname     => 'Privileges',
 		   namefn       => 'list',
@@ -155,7 +163,6 @@ sub rolelist :Path('/privileges/rolelist') :ChainedArgs(0)
   $c->stash->{page} = {'title' => 'List Roles',};
 
   my $total;
-  my $rows_per_page = 10;
 
 
   my @ignore_roles = [qw(UNKN DISABLED)];
@@ -174,7 +181,7 @@ sub rolelist :Path('/privileges/rolelist') :ChainedArgs(0)
 		   desiredpage  => $desired_page,
 		   startpage    => $startpage,
 		   inputsearch  => $rolesearchterm,
-		   rowsperpage  => $rows_per_page,
+		   rowsperpage  => $c_rows_per_page,
 		   order        => \@order_list,
 		   listname     => 'Roles',
 		   namefn       => 'rolelist',
@@ -225,7 +232,8 @@ sub info :Path('/privileges/info') :Args(0)
   my $in_role		= $aparams->{role};
   $c->log->debug("$fn $in_role: $in_privilege");
 
-  my $role = Class::Roles->new( $dbic, $in_role )
+  my $role;
+  $role = Class::Roles->new( $dbic, $in_role )
     if ($in_role);
   if ( !($role) )
   {
@@ -235,7 +243,8 @@ sub info :Path('/privileges/info') :Args(0)
   }
   my $roledesc = $role->description;
 
-  my $o_privilege	= Class::Privileges->new( $dbic, $in_privilege )
+  my $o_privilege;
+  $o_privilege	= Class::Privileges->new( $dbic, $in_privilege )
     if ($in_privilege);
   if (!$role)
   {
@@ -407,7 +416,6 @@ sub accesslist :Path('/privileges/accesslist') :ChainedArgs(0)
   #Paginations
   my $alistsearchterm 	= $c->session->{'AllowedAccessListSearchTerm'};
   my @order_list	= [qw(category privilege)];
-  my $rows_per_page	= 20;
 
   my %page_attribs;
   %page_attribs =
@@ -415,7 +423,7 @@ sub accesslist :Path('/privileges/accesslist') :ChainedArgs(0)
      desiredpage  => $desired_page,
      startpage    => $startpage,
      inputsearch  => $alistsearchterm,
-     rowsperpage  => $rows_per_page,
+     rowsperpage  => $c_rows_per_page,
      order        => \@order_list,
      listname     => 'Privileges',
      namefn       => 'accesslist',
@@ -576,7 +584,6 @@ sub allowed :Path('/privileges/allowed') :ChainedArgs(0)
   my $order_field_b	= "me.privilege";
   my $alistsearchterm 	= $c->session->{'AllowedAccessListSearchTerm'};
   my @order_list	= [$order_field_a, $order_field_b];
-  my $rows_per_page	= 20;
 
   my %page_attribs;
   %page_attribs =
@@ -584,7 +591,7 @@ sub allowed :Path('/privileges/allowed') :ChainedArgs(0)
      desiredpage  => $desired_page,
      startpage    => $startpage,
      inputsearch  => $alistsearchterm,
-     rowsperpage  => $rows_per_page,
+     rowsperpage  => $c_rows_per_page,
      order        => \@order_list,
      listname     => 'Privileges',
      namefn       => 'allowed',
