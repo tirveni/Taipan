@@ -225,7 +225,6 @@ CREATE TABLE LogException
 	exceptionid	SERIAL PRIMARY KEY,
 	userid		text REFERENCES 
 		AppUser  ON UPDATE CASCADE,
-	branchid	int, 	
 	type		text,
 	reason		text,
 
