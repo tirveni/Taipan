@@ -16,6 +16,7 @@ use TryCatch;
 use Class::Utils;
 use Class::Utils qw(today now trim unxss valid_date push_errors print_errors);
 
+
 use Class::Rock;
 use Class::Key;
 use Class::General;
@@ -338,7 +339,7 @@ Tirveni Yadav,,,
 =head1 LICENSE
 
 This library is free software. You can redistribute it and/or modify
-it under the same terms as Perl itself.
+it under the same terms as AGPLv3 itself.
 
 =cut
 

@@ -486,8 +486,8 @@ sub accesslist :Path('/privileges/accesslist') :ChainedArgs(0)
   $c->stash->{privilegelist}  = \@list;
 
 #  #Drop Down Box of Privilege Categor
-#  my @priv_category_vals = getprivilegescategories( $c, $category_input );
-#  $c->stash->{categoryvals} = \@priv_category_vals;
+  my @priv_category_vals = getprivilegescategories( $c, $category_input );
+  $c->stash->{categoryvals} = \@priv_category_vals;
 
 }
 

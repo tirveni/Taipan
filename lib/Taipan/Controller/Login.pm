@@ -207,7 +207,7 @@ Tirveni Yadav,,,
 =head1 LICENSE
 
 This library is free software. You can redistribute it and/or modify
-it under the same terms as Perl itself.
+it under the same terms as AGPLv3 itself.
 
 =cut
 
