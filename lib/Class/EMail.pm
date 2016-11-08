@@ -506,8 +506,7 @@ sub last_error
 
 =item B<<< local_contact( $context ) >>>
 
-Return the e-mail address of the local contact (e.g. Eloor Libraries
-<delhi@eloor.in>).
+Return the e-mail address of the local contact
 
 =cut
 # Local contact e-mail ID
@@ -571,7 +570,7 @@ sub make_from_address
 
 Returns: (jobid,err_messages[])
 
-Used: For User Verification through, After user has Registerd in BAEL.
+Used: For User Verification through, After user has Registerd in Taipan
 
 Sends mail to An User with verification Code. 
 
@@ -593,7 +592,6 @@ sub send_appuser_verify
   {
     $vcode      = $o_appuser->verification_code;
     $email      = $o_appuser->email || $o_appuser->userid;
-    $from       = 'info@bael.io';
   }
 
 #Subject

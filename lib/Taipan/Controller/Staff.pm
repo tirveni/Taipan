@@ -249,6 +249,143 @@ sub list :Path('/staff/list') :ChainedArgs(0)
 }
 
 
+=head2 add
+
+Dispaly User Info.
+
+AND Edit: Change Role OR Disable/Enable OR Password.
+
+=cut
+
+sub add :Path('/staff/add') :Args(1)
+{
+
+  my ( $self, $c  ) = @_;
+
+  my $f ="R->index";
+  #Form, Page and Template Issues
+  $c->stash->{template} = 'src/User/add.tt';
+  $c->stash->{page} = {'title' => 'Add User'};
+  my $pars      = makeparm(@_);
+  my $aparams   = $c->request->params;
+
+  my $verification_reqd = 0;
+
+  my $today     = Class::Utils::today ;
+  my $now       = Class::Utils::now ;
+  my $todaynow  = $today . " " . $now;
+  my $dbic      = $c->model('HDB')->schema;
+
+  #--input assignment
+  my $o_appuser;
+  my $password;
+  my ($password_x,$password_y);
+  my ($name,$dob,$email_input,$sex,$email);
+  $name		= unxss($aparams->{name});
+
+  $c->log->info("$f Name: $name ");
+  my $existing_user_obj;
+
+  if ($name)
+  {
+    $dob        = unxss(chomp_date( $aparams->{dob} ) );
+    my $x_email = $aparams->{email};
+
+    my $valid_email = Class::Utils::valid_email($x_email);
+    $c->log->info("$f Valid Email:$valid_email ");
+
+    $email_input = $x_email if($valid_email);
+    $c->log->info("$f In Email: $email_input ");
+
+    $sex		= unxss($aparams->{sex});
+    $existing_user_obj  = Class::Appuser->new( $dbic, $email_input );
+
+    if ( !$existing_user_obj )
+    {
+      $email = $email_input      ;
+
+      $password_x	= unxss($aparams->{passwordx});
+      $password_y       = unxss($aparams->{passwordy});
+      $c->log->info("$f $password_x/$password_y ");
+
+      if ($password_x eq $password_y)
+      {
+	$password = Class::Appuser::encode_password($password_y);
+      }
+
+    }				##If Existing User
+
+  }				##If Name
+
+  $c->log->info("$f Going In for Creation Email:$email".
+		",Name:$name,pw:$password ");
+
+  my $h_user;
+
+  if ($password && $email && $name )
+  {
+    $c->log->info("$f Ready Steady Go ");
+
+    $h_user =
+    {
+     userid     => $email,
+     name	=> $name,
+     #    dob           => $dob,
+     active     => 'f',
+     password   => $password,
+    };
+
+    $o_appuser = Class::Appuser::create($dbic,$h_user);
+
+
+    if ($o_appuser && $verification_reqd > 0)
+    {
+      $c->log->info("$f Sending Mail with Verification Code ");
+      #Send this to User by email.
+      Class::EMail::send_appuser_verify($o_appuser);
+      ##Send mail Now
+
+    }
+    else
+    {
+      ##-- Verification Part through Email
+      my $verification_code = $o_appuser->verification_code(1);
+      $o_appuser->validate_user($dbic,$verification_code);
+    }
+
+    if ($o_appuser)
+    {
+
+      ## And Redirect to verification form
+      my $url = "/registration/validate/$email";
+      $c->response->redirect($url) ;
+    }
+
+
+    #
+
+  }
+
+  ##-- Already Existing
+  if ($existing_user_obj)
+  {
+    my $err_msg = "This Email address is already registered with us.";
+    $c->stash(error_msg => $err_msg );
+  }
+
+  if ($password_y && $password_x && ($password_x ne $password_y))
+  {
+    my $err_msg = "Passwords do not match.";
+    $c->stash(error_msg => $err_msg );
+    $c->stash->{xuser}->{name}  = $name;
+    $c->stash->{xuser}->{email} = $email;
+  }
+
+
+
+}
+
+
 
 
 =head1 AUTHOR
