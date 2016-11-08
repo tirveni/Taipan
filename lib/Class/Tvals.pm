@@ -1,8 +1,8 @@
 #!/usr/bin/perl -w
 #
-# Class::Ztime
+# Class/Msg
 #
-# 2017-05-28
+# 2016-04-30
 #
 package Class::Tvals;
 
@@ -10,197 +10,93 @@ use Moose;
 use namespace::autoclean;
 
 use TryCatch;
-use DateTime;
-
-use Class::Utils qw(trim unxss valid_date redis_save_hash_field);
-
-my ($o_redis,$c_prefix_key_tval,$c_expire_ina_day,
-    $err_new_object,$err_new_creation);
-{
-  $o_redis		= Class::Utils::get_redis;
-  $c_prefix_key_tval	= $Class::Rock::red_prefix_has_tval;
-  $c_expire_ina_day	= $Class::Rock::seconds_day || 86401;
-}
 
 =pod
 
 =head1 NAME
 
-Class::Tvals - Utilities for handling TypeVals
+Class::Tvals - Utilities for handling Config Values
 
 =head1 SYNOPSIS
 
     use Class::Tvals;
-    $o_tvals	= Class::Tvals->new(dtable,tableuniq,cfield);
-    $value       = $o_tvals->cvalue;
+    $o_tvals = Class::Tvals->new( $dbic, $dtable,$tableuniq,cfield );
+    $logexid       = $o_tvals->msgid;
 
-
-Entity Attribute Model
-
-https://en.wikipedia.org/wiki/Entity-attribute-value_model
-
-
-=head1 METHODS
-
-=over
-
-=item B<new( $dtable,table_uniq,cfield )>
-
-Return: the Class::Tvals object, or undef if the could not be found in Redis
 
 =cut
 
+use Class::Utils  qw(unxss unxss_an chomp_date valid_date trim );
+
+my ($c_prefix_key_msg);
+{
+  $c_prefix_key_msg	=  $Class::Rock::red_prefix_has_message;
+
+}
+
+
+=head1 ADMINISTRIVIA
+
+=over
+
+=item B<new( $dbic,$dtable,$tableuniq,cfield )>
+
+=item B<new( $dbic, $row_tval )>
+
+Accept a Dtable,Tableuniq,CField (or a DBIx::Class::Row object)
+and create a fresh Class::Tvals object from it. A db object must be
+provided.
+
+
+=cut
 
 sub new
 {
   my $class	=	shift;
-  my $dtable	=	shift;
-  my $tuniq	=	shift;
-  my $cfield	=	shift;
+  my $dbic	=	shift;
+  my $dtable    =	shift;
+  my $tuniq     =	shift;
+  my $cfield    =       shift;
 
-  my $m = "C/tvals->new";
+  my $m = "C/Tvals->new";
 
+  my $row    = $dtable;
+
+  unless ( ref($dtable) )
   {
-    $dtable = trim($dtable);
-    $tuniq  = trim($tuniq);
-    $cfield = trim($cfield);
+    $dtable = unxss($dtable);
+    if ($dtable)
+    {
+      my $rs_tvals = $dbic->resultset('Typevalue');
+      $row	   = $rs_tvals->find
+	(
+	 {
+	  dtable	=> $dtable,
+	  tableuniq	=> $tuniq,
+	  cfield	=> $cfield,
+	 }
+	);
+    }
   }
 
-  my $red_key;
-  if ($dtable && $tuniq && $cfield)
-  {
-    $red_key = "$c_prefix_key_tval:$dtable:$tuniq:$cfield";
-  }
-
-  my $already_existing =
-      $o_redis->hexists($red_key,'cfield');
-
-  ##Still Doesn't Exist;
-  if (!$already_existing)
-  {
-    ##Nothing If Row is also not available
-    return undef;
-  }
+  return (undef)
+    unless $row;
 
   my $self = bless( {}, $class );
-  $self->{data}		= $red_key;
+  $self->{tvals_dbrecord}             = $row;
 
-  return ($self);
-
+  return $self;
 }
 
-
-=head2 red_set_tvals($row_tval)
-
-Arguments($row_bizapp)
+=head2
 
 =cut
 
-sub red_set_tvals
+sub dbrecord
 {
-  my $row_tv = shift;
-
-  my $fn = "C/tvals::red_set_tvals";
-
-  my ($dtable,$tableuniq,$cfield,$cvalue,$desc,$valid,$internal);
-  $dtable	= trim($row_tv->dtable);
-  $tableuniq	= trim($row_tv->tableuniq);
-  $cfield	= trim($row_tv->cfield);
-
-  my $red_key = "$c_prefix_key_tval:$dtable:$tableuniq:$cfield";
-
-  {
-    ##--- Hash
-
-    my %rowh = $row_tv->get_columns();
-
-    foreach my $column (keys %rowh)
-    {
-      # do whatever you want with $key and $value here ...
-      my $value	= $rowh{$column};
-      $value	= trim($value);
-
-      #print "$fn $red_key=>$column/$value.\n";
-      Class::Utils::redis_save_hash_field($o_redis,$red_key,$column,$value);
-    }
-
-    $o_redis->expire($red_key,$c_expire_ina_day);
-
-  }
-
-  my $o_tval = Class::Tvals->new($dtable,$tableuniq,$cfield);
-  #print "$fn o_tval: $o_tval ($red_key) \n";
-
-  return $o_tval;
-}
-
-
-=sub get_tvals($dbic,$table_name,$uniq_val,{internal,valid})
-
-Returns: Array of Hash($o_tvals)
-
-=cut
-
-sub get_tvals
-{
-  my $dbic		= shift;
-  my $table_name	= shift;
-  my $uniq_val		= shift;
-  my $h_src		= shift;
-
-  my ($is_internal,$is_valid);
-  {
-    $is_internal = $h_src->{internal};
-    $is_valid    = $h_src->{is_valid};
-  }
-
-  my $fn = "C/tvals/get_tvals";
-  my $rs_tvals = $dbic->resultset('Typevalue');
-  print "$fn Tvals:Begin \n";
-
-  if ($table_name && $uniq_val)
-  {
-    $rs_tvals = $rs_tvals->search
-      (
-       {
-	dtable		=> $table_name,
-	tableuniq	=> $uniq_val,
-       }
-      );
-  }
-
-  if ( $is_internal && ($is_internal eq 't' )&& defined($rs_tvals))
-  {
-    $rs_tvals = $rs_tvals->search({internal=> $is_internal});
-  }
-  elsif ($is_internal && ($is_internal eq 'f' )&& defined($rs_tvals))
-  {
-    $rs_tvals = $rs_tvals->search({internal=> $is_internal});
-  }
-
-
-  if ($is_valid && ($is_valid eq 't') && defined($rs_tvals))
-  {
-    $rs_tvals = $rs_tvals->search({valid=> $is_valid});
-  }
-  elsif ( $is_valid && ($is_valid eq 'f' )&& defined($rs_tvals))
-  {
-    $rs_tvals = $rs_tvals->search({internal=> $is_valid});
-  }
-
-  print "$fn Tvals: $rs_tvals \n";
-
-  my @list;
-  while (my $row_tv = $rs_tvals->next())
-  {
-    my $o_tval = Class::Tvals::red_set_tvals($row_tv);
-    print "$fn o_tval: $o_tval  \n";
-
-    push(@list,$o_tval);
-  }
-
-  return \@list;
-
+  my
+    $self = shift;
+  return( $self->{tvals_dbrecord} );
 }
 
 
@@ -208,81 +104,57 @@ sub get_tvals
 
 =head2 dtable
 
-Returns: dtable of the Tval
+Returns: Dtable
 
 =cut
 
 sub dtable
 {
   my $self  = shift;
-  my $in_val = shift || "";
 
   my $value;
   my $field = 'dtable';
-  my $datakey  = $self->{data};
+  my $dbrecord  = $self->dbrecord;
 
-  $value = $o_redis->hget($datakey,$field);
-  return $value;
-
-}
-
-
-=head2 tableuniq
-
-Returns: tableuniq of the Tval
-
-=cut
-
-sub tableuniq
-{
-  my $self  = shift;
-  my $in_val = shift || "";
-
-  my $value;
-  my $field = 'tableuniq';
-  my $datakey  = $self->{data};
-
-  $value = $o_redis->hget($datakey,$field);
+  $value = $dbrecord->get_column($field);
   return $value;
 
 }
 
 =head2 cfield
 
-Returns: cfield of the Tval
+Returns: Cfield
 
 =cut
 
 sub cfield
 {
   my $self  = shift;
-  my $in_val = shift || "";
 
   my $value;
   my $field = 'cfield';
-  my $datakey  = $self->{data};
+  my $dbrecord  = $self->dbrecord;
 
-  $value = $o_redis->hget($datakey,$field);
+  $value = $dbrecord->get_column($field);
   return $value;
 
 }
 
 =head2 cvalue
 
-Returns: cvalue of the Tval
+Returns: Cvalue (table)
 
 =cut
 
 sub cvalue
 {
   my $self  = shift;
-  my $in_val = shift || "";
 
   my $value;
   my $field = 'cvalue';
-  my $datakey  = $self->{data};
+  my $dbrecord  = $self->dbrecord;
 
-  $value = $o_redis->hget($datakey,$field);
+  $value = $dbrecord->get_column($field);
   return $value;
 
 }
@@ -290,120 +162,387 @@ sub cvalue
 
 =head2 ctype
 
-Returns: ctype of the Tval
+Returns: Type
 
 =cut
 
 sub ctype
 {
   my $self  = shift;
-  my $in_val = shift || "";
 
   my $value;
   my $field = 'ctype';
-  my $datakey  = $self->{data};
+  my $dbrecord  = $self->dbrecord;
 
-  $value = $o_redis->hget($datakey,$field);
+  $value = $dbrecord->get_column($field);
   return $value;
 
 }
 
-
 =head2 description
 
-Returns: description of the Tval
+Returns: Description
 
 =cut
 
 sub description
 {
   my $self  = shift;
-  my $in_val = shift || "";
 
   my $value;
   my $field = 'description';
-  my $datakey  = $self->{data};
+  my $dbrecord  = $self->dbrecord;
 
-  $value = $o_redis->hget($datakey,$field);
+  $value = $dbrecord->get_column($field);
   return $value;
 
 }
 
 =head2 valid
 
-Returns: valid of the Tval
+Returns: Field1
 
 =cut
 
 sub valid
 {
   my $self  = shift;
-  my $in_val = shift || "";
 
   my $value;
   my $field = 'valid';
-  my $datakey  = $self->{data};
+  my $dbrecord  = $self->dbrecord;
 
-  $value = $o_redis->hget($datakey,$field);
+  $value = $dbrecord->get_column($field);
   return $value;
 
 }
 
 =head2 internal
 
-Returns: internal of the Tval
+Returns: Field1
 
 =cut
 
 sub internal
 {
   my $self  = shift;
-  my $in_val = shift || "";
 
   my $value;
   my $field = 'internal';
-  my $datakey  = $self->{data};
+  my $dbrecord  = $self->dbrecord;
 
-  $value = $o_redis->hget($datakey,$field);
+  $value = $dbrecord->get_column($field);
   return $value;
 
 }
 
-=head1
+=head2 priority
 
-=head2 set_tvals
-
-Sets the Message in the Redis Hash
-
-Argument: DBIC
-
-This is a set(array) of Roles.
+Returns: Field1
 
 =cut
 
-sub set_tvals
+sub priority
 {
-  my $dbic = shift;
+  my $self  = shift;
 
-  my $rs_tvals = $dbic->resultset('Typevalue');
+  my $value;
+  my $field = 'priority';
+  my $dbrecord  = $self->dbrecord;
 
-  my @list;
-  while (my $row = $rs_tvals->next())
-  {
-    red_set_tvals($row);
-  }
+  $value = $dbrecord->get_column($field);
+  return $value;
 
 }
 
 
-=back
 
+=head2 created_at
 
-=end
-
-
-=back
+Returns: Created_at
 
 =cut
+
+sub created_at
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'created_at';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+=head2 update_userid
+
+Returns: Field1
+
+=cut
+
+sub update_userid
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'update_userid';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+=head1 OPTIONAL Field/Values
+
+fieldX/valueX Pair
+
+=head2 field2
+
+Returns: Field2
+
+=cut
+
+sub field2
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'field2';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+=head2 value2
+
+Returns: Value2
+
+=cut
+
+sub value2
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'value2';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 field3
+
+Returns: Field3
+
+=cut
+
+sub field3
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'field3';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+=head2 value3
+
+Returns: Value3
+
+=cut
+
+sub value3
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'value3';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 field4
+
+Returns: Field4
+
+=cut
+
+sub field4
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'field4';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 value4
+
+Returns: Value4
+
+=cut
+
+sub value4
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'value4';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+
+=head2 field5
+
+Returns: Field5
+
+=cut
+
+sub field5
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'field5';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 value5
+
+Returns: Value5
+
+=cut
+
+sub value5
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'value5';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+
+=head2 field6
+
+Returns: Field6
+
+=cut
+
+sub field6
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'field6';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 value6
+
+Returns: Value6
+
+=cut
+
+sub value6
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'value6';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head1 OPERATIONS
+
+=head2 create
+
+Create entry in Table LogException
+
+=cut
+
+sub create
+{
+  my $dbic	=	shift;
+  my $h_vals	=	shift;
+
+  my $fn = "C/Logex/create";
+  my ($o_tvals,$err_msg);
+
+  try
+  {
+    my $rs_tvl	= $dbic->resultset('Typevalues');
+    my $row_tvl = $rs_tvl->create($h_vals);
+    $o_tvals	= Class::Tvals->new($dbic,$row_tvl);
+  }
+  catch($err_msg)
+  {
+    print "$fn   $err_msg \n";
+  }
+
+  return ($o_tvals,$err_msg);
+
+}
+
+
+
+
+=head1 AUTHOR
+
+Tirveni Yadav,,,
+
+=head1 LICENSE
+
+This library is free software. You can redistribute it and/or modify
+it under the same terms as AGPLv3 itself.
+
+=cut
+
 
 1;

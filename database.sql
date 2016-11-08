@@ -161,6 +161,18 @@ CREATE TABLE TypeValues
 	valid		boolean,
 	internal	boolean,
 
+
+	field2		text,
+	value2		text,
+	field3		text,
+	value3		text,
+	field4		text,
+	value4		text,
+	field5		text,
+	value5		text,
+	field6		text,
+	value6		text,
+
 	priority	smallint,
         created_at      timestamp 
                 with time zone default (now() at time zone 'utc')   ,

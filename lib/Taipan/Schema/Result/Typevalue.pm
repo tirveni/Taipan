@@ -86,6 +86,56 @@ __PACKAGE__->table("typevalues");
   data_type: 'boolean'
   is_nullable: 1
 
+=head2 field2
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 value2
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 field3
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 value3
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 field4
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 value4
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 field5
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 value5
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 field6
+
+  data_type: 'text'
+  is_nullable: 1
+
+=head2 value6
+
+  data_type: 'text'
+  is_nullable: 1
+
 =head2 priority
 
   data_type: 'smallint'
@@ -122,6 +172,26 @@ __PACKAGE__->add_columns(
   { data_type => "boolean", is_nullable => 1 },
   "internal",
   { data_type => "boolean", is_nullable => 1 },
+  "field2",
+  { data_type => "text", is_nullable => 1 },
+  "value2",
+  { data_type => "text", is_nullable => 1 },
+  "field3",
+  { data_type => "text", is_nullable => 1 },
+  "value3",
+  { data_type => "text", is_nullable => 1 },
+  "field4",
+  { data_type => "text", is_nullable => 1 },
+  "value4",
+  { data_type => "text", is_nullable => 1 },
+  "field5",
+  { data_type => "text", is_nullable => 1 },
+  "value5",
+  { data_type => "text", is_nullable => 1 },
+  "field6",
+  { data_type => "text", is_nullable => 1 },
+  "value6",
+  { data_type => "text", is_nullable => 1 },
   "priority",
   { data_type => "smallint", is_nullable => 1 },
   "created_at",
@@ -173,8 +243,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2016-11-07 22:05:42
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:INEB4oxrvNDGCquPTN9mAQ
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2016-11-08 10:59:19
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:zQWFwuktVzetx6iAMA+YZQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
