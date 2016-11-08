@@ -56,6 +56,12 @@ sub index :Path :Args(3)
     $c->detach();
   }
 
+  my $o_appuser;
+  {
+    my $userid  = Class::Utils::user_login($c);
+    $o_appuser  = Class::Appuser->new($dbic,$userid);
+  }
+
   my ($cvalue,$valid,$value2,$value3,$value4,$value5,$value6,$priority);
   ##-- Form Input
   {
@@ -77,10 +83,10 @@ sub index :Path :Args(3)
   }
 
   ##-- Update
-  if ($cvalue)
+  my ($errors,$row_tval);
+  if ($cvalue && $o_appuser)
   {
-
-
+    ($errors,$row_tval) = $o_tval->edit($o_appuser,{cvalue=>$cvalue});
   }
 
 

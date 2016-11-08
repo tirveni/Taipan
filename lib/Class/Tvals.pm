@@ -530,6 +530,45 @@ sub create
 
 }
 
+=head2 edit($o_appuser,$h_vals)
+
+Returns: $errors,$row_tvals
+
+=cut
+
+sub edit
+{
+  my $self	=	shift;
+  my $o_appuser	=	shift;
+  my $i_vals	=	shift;
+
+
+  my $m = "C/tval->edit";
+  my ($errors,$row_tval);
+
+  ##-- Only SU is allowed to edit
+  my $role = $o_appuser->role;
+  my $userid = $o_appuser->userid;
+
+  if ($role ne 'SU')
+  {
+    return;
+  }
+
+
+  my $h_vals;
+  {
+    $h_vals->{cvalue}		 = $i_vals->{cvalue};
+    $h_vals->{update_userid}	 = $userid;
+  }
+
+  $row_tval = $self->dbrecord;
+  $row_tval->update($h_vals);
+
+  return ($errors,$row_tval);
+
+}
+
 
 
 
