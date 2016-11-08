@@ -567,6 +567,45 @@ sub make_from_address
   return( "$name <$email>" );
 }
 
+=head2 send_appuser_verify($o_appuser)
+
+Returns: (jobid,err_messages[])
+
+Used: For User Verification through, After user has Registerd in BAEL.
+
+Sends mail to An User with verification Code. 
+
+=cut
+
+sub send_appuser_verify
+{
+  my $o_appuser =       shift;
+
+  my $m = "C/EMail/send_appuser_verify";
+  my ($jobid,$err_messages);
+  my ($body,$subject);
+  my ($today,$now,$today_now);
+  $today	= Class::Utils::today;
+  $now		= Class::Utils::now;
+  $today_now    = "$today"."_"."$now";
+
+  my ($vcode,$email,$from);
+  {
+    $vcode      = $o_appuser->verification_code;
+    $email      = $o_appuser->email || $o_appuser->userid;
+    $from       = 'info@bael.io';
+  }
+
+#Subject
+  $subject	= "User verification";
+  $body		= "Please use this code for verification: $vcode \n";
+
+  Class::EMail::send_mail_to_customer($c,$body,$subject,$email);
+
+}
+
+
+
 =back
 
 =cut
