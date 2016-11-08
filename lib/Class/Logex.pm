@@ -210,6 +210,9 @@ sub created_at
 
 }
 
+=head1 Optional values
+
+vieldX/valueX Pair
 
 =head2 field1
 
@@ -326,6 +329,249 @@ sub value3
   return $value;
 
 }
+
+
+=head2 field4
+
+Returns: Field4
+
+=cut
+
+sub field4
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'field4';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 value4
+
+Returns: Value4
+
+=cut
+
+sub value4
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'value4';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+
+=head2 field5
+
+Returns: Field5
+
+=cut
+
+sub field5
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'field5';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 value5
+
+Returns: Value5
+
+=cut
+
+sub value5
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'value5';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+
+=head2 field6
+
+Returns: Field6
+
+=cut
+
+sub field6
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'field6';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 value6
+
+Returns: Value6
+
+=cut
+
+sub value6
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'value6';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 field7
+
+Returns: Field7
+
+=cut
+
+sub field7
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'field7';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 value7
+
+Returns: Value7
+
+=cut
+
+sub value7
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'value7';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 field8
+
+Returns: Field8
+
+=cut
+
+sub field8
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'field8';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 value8
+
+Returns: Value8
+
+=cut
+
+sub value8
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'value8';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 field9
+
+Returns: Field9
+
+=cut
+
+sub field9
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'field9';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
+
+=head2 value9
+
+Returns: Value9
+
+=cut
+
+sub value9
+{
+  my $self  = shift;
+
+  my $value;
+  my $field = 'value9';
+  my $dbrecord  = $self->dbrecord;
+
+  $value = $dbrecord->get_column($field);
+  return $value;
+
+}
+
 
 
 =head1 OPERATIONS
