@@ -1,0 +1,40 @@
+
+
+<div id="centeronly">
+
+[% PROCESS src/pagination.tt %]
+
+<div class='collection'>
+
+<div class='row collection-item red '>
+	<div class='col l2 m2 s2'>D-table</div>
+	<div class='col l2 m2 s2'>T-Uniq</div>
+	<div class='col l2 m2 s2'>Field</div>
+	<div class='col l1 m1 s1'>Internal</div>
+	<div class='col l1 m1 s1'>Valid</div>
+	<div class='col l2 m2 s2'>Value</div>
+</div>
+
+[% FOREACH tv = clist %]
+<div class='collection-item row'>
+		<div class='col l2 m2 s2'>[% tv.dtable %]</div>
+		<div class='col l2 m2 s2'>[% tv.tableuniq %]</div>
+		<div class='col l2 m2 s2'>[% tv.cfield %]</div>
+		<div class='col l1 m1 s1'>[% tv.internal %]</div>
+		<div class='col l1 m1 s1'>[% tv.valid %]</div>
+		<div class='col l2 m2 s2'>
+			<a href="/config/[% tv.dtable %]/[% tv.tableuniq %]/[% tv.cfield %]">[% tv.cvalue %]</a>
+		</div>
+		<div class='col l12 m12 s12 green-text'>([% tv.description %])</div>
+
+</div>
+[% END %]
+
+</div>
+
+[% PROCESS src/pagination.tt %]
+
+</div>
+
+
+</div>
