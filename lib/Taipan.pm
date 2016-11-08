@@ -10,32 +10,30 @@ use Catalyst::Runtime 5.80;
 # therefore you almost certainly want to keep ConfigLoader at the head of the
 # list if you're using it.
 #
-#         -Debug: activates the debug mode for very useful log messages
-#   ConfigLoader: will load the configuration from a Config::General file in the
+# -Debug: activates the debug mode for very useful log messages
+# ConfigLoader: will load the configuration from a Config::General file in the
 #                 application's home directory
 # Static::Simple: will serve static files from the application's root
 #                 directory
 
 use Catalyst qw/
-    -Debug
-    ConfigLoader
-    Static::Simple
+		 -Debug
+		 ConfigLoader
+		 Static::Simple
 
+		 Session
+		 Session::State::Cookie
+		 Session::Store::Redis
 
+		 Authentication
+		 Authorization::Roles
+		 Authorization::ACL
 
-       Session
-        Session::State::Cookie
-        Session::Store::Redis
+		 RunAfterRequest
 
-        Authentication
-        Authorization::Roles
-        Authorization::ACL
+		 Unicode::Encoding
 
-
-        Unicode::Encoding
-
-
-/;
+	       /;
 
 extends 'Catalyst';
 
@@ -73,7 +71,7 @@ __PACKAGE__->config( default_view => 'HTML' );
 __PACKAGE__->config
   (
 
-##-- Session::Store::Redis
+   ##-- Session::Store::Redis
    'Plugin::Session' => 
    {
     expires => 3600,
@@ -114,7 +112,7 @@ Tirveni Yadav,,,
 =head1 LICENSE
 
 This library is free software. You can redistribute it and/or modify
-it under the same terms as Perl itself.
+it under the same terms as AGPLv3 itself.
 
 =cut
 
