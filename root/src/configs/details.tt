@@ -1,0 +1,81 @@
+<ul class='collection'>
+      <div class='collection-item row'>
+      	 <div class='col s4'>D-Table</div>
+      	 <div class='col s6'>[% tval.dtable %]</div>
+       </div>
+
+      <div class='collection-item row'>
+      	 <div class='col s4'>T-Uniq</div>
+      	 <div class='col s6'>[% tval.tableuniq %]</div>
+       </div>
+
+      <div class='collection-item row'>
+      	 <div class='col s4'>[% tval.cfield %]</div>
+      	 <div class='col s6'>[% tval.cvalue %]</div>
+       </div>
+
+      <div class='collection-item row'>
+      	 <div class='col s4'>Type</div>
+      	 <div class='col s6'>[% tval.ctype %]</div>
+       </div>
+
+      <div class='collection-item row'>
+      	 <div class='col s4'>Description</div>
+      	 <div class='col s6'>[% tval.description %]</div>
+       </div>
+
+      <div class='collection-item row'>
+      	 <div class='col s4'>Internal</div>
+      	 <div class='col s6'>[% tval.internal %]</div>
+       </div>
+
+      <div class='collection-item row'>
+      	 <div class='col s4'>Valid</div>
+      	 <div class='col s6'>[% tval.valid %]</div>
+       </div>
+
+      <div class='collection-item row'>
+      	 <div class='col s4'>Updated By</div>
+      	 <div class='col s6'>[% tval.update_userid %]</div>
+       </div>
+
+      [% IF tval.cfield2 %]
+      <div class='collection-item row'>
+      	 <div class='col s4'>[% tval.cfield2 %]</div>
+      	 <div class='col s6'>[% tval.cfield2 %]</div>
+       </div>
+       [% END %]
+
+      [% IF tval.cfield3 %]
+      <div class='collection-item row'>
+      	 <div class='col s4'>[% tval.cfield3 %]</div>
+      	 <div class='col s6'>[% tval.cfield3 %]</div>
+       </div>
+       [% END %]
+   	 	
+      [% IF tval.cfield4 %]
+      <div class='collection-item row'>
+      	 <div class='col s4'>[% tval.cfield4 %]</div>
+      	 <div class='col s6'>[% tval.cfield4 %]</div>
+       </div>
+       [% END %]
+
+      [% IF tval.cfield5 %]
+      <div class='collection-item row'>
+      	 <div class='col s4'>[% tval.cfield5 %]</div>
+      	 <div class='col s6'>[% tval.cfield5 %]</div>
+       </div>
+       [% END %]
+
+      [% IF tval.cfield6 %]
+      <div class='collection-item row'>
+      	 <div class='col s4'>[% tval.cfield6 %]</div>
+      	 <div class='col s6'>[% tval.cfield6 %]</div>
+       </div>
+       [% END %]
+
+
+
+
+      
+</ul>
