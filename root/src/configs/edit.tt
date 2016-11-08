@@ -5,27 +5,30 @@
 
       <div class="card-panel z-depth-4">
 
-<form method="post" action="/user/edit" >
+<form method="post" >
 
         <div class="row ">
           <div class="input-field col s12">
-           <i class="material-icons prefix">&#9786;</i>
-            <input type="text" placeholder="username" name="name" value="[% userinfo.name %]" required />   
-            <label for="username" class="center-align"> Username</label>
+            <input type="text" placeholder="cvalue" name="cvalue" value="[% tval.cvalue %]" required />   
+            <label for="cvalue" class="center-align"> Value</label>
 			 </div>       
         </div>
 
-          <div class="row ">
-     
-	          <div class="input-field col s12">
-           <i class="material-icons prefix">&#064;</i>
-           <input  id='email' type="text" placeholder="email" value="[% userinfo.email %]" 
-           	name="email" email required />
-            <label for="email" class="center-align"> E-Mail</label>
-				 </div>
-				        
-          </div>
 
+        <div class="row ">
+          <div class="input-field col s12">
+            <input type="text" placeholder="priority" name="priority" value="[% tval.priority %]"  />   
+            <label for="priority" class="center-align"> Priority</label>
+			 </div>       
+        </div>
+
+        <div class="row ">
+          <div class="input-field col s12">
+            <input type="text" placeholder="valid" name="valid" value="[% tval.vaild %]"  />   
+            <label for="valid" class="center-align"> Valid</label>
+			 </div>       
+        </div>
+   
 
 
 

@@ -1,0 +1,30 @@
+<ul class="collection collapsible popout " data-collapsible="accordion">
+
+	 	<li> 
+	   <div class="collapsible-header btn active waves-effect waves-purple lime lighten-3 black-text">
+	   				<div class='row'>
+		  							<div class='col l1 m1 s1'>&rarr;</div> 
+	   							<div class='col l10 m10 s10'>Info</div>
+	   					</div>
+	   		</div>
+ 	    			<div class="collapsible-body" > 	
+ 	    				[% PROCESS src/configs/details.tt %] 
+ 	    			</div>
+		</li>
+  
+
+	 	<li>
+	   <div class="collapsible-header btn waves-effect waves-purple lime lighten-3 black-text">
+	   				<div class='row'>
+		  							<div class='col l1 m1 s1'>&rarr;</div> 
+	   							<div class='col l10 m10 s10'>Edit</div>
+	   					</div>
+	   		</div>
+ 	    			<div class="collapsible-body" > 	
+
+ 	    					[% PROCESS src/configs/edit.tt %]
+ 	    			</div>
+		</li>
+
+
+</ul>

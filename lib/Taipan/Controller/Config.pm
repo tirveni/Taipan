@@ -6,6 +6,7 @@ BEGIN { extends 'Catalyst::Controller'; }
 
 use Class::Utils	qw(makeparm unxss trim);
 use Class::General	qw(paginationx);
+use Class::Tvals;
 
 my ($c_rows_per_page);
 {
@@ -23,6 +24,10 @@ Catalyst Controller.
 
 =head1 METHODS
 
+index: config/index
+
+list: config/list
+
 =cut
 
 
@@ -39,8 +44,8 @@ sub index :Path :Args(3)
   my $cfield      = shift;
 
   my $fn = "Config/index";
-  $c->stash->{page} = {'title' => 'List Privilege',};
-  $c->stash->{template} = 'src/configs/edit.tt';
+  $c->stash->{page} = {'title' => 'Edit Configuration',};
+  $c->stash->{template} = 'src/configs/info.tt';
 
   my $dbic = $c->model('TDB')->schema;
   my $o_tval = Class::Tvals->new($dbic,$dtable,$tableuniq,$cfield);
@@ -63,7 +68,7 @@ sub index :Path :Args(3)
     $value4	= $aparams->{value4};
     $value5	= $aparams->{value5};
     $value6	= $aparams->{value6};
-    $priority	= int($aparams->{priority});
+    $priority	= int($aparams->{priority}) || 1;
 
     ##Either True/False
     $valid		= 0;
@@ -94,6 +99,8 @@ sub index :Path :Args(3)
 
     $h_vals->{priority}	= $o_tval->priority;
     $h_vals->{valid}	= $o_tval->valid;
+    $h_vals->{internal}	= $o_tval->internal;
+    $h_vals->{description}	= $o_tval->description;
 
 
     $h_vals->{field2}	= $o_tval->field2;
