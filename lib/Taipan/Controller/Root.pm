@@ -15,7 +15,7 @@ use TryCatch;
 
 use Class::Utils;
 use Class::Utils qw(today now trim unxss valid_date push_errors print_errors);
-
+use Class::Pagestatic;
 
 use Class::Rock;
 use Class::Key;
@@ -110,7 +110,7 @@ sub auto : Private
 		 " Path:$i_path");
 
     my $first_args = $c->request->args->[0];
-    my $prospective_branchid;
+
     $c->log->debug("$m path args: $first_args ");
 
     ### IF User Exists,then
@@ -154,7 +154,6 @@ sub auto : Private
       $c->log->info("$m Error:3110222 Redis Object missing");
     }
 
-
     $c->response->body( 'Page not found' );
     $c->response->status(503);
     ##Set this up when page is ready
@@ -186,7 +185,7 @@ sub auto : Private
       $c->log->info("$m Is_key_given_but_Failed:$is_key_given_but_failed");
       ##Display Error, If Keys were used and Authorization Failed.
       my $message = "Key Authorization Failed \n";
-
+      _fishy($c,$i_login,$i_action);
       $c->response->body("$message");
       $c->response->status(403);
 
@@ -232,20 +231,25 @@ sub auto : Private
 
     if ($pg_allow > 0)
     {
+      _fishy($c,$i_login,$i_action);
+
       #    $c->log->info("$m Go Ahead True:$is_go_ahead" );
       $c->stash->{hello}->{role} = $user_role;
+
       return 1;##1
-      ##Rx_7
+      ##Rx_4
     }
     else
     {
+      _fishy($c,$i_login,$i_action);
+
       $c->log->info("$m Refused PG:$pg_allow  ");
       $c->response->body( 'Page not found' );
       $c->response->status(404);
       ##Set this up when page is ready
       $c->response->redirect( $c->uri_for('/default') );
       return 0;
-      ##Rx_8
+      ##Rx_5
     }
 
 #  }				##Try
@@ -271,6 +275,8 @@ sub auto : Private
   ##---
  NOTHING_WORKS:
   {
+    _fishy($c,$i_login,$i_action);
+
     $c->log->info("$m Nothing Working 1110222");
     $c->response->body( 'Page not found' );
     $c->response->status(404);
@@ -323,6 +329,29 @@ sub home : Path('home') :Args(0)
 
 }
 
+
+=head2 _fishy
+
+Fishy: For fail2ban
+
+=cut
+
+sub _fishy
+{
+  my $c		= shift;
+  my $userid	= shift;
+  my $i_action	= shift;
+
+  if($userid eq 'UNKN')
+  {
+    $c->log->info("FISHY $i_action");
+  }
+  else
+  {
+    $c->log->info("LOGGED_IN $i_action");
+  }
+
+}
 
 =head2 end
 
