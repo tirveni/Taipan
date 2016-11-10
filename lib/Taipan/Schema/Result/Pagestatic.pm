@@ -119,6 +119,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 tagsofpages
+
+Type: has_many
+
+Related object: L<Taipan::Schema::Result::Tagsofpage>
+
+=cut
+
+__PACKAGE__->has_many(
+  "tagsofpages",
+  "Taipan::Schema::Result::Tagsofpage",
+  { "foreign.pageid" => "self.pageid" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 update_userid
 
 Type: belongs_to
@@ -140,8 +155,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2016-11-10 16:23:53
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:dXtmhZUB46FW1zBKnZid0g
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2016-11-10 17:46:58
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:dGo8BfFHf2k+0GwNe+AlMw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

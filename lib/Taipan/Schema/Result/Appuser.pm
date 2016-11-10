@@ -204,6 +204,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 languagetypes
+
+Type: has_many
+
+Related object: L<Taipan::Schema::Result::Languagetype>
+
+=cut
+
+__PACKAGE__->has_many(
+  "languagetypes",
+  "Taipan::Schema::Result::Languagetype",
+  { "foreign.update_userid" => "self.userid" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 logexceptions
 
 Type: has_many
@@ -234,6 +249,36 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 pagestaticlangs
+
+Type: has_many
+
+Related object: L<Taipan::Schema::Result::Pagestaticlang>
+
+=cut
+
+__PACKAGE__->has_many(
+  "pagestaticlangs",
+  "Taipan::Schema::Result::Pagestaticlang",
+  { "foreign.update_userid" => "self.userid" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 pagestatics
+
+Type: has_many
+
+Related object: L<Taipan::Schema::Result::Pagestatic>
+
+=cut
+
+__PACKAGE__->has_many(
+  "pagestatics",
+  "Taipan::Schema::Result::Pagestatic",
+  { "foreign.update_userid" => "self.userid" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 role
 
 Type: belongs_to
@@ -254,18 +299,33 @@ __PACKAGE__->belongs_to(
   },
 );
 
-=head2 tasks
+=head2 tagsofpages
 
 Type: has_many
 
-Related object: L<Taipan::Schema::Result::Task>
+Related object: L<Taipan::Schema::Result::Tagsofpage>
 
 =cut
 
 __PACKAGE__->has_many(
-  "tasks",
-  "Taipan::Schema::Result::Task",
-  { "foreign.userid" => "self.userid" },
+  "tagsofpages",
+  "Taipan::Schema::Result::Tagsofpage",
+  { "foreign.update_userid" => "self.userid" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 tagtypes
+
+Type: has_many
+
+Related object: L<Taipan::Schema::Result::Tagtype>
+
+=cut
+
+__PACKAGE__->has_many(
+  "tagtypes",
+  "Taipan::Schema::Result::Tagtype",
+  { "foreign.update_userid" => "self.userid" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
@@ -285,8 +345,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2016-11-07 22:05:42
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Av6znEYUK0NghkOyJlW7WA
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2016-11-10 17:46:58
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:gbZXBZkv5SnltisrfAzihA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
