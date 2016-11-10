@@ -8,6 +8,32 @@ Taipan: Boiler plate for Perl Catalyst Web application.
 Run script/taipan_server.pl to test the application.
 
 -------------------------------------------------------------------------------
+Configuration:
+
+1. taipan.conf: Mail, Company Name, Redis Key Prefix,Redis DB user/password.
+2. lib/Taipan.pm: Session, Plugins.
+3. lib/Taipan/Model/TDB.pm: postgres database user and password.
+-------------------------------------------------------------------------------
+
+User Roles: SU, Manager, Staff, Guest, UNKN
+
+A. SU: Administrator and SU of the application. Can Edit roles permissions(Careful).
+B. Manager: Manager of organization. Enable/Disable Users. Change Roles for an user.
+C. Staff: Less powers than Manager.
+D. Guest: is person outside of the organization.
+E. Unkn: Not Logged in.
+
+seed.sql: tables role,privilege,access.
+
+-------------------------------------------------------------------------------
+
+Static Pages: is accessible by all the users.
+
+Add Static Pages through: SQL/pages.sql
+
+url /leaf/contactus.
+
+-------------------------------------------------------------------------------
 
 ORM Generation after database changes.
 DB: taipan, Password: pwabcd, User: tirveni
