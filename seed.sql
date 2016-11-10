@@ -17,7 +17,7 @@ INSERT INTO Roles VALUES ('DISABLED' ,  1001,'DISABLED');
 
 -- User
 INSERT INTO APPUSER VALUES( 'UNKN','Unknown','DETAILS UNKNOWN','PWD','2014-11-01','1','UNKN');
-INSERT INTO APPUSER VALUES( 'admin@abc.com','Viper','Handles Administration', 'E5Heps6EgklcViMsGX7wEu1K9Kc','2013-01-01','1','SU');
+INSERT INTO APPUSER VALUES( 'admin@abc.com','Viper','Handles Administration', 'g3BkGZVnIIlVJnhUVyB0MOZRKhs','2013-01-01','1','SU');
 
 
 INSERT into PrivilegeCategory VALUES('GUEST','Privileges for GUEST');
