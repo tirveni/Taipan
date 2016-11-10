@@ -10,16 +10,28 @@
 
 \c taipan 
 \echo	*** DROP Tables
+DROP TABLE IF EXISTS TagsOfPage		CASCADE;
+DROP TABLE IF EXISTS TagType		CASCADE;
+DROP TABLE IF EXISTS PageStaticLang	CASCADE;
+DROP TABLE IF EXISTS PageStatic		CASCADE;
+DROP TABLE IF EXISTS LanguageType	CASCADE;	
+DROP TABLE IF EXISTS Message		CASCADE;	
+DROP TABLE IF EXISTS MessageLang	CASCADE;	
+
+DROP TABLE IF EXISTS Ipx_pod_host	CASCADE;	
+DROP TABLE IF EXISTS Ipx_pod		CASCADE;	
+
 DROP TABLE IF EXISTS TypeValues		CASCADE;
-DROP TABLE IF EXISTS AppUserAddress	CASCADE;
+
 DROP TABLE IF EXISTS AppUserKey		CASCADE;
 DROP TABLE IF EXISTS AppUser		CASCADE;
-DROP TABLE IF EXISTS Address		CASCADE;	 
+
+
 DROP TABLE IF EXISTS Roles		CASCADE;
 DROP TABLE IF EXISTS PrivilegeCategory	CASCADE;
 DROP TABLE IF EXISTS Privilege		CASCADE;
 DROP TABLE IF EXISTS Access		CASCADE;
-DROP TABLE IF EXISTS UserEmail		CASCADE;
+
 DROP TABLE IF EXISTS LogException	CASCADE;
 DROP TABLE IF EXISTS LoginAttempts    	CASCADE;
 
@@ -130,20 +142,6 @@ COMMENT ON COLUMN appuserkey.type is 'API: API access. TOKEN: Token access. Reso
 -- https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2
 -- http://search.cpan.org/~jjnapiork/CatalystX-OAuth2-0.001004/lib/CatalystX/OAuth2.pm
 
-
-CREATE TABLE AppUserAddress
-(
-        userid          text REFERENCES 
-		AppUser  ON UPDATE CASCADE,
-        addressid       int REFERENCES
-                Address  ON UPDATE CASCADE,
-	active		boolean,
-        created_at      timestamp 
-                with time zone default (now() at time zone 'utc'),   
-	priority 	smallint,
-	PRIMARY KEY(userid,addressid)
-
-);
 
 
 -- Type Values for Various entities's statues in future.
@@ -271,24 +269,14 @@ CREATE TABLE LogException
 
 
 
-DROP TABLE IF EXISTS IPX_pod_host;
-DROP TABLE IF EXISTS IPX_pod;
 
 -- Inter Pod Exchange
 CREATE TABLE Ipx_Pod
 (
 	podid			char(12) PRIMARY KEY,
 	active			boolean,
-	name			text,
+	name			text
 	--Alias
-
-        city_country            char(3),
-        city_state              char(3), 
-        citycode                char(20), 
-
-	FOREIGN KEY( city_country,city_state,citycode) REFERENCES
-		City  ON UPDATE CASCADE
-
 
 );
 
@@ -306,9 +294,6 @@ CREATE TABLE Ipx_pod_host
 );
 
 -- 
-DROP TABLE IF EXISTS PageStaticLang;
-DROP TABLE IF EXISTS PageStatic;
-DROP TABLE IF EXISTS LanguageType;
 
 CREATE TABLE LanguageType
 (
@@ -347,5 +332,33 @@ CREATE TABLE PageStaticLang
         PRIMARY KEY(pageid,languagetype)                                
 );
 
+-- Tag
+
+CREATE TABLE TagType
+(
+        TagType         CHAR(24) PRIMARY KEY,
+        description     text,
+        created_at      timestamp 
+                with time zone default (now() at time zone 'utc')   ,
+        update_userid          text REFERENCES 
+		AppUser  ON UPDATE CASCADE
+);
+
+CREATE TABLE TagsOfPage
+(
+        TagType         CHAR(24) NOT NULL references
+                TagType ON DELETE CASCADE ON UPDATE CASCADE,
+        pageid          char(20) NOT NULL references 
+                PageStatic  ON DELETE CASCADE ON UPDATE CASCADE,
+        priority        smallint,
+
+        details         text,
+        created_at      timestamp 
+                with time zone default (now() at time zone 'utc')   ,
+        update_userid          text REFERENCES 
+		AppUser  ON UPDATE CASCADE,
+        
+        PRIMARY KEY(TagType,PageID,Priority)
+);
 
 
