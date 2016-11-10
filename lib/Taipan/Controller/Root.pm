@@ -185,7 +185,8 @@ sub auto : Private
       $c->log->info("$m Is_key_given_but_Failed:$is_key_given_but_failed");
       ##Display Error, If Keys were used and Authorization Failed.
       my $message = "Key Authorization Failed \n";
-      _fishy($c,$i_login,$i_action);
+      _fishy($c,$i_login,$i_action,0);
+
       $c->response->body("$message");
       $c->response->status(403);
 
@@ -231,7 +232,7 @@ sub auto : Private
 
     if ($pg_allow > 0)
     {
-      _fishy($c,$i_login,$i_action);
+      _fishy($c,$i_login,$i_action,$pg_allow);
 
       #    $c->log->info("$m Go Ahead True:$is_go_ahead" );
       $c->stash->{hello}->{role} = $user_role;
@@ -241,7 +242,7 @@ sub auto : Private
     }
     else
     {
-      _fishy($c,$i_login,$i_action);
+      _fishy($c,$i_login,$i_action,$pg_allow);
 
       $c->log->info("$m Refused PG:$pg_allow  ");
       $c->response->body( 'Page not found' );
@@ -275,7 +276,7 @@ sub auto : Private
   ##---
  NOTHING_WORKS:
   {
-    _fishy($c,$i_login,$i_action);
+    _fishy($c,$i_login,$i_action,-1);
 
     $c->log->info("$m Nothing Working 1110222");
     $c->response->body( 'Page not found' );
@@ -338,17 +339,18 @@ Fishy: For fail2ban
 
 sub _fishy
 {
-  my $c		= shift;
-  my $userid	= shift;
-  my $i_action	= shift;
+  my $c			= shift;
+  my $userid		= shift;
+  my $i_action		= shift;
+  my $is_allowed	= shift;
 
   if($userid eq 'UNKN')
   {
-    $c->log->info("FISHY $i_action");
+    $c->log->info("FISHY:$is_allowed $i_action");
   }
   else
   {
-    $c->log->info("LOGGED_IN $i_action");
+    $c->log->info("LOGGED_IN:$is_allowed $i_action");
   }
 
 }
