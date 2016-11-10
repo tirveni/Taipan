@@ -28,6 +28,8 @@ use HTML::Entities;
 use Data::Password;
 use Captcha::reCAPTCHA;
 use Email::Valid;
+use String::Random;
+
 
 use Redis;
 #
