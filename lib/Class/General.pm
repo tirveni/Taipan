@@ -227,6 +227,53 @@ sub input_keys
 }
 
 
+=head2 page_details
+
+Private method to get page contents
+
+=cut
+
+sub page_details 
+{
+  my $c         = shift;
+  my $pageid    = shift;
+
+  my $m = "R/page_details";
+
+  my $dbic = $c->model('TDB')->schema;
+
+  my $content;
+  my $o_page = Class::Pagestatic->new( $dbic, $pageid );
+
+  if ($o_page)
+  {
+    $content     = $o_page->content_lang($c);
+
+    $c->log->debug("$m :: OBJ content: $content");  
+    $c->stash->{home}->{content} = $content;
+
+#   my $attribs     = $o_page->tags($c);
+#
+#    if ($attribs)
+#    {
+#      my $meta_desc   = $attribs->{'meta-desc-staticpage'};
+#      my $list_ofmeta = $attribs->{'meta-staticpage'};
+
+#      $c->log->debug("$m :: meta_desc:$meta_desc ");  
+#      $c->log->debug("$m :: list Meta: @$list_ofmeta");  
+
+#      $c->stash->{meta}->{desc}		= $meta_desc;
+
+#      $c->stash->{meta}->{listofmeta}   = $list_ofmeta;
+#      ##This is Reference to Array.
+
+#    }
+
+  }
+
+}
+
+
 =back
 
 =head2 paginationx ($c ,$search_attribs , $rs_table)
