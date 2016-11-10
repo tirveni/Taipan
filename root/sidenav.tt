@@ -2,7 +2,7 @@
        <li class="valign-wrapper">
                 <a href="#">
                         <img src="[% c.uri_for('/static/images/udyansh_logo.png') %]"
-                                         alt="BAEL" height='40' width='40'>
+                                         alt="Taipan" height='40' width='40'>
                                 </a>    
                 </li>
                                 

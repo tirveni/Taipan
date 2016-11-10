@@ -17,7 +17,7 @@
 
 			<li class='left hide-on-med-and-down '>
 		      <a id="logo-container" href="/" >
-                  <img src="[% c.uri_for('/static/images/udyansh_logo.png') %]" alt="BAEL"
+                  <img src="[% c.uri_for('/static/images/udyansh_logo.png') %]" alt="Taipan"
               height='40' width='40' /></a>
          </li>
 
