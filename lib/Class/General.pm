@@ -2,7 +2,7 @@
 #
 # Class/General
 #
-# Utility methods for Maavalan DB abstraction classes.
+# Utility methods for DB abstraction classes.
 #
 #
 use strict;
@@ -380,8 +380,8 @@ sub paginationx
   if ( !$in_rowsperpage )
   {
     $rows_per_page = 2;
-    $rows_per_page = Maavalan->config->{display}->{generic}->{lines_per_page}
-      if Maavalan->config->{display}->{generic}->{lines_per_page};
+    $rows_per_page = Taipan->config->{display}->{generic}->{lines_per_page}
+      if Taipan->config->{display}->{generic}->{lines_per_page};
   }
   else
   {

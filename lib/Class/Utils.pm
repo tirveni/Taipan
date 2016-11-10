@@ -1542,18 +1542,18 @@ sub user_login
 
 =item B<user( $context )>
 
-Return the Class::EloorUser object corresponding to the currently
+Return the Class::AppUser object corresponding to the currently
 logged-in user, or undef if the user isn't logged in.
 
 =cut
 # Current user object
 sub user
 {
-  my
-    $c = shift;
-  my
-    $rec = Class::Appuser->new($c, user_login($c));
-  return( $rec );
+  my  $c = shift;
+  my  $o_appuser = Class::Appuser->new($c, user_login($c));
+
+  return( $o_appuser );
+
 }
 
 =item B<muser( $context )>

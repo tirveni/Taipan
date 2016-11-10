@@ -38,7 +38,7 @@ my ($c_rows_per_page);
 
 =head1 NAME
 
-Eloor::Controller::Privileges - Catalyst Controller
+Taipan::Controller::Privileges - Catalyst Controller
 
 =head1 DESCRIPTION
 
@@ -249,12 +249,12 @@ sub info :Path('/privileges/info') :Args(0)
   if (!$role)
   {
     my $error = "$fn: Role($in_role) is Not valid Role";
-    $c->stash->{eloor}->{error} = $error;
+    $c->stash->{taipan}->{error} = $error;
     return;
   } elsif (!$o_privilege)
   {
     my $error = "$fn: Privilege($in_privilege) is Not valid Role";
-    $c->stash->{eloor}->{error} = $error;
+    $c->stash->{taipan}->{error} = $error;
     return;
   }
 

@@ -11,7 +11,7 @@ use Class::Utils qw(makeparm selected_language unxss chomp_date trim
 
 =head1 NAME
 
-Maavalan::Controller::User - Catalyst Controller
+Taipan::Controller::User - Catalyst Controller
 
 =head1 DESCRIPTION
 
