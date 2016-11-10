@@ -305,6 +305,47 @@ CREATE TABLE Ipx_pod_host
 
 );
 
+-- 
+DROP TABLE IF EXISTS PageStaticLang;
+DROP TABLE IF EXISTS PageStatic;
+DROP TABLE IF EXISTS LanguageType;
+
+CREATE TABLE LanguageType
+(
+        code            CHAR(4) PRIMARY KEY,
+        description     text,
+        path_of_icon    text,
+        path_of_picture text,
+        created_at      timestamp 
+                with time zone default (now() at time zone 'utc')   ,
+        update_userid          text REFERENCES 
+		AppUser  ON UPDATE CASCADE
+);
+
+CREATE TABLE PageStatic
+(
+        pageid          char(20) PRIMARY KEY,
+        pagename        char(24),
+        content         text,
+        created_at      timestamp 
+                with time zone default (now() at time zone 'utc')   ,
+        update_userid          text REFERENCES 
+		AppUser  ON UPDATE CASCADE
+);
+
+CREATE TABLE PageStaticLang
+(
+        pageid          char(20) references 
+                PageStatic  ON DELETE CASCADE ON UPDATE CASCADE,
+        languagetype    CHAR(4) references
+                LanguageType ON DELETE CASCADE ON UPDATE CASCADE,
+        content         text,
+        created_at      timestamp 
+                with time zone default (now() at time zone 'utc')   ,
+        update_userid          text REFERENCES 
+		AppUser  ON UPDATE CASCADE,
+        PRIMARY KEY(pageid,languagetype)                                
+);
 
 
 
