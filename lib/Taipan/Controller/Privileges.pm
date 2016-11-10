@@ -18,6 +18,10 @@
 # Privileges List for the app.
 #
 package Taipan::Controller::Privileges;
+use Moose;
+use namespace::autoclean;
+
+BEGIN { extends 'Catalyst::Controller'; }
 
 use Class::Utils qw (makeparm);
 use Class::General qw(paginationx);
@@ -25,10 +29,6 @@ use Class::Privileges;
 use Class::Access;
 use Class::Roles;
 
-
-use strict;
-use warnings;
-use base 'Catalyst::Controller';
 
 
 my ($c_rows_per_page);
@@ -222,7 +222,7 @@ sub info :Path('/privileges/info') :Args(0)
 
   my $pars	= makeparm(@_);
   my $aparams	= $c->req->params;
-  my $dbic = $c->model('TDB')->schema;
+  my $dbic	= $c->model('TDB')->schema;
 
   #Page and Template
   $c->stash->{page} = {'title' => 'Privilege Info',};
