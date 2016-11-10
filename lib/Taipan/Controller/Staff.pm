@@ -253,28 +253,28 @@ sub list :Path('/staff/list') :ChainedArgs(0)
 
 Dispaly User Info.
 
-AND Edit: Change Role OR Disable/Enable OR Password.
+AND Add a Staff
 
 =cut
 
-sub add :Path('/staff/add') :Args(1)
+sub add :Path('/staff/add') :Args(0)
 {
 
   my ( $self, $c  ) = @_;
 
   my $f ="R->index";
   #Form, Page and Template Issues
-  $c->stash->{template} = 'src/User/add.tt';
+  $c->stash->{template} = 'src/user/add.tt';
   $c->stash->{page} = {'title' => 'Add User'};
   my $pars      = makeparm(@_);
   my $aparams   = $c->request->params;
 
-  my $verification_reqd = 0;
+  my $is_verify_reqd = 0;
 
   my $today     = Class::Utils::today ;
   my $now       = Class::Utils::now ;
   my $todaynow  = $today . " " . $now;
-  my $dbic      = $c->model('HDB')->schema;
+  my $dbic      = $c->model('TDB')->schema;
 
   #--input assignment
   my $o_appuser;
@@ -288,13 +288,24 @@ sub add :Path('/staff/add') :Args(1)
 
   if ($name)
   {
-    $dob        = unxss(chomp_date( $aparams->{dob} ) );
+    $dob	= unxss(chomp_date( $aparams->{dob} ) );
     my $x_email = $aparams->{email};
+    my $y_email = $aparams->{email2};
 
-    my $valid_email = Class::Utils::valid_email($x_email);
-    $c->log->info("$f Valid Email:$valid_email ");
+    if (($is_verify_reqd < 1)  &&
+	($x_email && $y_email) &&
+	($x_email eq $y_email)
+       )
+    {
+      my $valid_email = Class::Utils::valid_email($x_email);
+      $email_input = $x_email if($valid_email);
+    }
+    else
+    {
+      my $valid_email = Class::Utils::valid_email($x_email);
+      $email_input = $x_email if($valid_email);
+    }
 
-    $email_input = $x_email if($valid_email);
     $c->log->info("$f In Email: $email_input ");
 
     $sex		= unxss($aparams->{sex});
@@ -338,7 +349,7 @@ sub add :Path('/staff/add') :Args(1)
     $o_appuser = Class::Appuser::create($dbic,$h_user);
 
 
-    if ($o_appuser && $verification_reqd > 0)
+    if ($o_appuser && $is_verify_reqd > 0)
     {
       $c->log->info("$f Sending Mail with Verification Code ");
       #Send this to User by email.
@@ -357,7 +368,7 @@ sub add :Path('/staff/add') :Args(1)
     {
 
       ## And Redirect to verification form
-      my $url = "/registration/validate/$email";
+      my $url = "/staff/$email";
       $c->response->redirect($url) ;
     }
 
@@ -381,7 +392,7 @@ sub add :Path('/staff/add') :Args(1)
     $c->stash->{xuser}->{email} = $email;
   }
 
-
+  $c->stash->{is_verify_required} = $is_verify_reqd;
 
 }
 
