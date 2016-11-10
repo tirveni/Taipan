@@ -1,4 +1,7 @@
 
+<div>	<btn class='btn green'>+ Add User</btn>
+	</div>
+
 
 [% PROCESS src/xpagination.tt %]
 

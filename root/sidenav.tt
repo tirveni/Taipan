@@ -24,7 +24,7 @@
                         	        <a class="collapsible-header">More  &#x25BC </a>
                                         <div class="collapsible-body">
                 	                        <ul>
-	                                               [%# PROCESS menub/every.tt %]
+	                                               [% PROCESS menub/every.tt %]
                         	                </ul>
 		                         </div>
 		                </li>

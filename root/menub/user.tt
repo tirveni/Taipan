@@ -1,7 +1,7 @@
 [% IF (hello.user != 'UNKN') %]
  		[% IF hello.user != 'UNKN' %]
 		<li ><a class='waves-effect waves-teal'  href="/user">
-			 <span >&#9881; Settings  </span>  
+			 <span >&#9881; User Settings  </span>  
 			 	</a>
  		</li>
 		[% END %]			 
