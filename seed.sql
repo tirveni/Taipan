@@ -7,11 +7,12 @@
 \copy message (msgid,type,name,message)  from 'SQL/errors.csv' delimiter '|'  ;
 
 \echo roles
-INSERT into Roles VALUES ('SU',         1,   'Administrator');
-INSERT into Roles VALUES ('MANAGER',    10,   'Manager');
+INSERT into Roles VALUES ('SU',        	1,   'Administrator');
+INSERT into Roles VALUES ('MANAGER',   	10,  'Manager');
+INSERT into Roles VALUES ('STAFF',     	20,  'Staff');
 INSERT INTO Roles VALUES ('GUEST' ,     51,  'Client');
 INSERT INTO Roles VALUES ('UNKN' ,      101, 'Not Logged In');
-INSERT INTO Roles VALUES ('DISABLED' ,   1001,  'DISABLED');
+INSERT INTO Roles VALUES ('DISABLED' ,  1001,'DISABLED');
 
 
 -- User
@@ -22,6 +23,7 @@ INSERT INTO APPUSER VALUES( 'admin@abc.com','Viper','Handles Administration', 'E
 INSERT into PrivilegeCategory VALUES('GUEST','Privileges for GUEST');
 INSERT into PrivilegeCategory VALUES('UNKN','Privileges for UNKN');
 INSERT into PrivilegeCategory VALUES('SU','Privileges for SU');
+INSERT into PrivilegeCategory VALUES('Staff','Privileges for Staff');
 
 
 \echo *** Privileges *** 
@@ -47,6 +49,13 @@ INSERT INTO Privilege VALUES ('login/index',    'UNKN', 'Login Page');
 INSERT INTO Privilege VALUES ('logout/index',   'GUEST', 'Logout for All users other than UNKN');
 INSERT into privilege VALUES ('default','UNKN','Default');
 
+\echo *** Add Default Page *** 
+INSERT into access VALUES ('default',		'UNKN');
+INSERT into access VALUES ('default',		'GUEST');
+INSERT into access VALUES ('default',		'STAFF');
+INSERT into access VALUES ('default',		'MANAGER');
+INSERT into access VALUES ('default',		'SU');
+
 \echo ** Access Logout For Everyone.
 insert into access values ('logout/index','SU');
 insert into access values ('logout/index','GUEST');
@@ -60,43 +69,49 @@ INSERT INTO Access VALUES ('login/index',       'UNKN');
 --index and home
 INSERT INTO Access VALUES ('index',             'SU');
 INSERT INTO Access VALUES ('index',             'MANAGER');
+INSERT INTO Access VALUES ('index',             'STAFF');
 INSERT INTO Access VALUES ('index',             'GUEST');
 INSERT INTO Access VALUES ('home',              'SU');
 INSERT INTO Access VALUES ('home',              'MANAGER');
+INSERT INTO Access VALUES ('home',              'STAFF');
 INSERT INTO Access VALUES ('home',              'GUEST');
 -- Self Editing
 INSERT INTO Access VALUES ('user/index',        'SU');
 INSERT INTO Access VALUES ('user/index',        'GUEST');
 INSERT INTO Access VALUES ('user/index',        'MANAGER');
+INSERT INTO Access VALUES ('user/index',        'STAFF');
 INSERT INTO Access VALUES ('user/edit',         'SU');
 INSERT INTO Access VALUES ('user/edit',         'MANAGER');
+INSERT INTO Access VALUES ('user/edit',         'STAFF');
 INSERT INTO Access VALUES ('user/edit',         'GUEST');
 INSERT INTO Access VALUES ('user/apikey',       'SU');
 INSERT INTO Access VALUES ('user/apikey',       'MANAGER');
+INSERT INTO Access VALUES ('user/apikey',       'STAFF');
 INSERT INTO Access VALUES ('user/apikey',       'GUEST');
 INSERT INTO Access VALUES ('user/address',      'SU');
 INSERT INTO Access VALUES ('user/address',      'MANAGER');
+INSERT INTO Access VALUES ('user/address',      'STAFF');
 INSERT INTO Access VALUES ('user/address',      'GUEST');
 
-INSERT INTO Access VALUES ('privileges/list',      	'SU');
-INSERT INTO Access VALUES ('privileges/rolelist',      	'SU');
-INSERT INTO Access VALUES ('privileges/accesslist',      	'SU');
-INSERT INTO Access VALUES ('privileges/allowed',      	'SU');
-INSERT INTO Access VALUES ('privileges/info',      	'SU');
+-- Staff Add/Edit
+INSERT INTO Access VALUES ('staff/index',      	'MANAGER');
+INSERT INTO Access VALUES ('staff/add',         'MANAGER');
+INSERT INTO Access VALUES ('staff/list',        'MANAGER');
 
 -- Staff Add/Edit
 INSERT INTO Access VALUES ('staff/index',      	'SU');
 INSERT INTO Access VALUES ('staff/add',         'SU');
 INSERT INTO Access VALUES ('staff/list',        'SU');
+
+INSERT INTO Access VALUES ('privileges/list',      	'SU');
+INSERT INTO Access VALUES ('privileges/rolelist',      	'SU');
+INSERT INTO Access VALUES ('privileges/accesslist',    	'SU');
+INSERT INTO Access VALUES ('privileges/allowed',      	'SU');
+INSERT INTO Access VALUES ('privileges/info',      	'SU');
+
+
 INSERT INTO Access VALUES ('config/index',     	'SU');
 INSERT INTO Access VALUES ('config/list',       'SU');
-
-\echo *** Add Default Page *** 
-INSERT into access VALUES ('default','UNKN');
-INSERT into access VALUES ('default','GUEST');
-INSERT into access VALUES ('default','MANAGER');
-INSERT into access VALUES ('default','SU');
-
 
 
 -- TypeValues(config):Redis Cache Keys

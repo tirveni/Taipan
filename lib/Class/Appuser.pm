@@ -388,6 +388,8 @@ Arguments: Hash
 
 Returns: $o_appuser
 
+Default Role: is GUEST
+
 =cut
 
 sub create
@@ -396,6 +398,8 @@ sub create
   my $pars      = shift;
 
   my $rs	= $dbic->resultset('Appuser');
+
+  $pars->{role} = 'GUEST';
 
   my $mrec = $rs->find_or_create($pars);
   my $o_appuser;
