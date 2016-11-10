@@ -1,0 +1,16 @@
+
+
+
+Taipan: Boiler plate for Perl Catalyst Web application.
+
+-------------------------------------------------------------------------------
+
+Run script/taipan_server.pl to test the application.
+
+-------------------------------------------------------------------------------
+
+ORM Generation after database changes.
+DB: taipan, Password: pwabcd, User: tirveni
+
+
+script/taipan_create.pl model TDB DBIC::Schema Taipan::Schema create=static components=TimeStamp,EncodedColumn  'dbi:Pg:dbname=taipan;host=localhost;' 'tirveni' 'pwabcd' '{ AutoCommit => 1 }'

@@ -1,1 +1,18 @@
-Run script/taipan_server.pl to test the application.
+
+
+
+Taipan: Boiler plate for Perl Catalyst Web application.
+
+
+2016-01-10, Tirveni Yadav
+-------------------------------------------------------------------------------
+
+
++ User Management
++ Permission Management on URL
++ Static Pages
++ API Key Managment
++ Session on Redis
++ EMail/SMS Notification
++ Configuration through Key/Value in Database
+
