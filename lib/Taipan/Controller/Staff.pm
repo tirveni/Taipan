@@ -22,11 +22,11 @@ Catalyst Controller.
 =cut
 
 
-=head2 index
+=head2 index  (url: staff/$USERID)
 
 Dispaly User Info.
 
-AND Edit: Change Role OR Disable/Enable OR Password.
+and also Edit: Change Role OR Disable/Enable OR Password Change.
 
 =cut
 
@@ -142,7 +142,7 @@ sub index :Path('/staff') :Args(1)
 }
 
 
-=head2 list
+=head2 list (url: staff/list)
 
 List Staff
 
@@ -249,11 +249,12 @@ sub list :Path('/staff/list') :ChainedArgs(0)
 }
 
 
-=head2 add
+=head2 add (url:/staff/add)
 
-Dispaly User Info.
+Add a Staff.
 
-AND Add a Staff
+Staff is given role GUEST by default, once he confirms, then role can
+be changed by Manager.
 
 =cut
 
