@@ -66,11 +66,6 @@ use Class::Appuser;
 
     Appuser Object is hybrid of PG and Redis.
 
-Edit User if BranchUser(table) changes.
-
-    1. Class::Appuser::red_set_user($dbic,$userid)
-    2. Wall::Admit::set_bizuser($row_vbbu,$row_branchuser)
-
 
 =head1 METHODS
 
