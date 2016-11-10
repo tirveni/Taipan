@@ -9,11 +9,14 @@
 
 package Class::Pagestatic;
 
-
 use Moose;
 use namespace::autoclean;
 
 use TryCatch;
+
+
+use Class::Utils qw(today now trim unxss valid_date push_errors print_errors);
+
 
 our $VERSION = "1.00";
 

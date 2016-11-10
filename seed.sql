@@ -29,6 +29,7 @@ INSERT into PrivilegeCategory VALUES('Staff','Privileges for Staff');
 \echo *** Privileges *** 
 INSERT INTO Privilege VALUES ('index',          'UNKN', 'Base Page');
 INSERT INTO Privilege VALUES ('home',           'GUEST', 'Home Page');
+INSERT INTO Privilege VALUES ('leaf/index',           'GUEST', 'Static Page');
 INSERT INTO Privilege VALUES ('user/index',     'GUEST', 'User Edit');
 INSERT INTO Privilege VALUES ('user/edit',      'GUEST', 'User Edit');
 INSERT INTO Privilege VALUES ('user/apikey',    'GUEST', 'User API Key');
@@ -75,6 +76,11 @@ INSERT INTO Access VALUES ('home',              'SU');
 INSERT INTO Access VALUES ('home',              'MANAGER');
 INSERT INTO Access VALUES ('home',              'STAFF');
 INSERT INTO Access VALUES ('home',              'GUEST');
+INSERT INTO Access VALUES ('leaf/index',              'SU');
+INSERT INTO Access VALUES ('leaf/index',              'MANAGER');
+INSERT INTO Access VALUES ('leaf/index',              'STAFF');
+INSERT INTO Access VALUES ('leaf/index',              'GUEST');
+INSERT INTO Access VALUES ('leaf/index',              'UNKN');
 -- Self Editing
 INSERT INTO Access VALUES ('user/index',        'SU');
 INSERT INTO Access VALUES ('user/index',        'GUEST');

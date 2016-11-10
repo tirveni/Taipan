@@ -249,7 +249,7 @@ sub page_details
   {
     $content     = $o_page->content_lang($c);
 
-    $c->log->debug("$m :: OBJ content: $content");  
+    #$c->log->debug("$m :: OBJ content: $content");  
     $c->stash->{home}->{content} = $content;
 
 #   my $attribs     = $o_page->tags($c);
