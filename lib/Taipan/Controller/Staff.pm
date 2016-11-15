@@ -7,7 +7,7 @@ BEGIN { extends 'Catalyst::Controller'; }
 
 use Class::Utils qw(makeparm selected_language unxss chomp_date trim 
 		  valid_date);
-
+use Notify::EMail;
 
 =head1 NAME
 
@@ -354,7 +354,7 @@ sub add :Path('/staff/add') :Args(0)
     {
       $c->log->info("$f Sending Mail with Verification Code ");
       #Send this to User by email.
-      Class::EMail::send_appuser_verify($o_appuser);
+      Notify::EMail::send_appuser_verify($c,$o_appuser);
       ##Send mail Now
 
     }
