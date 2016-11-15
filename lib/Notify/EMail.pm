@@ -7,7 +7,7 @@
 #
 use strict;
 
-package Class::EMail;
+package Notify::EMail;
 
 use Email::Sender::Simple;
 use Email::Sender::Simple qw(try_to_sendmail sendmail);
@@ -23,14 +23,14 @@ EMail - Utility methods for sending e-mail and SMS.
 
 =head1 SYNOPSIS
 
-    use Class::EMail;
-    my $mail = Class::EMail->new({to=>$recipient, subject=>$subject});
+    use Notify::EMail;
+    my $mail = Notify::EMail->new({to=>$recipient, subject=>$subject});
     $mail->body("some text");
     $mail->send;
 
 =head1 DESCRIPTION
 
-Class::EMail implements an OO interface for sending e-mail and SMS to
+Notify::EMail implements an OO interface for sending e-mail and SMS to
 App users etc.  It gets the maximum amount of information it can
 from the configuration file taipan.yml.
 
@@ -78,7 +78,7 @@ my
 
 =item B<<< new({parameters}) >>>
 
-Creates a new Class::EMail object and returns it to the caller.  The
+Creates a new Notify::EMail object and returns it to the caller.  The
 e-mail parameters may be specified here or added through individual
 methods later prior to sending the mail.
 
@@ -310,7 +310,7 @@ sub send_message
   #
   # Send the message
   my
-    $msg = Class::EMail->new({sms=>$sms});
+    $msg = Notify::EMail->new({sms=>$sms});
   $msg->from($from);
   $msg->to($to);
   $msg->subject($subject);
@@ -415,7 +415,7 @@ sub send_mail_to_admin
   my $send_from = $smtp_username;
 
 #Create Mail Object
-  my $mail = Class::EMail->new
+  my $mail = Notify::EMail->new
     ({to=>$send_to,subject=>$subject});
 
 #Fill the Mail object
@@ -467,7 +467,7 @@ sub send_mail_to_customer
   my $send_from = $smtp_username;
 
 #Create Mail Object
-  my $mail = Class::EMail->new
+  my $mail = Notify::EMail->new
     ({to=>$send_to,subject=>$subject});
 
 #Fill the Mail object
@@ -578,7 +578,8 @@ Sends mail to An User with verification Code.
 
 sub send_appuser_verify
 {
-  my $o_appuser =       shift;
+  my $c		= shift;
+  my $o_appuser = shift;
 
   my $m = "C/EMail/send_appuser_verify";
   my ($jobid,$err_messages);
@@ -598,7 +599,7 @@ sub send_appuser_verify
   $subject	= "User verification";
   $body		= "Please use this code for verification: $vcode \n";
 
-  Class::EMail::send_mail_to_customer($c,$body,$subject,$email);
+  Notify::EMail::send_mail_to_customer($c,$body,$subject,$email);
 
 }
 
