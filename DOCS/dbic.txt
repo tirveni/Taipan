@@ -1,0 +1,179 @@
+
+# perldoc DBIx::Class::Core
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+# This is Catalyst Model.
+    my $model;
+    $model = $c->model('HDB');
+    $c->log->debug("$m Catalyst		Model:		$model ");
+
+# This is the DBIC Object.
+    ##my $dbic     = $c->model('FilmDB')->schema; # the actual DBIC object
+    my $model_schema = $model->schema;
+    $c->log->debug("$m DBIC Object or	Schema:		$model_schema");
+
+# Get dbic object from Row Object.
+  my $dbic		= $dbrecord->result_source->schema;
+
+# Source Object
+    my $source	= $model->source('Appuser');
+    $c->log->debug("$m Source:				$source");
+
+# Schema Class
+    my $schema_class = $model->class('Appuser');
+    $c->log->debug("$m Class:				$schema_class ");
+
+# Storage
+    my $storage = $model->storage;
+    $c->log->debug("$m Model Storage:			$storage ");
+
+------------------------------------------------------------------------------
+
+# Operations
+
+# DBIx::Class::ResultSet
+# (For resultsets, there's an even quicker shortcut:$c->model('FilmDB::Actor')
+# is the same as $c->model('FilmDB')->resultset('Actor')
+    my $rs	= $model->resultset('Appuser');
+
+
+------------------------------------------------------------------------------
+# Column of Data	
+##    my $row	= ( $rs->search() )->next;		
+    $c->log->debug("$m Row:	Row ");
+
+##As it was a search.
+    ## If it was as Find, 
+    my $row = $rs->find({});	
+
+------------------------------------------------------------------------------
+# Getting the Parent Table RS.
+    my $state_rs = $city_rs->search_related
+	('state',undef)->next;
+	## Search_related is a search, hence next
+
+    $c->log->info("$m StateRS:$state_rs" );
+    my $s_state   = $state_rs->get_column('statecode');
+    my $s_country = $state_rs->get_column('state_country');
+
+------------------------------------------------------------------------------
+# Getting the Child Table,
+    $city_rs = $state_rs->search_related
+	('cities',{citycode=>'NEWDELHI'});	
+
+------------------------------------------------------------------------------
+## Get Primary Key values.
+    my @pk = $row->id;
+       Arguments: none
+       Returns: A list of primary key values
+
+
+# Row is DBIx::Class::Row Object
+
+# DBIx::Class::Relationship
+
+------------------------------------------------------------------------------
+Alias with Function
+select / as
+
+Trying to Format a Field.
+
+	Date(ISO) in DD-Mon-YYYY
+
+    my @pprices	=  $rs_prices->search
+      (undef,
+       {
+	+select => [
+		    'appid','price','product_code','active',
+		    'comments','from_date','till_date',
+		    { trim => 'appid', -as => 'xappid',},
+		    { trim => "to_char(me.from_date,'DD-Mon-YYYY')",
+		    -as => 'd_from' },
+		    { trim => "to_char(me.till_date,'DD-Mon-YYYY')",
+		    -as => 'd_till' },
+		   ],
+       }
+      )
+	if(defined($rs_prices));
+    $c->stash->{pprices} =   \@pprices;
+---------------------------------------
+
+    Alias (d_from): can be retrieved as: 
+	row->get_column('d_from');	
+
+------------------------------------------------------------------------------
+
+Columns
+
+   my @groups	=  $rs_groups->search
+      (undef,
+       {
+	columns => {
+		    groupid => 'trim(me.groupid)',
+		    groupname => 'me.groupname',
+		   }
+       }
+      )
+	if(defined($rs_groups));
+------------------------------------------------------------------------------
+AND on a single field
+
+h_s->{billdate} = {'>=' => $date_from, '<' => $date_till};
+
+
+
+
+-and =>	[role => {'!=','UNKN'}, role => {'!=','DISABLED'}],
+
+This works
+AND Example:  $rs_users = $rs_users->search
+    (
+     {
+      -and =>[role => {'!=','UNKN'}, role => {'!=','CLIENT'}],
+     }
+    );
+
+Example 2(This also works) for only lt and Gt.
+$h_s->{created_at} = {'>' => $date_a, '<' => $date_b};
+
+------------------------------------------------------------------------------
+ my @albums = $schema->resultset('Album')->search({
+    -or => [
+      -and => [
+        artist => { 'like', '%Smashing Pumpkins%' },
+        title  => 'Siamese Dream',
+      ],
+      artist => 'Starchildren',
+    ],
+  });
+
+
+
+------------------------------------------------------------------------------
+
+OR SEARCH
+
+my $new_rs = $cd_rs->search([ { year => 2005 }, { year => 2004 } ]);
+                 # year = 2005 OR year = 2004
+
+transaction_type => [qw/PROD SERV/]
+
+------------------------------------------------------------------------------
+
+OR UNDEF
+
+   $rs_charges = $rs_charges->search
+      (
+       [
+	{istax => $istax},
+	{istax => undef},
+       ]
+      );
+
+------------------------------------------------------------------------------
+http://blogs.perl.org/users/jt_smith/2016/05/complicated-joins-with-dbixclass.html
+
+http://search.cpan.org/dist/DBIx-Class/lib/DBIx/Class/Manual/Cookbook.pod
+
+
