@@ -1,0 +1,109 @@
+#!/bin/bash
+# 
+# starship - this script starts and stops the starman engine
+#
+#
+# OS: Debian, /etc/init.d/starship
+#
+# chmod 755 /etc/init.d/starship
+# update-rc.d starship defaults
+#
+#
+#
+# chkconfig:   - 85 15
+# description: Starship
+# processname: starship
+#
+ 
+ 
+
+#Starship Config 
+export starman="/usr/bin/starman"          #Engine. Starman pulls the starship
+export pidfile="/var/run/starship_taipan.pid"
+
+#STAR Config
+VAL_STAR_WORKERS="2"                       #Starman Default is 5
+VAL_STAR_MAX_REQUEST_PER_WORKER="100"      #This is usually 1000 per worker for Starman
+
+
+#Application Config
+export myapp="taipan"
+export myapp_path="/var/www/taipan"
+
+
+#Other Config
+VAL_PORT="7080"	
+VAL_HOST="taipan.udyansh.org"            # localhost or empty
+VAL_USER="www-data"	                 #www-data or root
+VAL_LOG="/var/log/starship/taipan.log"
+
+ 
+ 
+start() {
+        echo "Launching Starship.... "
+
+
+        $starman  -I${myapp_path}/lib  --listen $VAL_HOST:$VAL_PORT                                         \
+	    --daemonize --pid ${pidfile} --error-log $VAL_LOG                           \
+	    --workers $VAL_STAR_WORKERS --max-requests $VAL_STAR_MAX_REQUEST_PER_WORKER \
+	    ${myapp_path}/${myapp}.psgi
+
+        RETVAL=$?
+
+	if [ $RETVAL -eq 0 ]
+	then    
+	    echo "                       Houston, we have ignition...."
+            echo "                               up, up and away....."
+	    echo "Application $myapp is running on $VAL_HOST:$VAL_PORT"
+	else
+	    echo "FAILURE. Starship Ignition failed.\n"
+	fi    
+
+        echo
+        [ $RETVAL = 0 ]
+        return $RETVAL
+
+}
+ 
+ 
+stop() {
+        echo "Stopping Starship. "
+
+	THIS_APP_PID=`cat /var/run/starship_taipan.pid`
+        ps -o pid= --ppid $THIS_APP_PID | xargs kill -TERM ;
+        kill -TERM $THIS_APP_PID
+#        pkill starman
+
+        RETVAL=$?
+
+	if [ $RETVAL -eq 0 ]
+	then    
+	    echo "               SUCCESS. Starship is down."
+	else
+	    echo "FAILURE. Starship is not down."
+	fi    
+        echo
+        [ $RETVAL = 0 ] && rm -f ${pidfile}
+}
+
+
+
+# See how we were called.
+case "$1" in
+  start)
+        start
+        ;;
+  restart)
+        stop
+	start
+         ;;
+  stop)
+        stop
+        ;;
+  *)
+        echo $"Usage: starman {start|restart|stop}"
+        exit 1
+esac
+ 
+exit $RETVAL
+
