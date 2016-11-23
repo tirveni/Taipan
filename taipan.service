@@ -1,0 +1,18 @@
+[Unit] 
+Description=taipan 
+After=syslog.target 
+ 
+[Service] 
+Type=forking 
+ExecStart=/usr/bin/plackup  -s Starman -I /var/www/taipan/lib --daemonize -l 127.0.0.1:9001 --pid /var/run/taipan.pid --workers=2 --max-requests=100 -- access-log=/var/log/taipan/taipan_app_access.log --error-log=/var/log/taipan/taipan_app_error.log -MCatalyst -MDBIx::Class  -MMoose -MDate::Manip -MMooseX::NonMoose -MDateTime -MLWP::UserAgent -MHTTP::Request::Common -MJSON -MURI::file -MCatalyst::Runtime -MIPC::SysV -MList::Util -Mnamespace::autoclean /var/www/taipan/taipan.psgi
+Restart=always 
+User=taipan
+Group=taipan
+
+[Install] 
+WantedBy=multi-user.target
+
+
+
+#https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/sect-Managing_Services_with_systemd-Unit_Files.html
+#https://wiki.archlinux.org/index.php/Systemd/Services
