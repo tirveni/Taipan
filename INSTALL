@@ -42,3 +42,26 @@ DB: taipan, Password: pwabcd, User: tirveni
 
 
 script/taipan_create.pl model TDB DBIC::Schema Taipan::Schema create=static components=TimeStamp,EncodedColumn  'dbi:Pg:dbname=taipan;host=localhost;' 'tirveni' 'pwabcd' '{ AutoCommit => 1 }'
+
+
+
+
+--------------------------------------------
+
+INTALL in Debian:
+
++ Install Debian Packages
+apt-get install libcatalyst-modules-extra-perl  libhtml-tagfilter-perl libdatetime-format-pg-perl starman libdbix-class-timestamp-perl  libdbix-class-encodedcolumn-perl postgresql postgresql-contrib libcatalyst-modules-extra-perl  libcatalyst-perl postgresql postgresql-contrib libcatalyst-perl libcatalyst-modules-extra-perl  libhtml-tagfilter-perl libdatetime-format-pg-perl starman libdbix-class-timestamp-perl  libdbix-class-encodedcolumn-perl libcatalyst-modules-extra-perl  libhtml-tagfilter-perl libdatetime-format-pg-perl starman libdbix-class-timestamp-perl  libdbix-class-encodedcolumn-perl  postgresql-contrib  make perl-doc libtrycatch-perl libredis-perl redis-server libdata-password-perl libstring-mkpasswd-perl libcatalyst-plugin-unicode-encoding-perl 
+
++ Install perl packages from cpan, which are not available in Debian repos.
+cpanm -i  Catalyst::Plugin::Session::Store::Redis 
+cpanm -i Catalyst::Plugin::RunAfterRequest
+
+
+#Postgres
+
++ Create Postgres User
+CREATE USER taipan NOSUPERUSER CREATEDB PASSWORD 'taipan';
+
++ now Create the Database
+createdb -h localhost -U taipan -E taipan
