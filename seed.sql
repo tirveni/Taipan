@@ -131,3 +131,9 @@ INSERT INTO typevalues (dtable,tableuniq,cfield,cvalue,description,valid,interna
         values ('redkey','user','max_expiry','3600','User Object Cache Expires in Max seconds','t','t','int');
 
 
+INSERT INTO NotifyType values ('MAINTENANCE','Maintenance Notification');
+INSERT INTO NotifyType values ('MISC','Miscellaneous Notication');
+
+
+
+
