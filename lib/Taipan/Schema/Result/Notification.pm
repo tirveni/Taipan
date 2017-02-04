@@ -90,6 +90,11 @@ __PACKAGE__->table("notification");
   data_type: 'timestamp with time zone'
   is_nullable: 1
 
+=head2 priority
+
+  data_type: 'smallint'
+  is_nullable: 1
+
 =head2 created_at
 
   data_type: 'timestamp with time zone'
@@ -128,6 +133,8 @@ __PACKAGE__->add_columns(
   { data_type => "timestamp with time zone", is_nullable => 1 },
   "active_till",
   { data_type => "timestamp with time zone", is_nullable => 1 },
+  "priority",
+  { data_type => "smallint", is_nullable => 1 },
   "created_at",
   {
     data_type     => "timestamp with time zone",
@@ -188,8 +195,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2017-02-04 17:34:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Sgz1OXQF4c+LRbWYZHLlWg
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2017-02-04 18:03:12
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:FL7oqPNXEmuM++3R+Z/PmA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

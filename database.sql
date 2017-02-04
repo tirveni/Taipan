@@ -389,6 +389,7 @@ CREATE TABLE Notification
 
         active_from     timestamp with time zone, -- UTC
         active_till     timestamp with time zone, -- UTC
+	priority		smallint,
 
         created_at      timestamp 
                 with time zone default (now() at time zone 'utc')   ,
