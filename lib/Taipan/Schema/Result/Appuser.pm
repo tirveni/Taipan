@@ -249,6 +249,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 notifications
+
+Type: has_many
+
+Related object: L<Taipan::Schema::Result::Notification>
+
+=cut
+
+__PACKAGE__->has_many(
+  "notifications",
+  "Taipan::Schema::Result::Notification",
+  { "foreign.update_userid" => "self.userid" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 pagestaticlangs
 
 Type: has_many
@@ -344,9 +359,39 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 usernotified_update_userids
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2016-11-10 17:46:58
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:gbZXBZkv5SnltisrfAzihA
+Type: has_many
+
+Related object: L<Taipan::Schema::Result::Usernotified>
+
+=cut
+
+__PACKAGE__->has_many(
+  "usernotified_update_userids",
+  "Taipan::Schema::Result::Usernotified",
+  { "foreign.update_userid" => "self.userid" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 usernotified_userids
+
+Type: has_many
+
+Related object: L<Taipan::Schema::Result::Usernotified>
+
+=cut
+
+__PACKAGE__->has_many(
+  "usernotified_userids",
+  "Taipan::Schema::Result::Usernotified",
+  { "foreign.userid" => "self.userid" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2017-02-04 17:34:01
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Z6Uc93qgVzkzUiyHP0gZQQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
