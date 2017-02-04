@@ -52,6 +52,7 @@ __PACKAGE__->table("notification");
 =head2 type
 
   data_type: 'char'
+  is_foreign_key: 1
   is_nullable: 1
   size: 24
 
@@ -64,6 +65,13 @@ __PACKAGE__->table("notification");
 
   data_type: 'boolean'
   is_nullable: 1
+
+=head2 role
+
+  data_type: 'char'
+  default_value: 'ALL'
+  is_nullable: 1
+  size: 8
 
 =head2 user_confirmation
 
@@ -118,11 +126,13 @@ __PACKAGE__->add_columns(
     sequence          => "notification_notifyid_seq",
   },
   "type",
-  { data_type => "char", is_nullable => 1, size => 24 },
+  { data_type => "char", is_foreign_key => 1, is_nullable => 1, size => 24 },
   "message",
   { data_type => "text", is_nullable => 1 },
   "active",
   { data_type => "boolean", is_nullable => 1 },
+  "role",
+  { data_type => "char", default_value => "ALL", is_nullable => 1, size => 8 },
   "user_confirmation",
   { data_type => "boolean", is_nullable => 1 },
   "email_required",
@@ -158,6 +168,26 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("notifyid");
 
 =head1 RELATIONS
+
+=head2 type
+
+Type: belongs_to
+
+Related object: L<Taipan::Schema::Result::Notifytype>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "type",
+  "Taipan::Schema::Result::Notifytype",
+  { notifytype => "type" },
+  {
+    is_deferrable => 1,
+    join_type     => "LEFT",
+    on_delete     => "CASCADE",
+    on_update     => "CASCADE",
+  },
+);
 
 =head2 update_userid
 
@@ -195,8 +225,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2017-02-04 18:03:12
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:FL7oqPNXEmuM++3R+Z/PmA
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2017-02-04 18:56:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:v3TPNxIywGq64DWRaIK2Jg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

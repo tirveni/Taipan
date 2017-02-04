@@ -74,9 +74,26 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("notifytype");
 
+=head1 RELATIONS
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2017-02-04 17:34:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:zDeWxsceyLFEYJmxEs4s4Q
+=head2 notifications
+
+Type: has_many
+
+Related object: L<Taipan::Schema::Result::Notification>
+
+=cut
+
+__PACKAGE__->has_many(
+  "notifications",
+  "Taipan::Schema::Result::Notification",
+  { "foreign.type" => "self.notifytype" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2017-02-04 18:56:13
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:4GfJM86v3+y9Wpbmwg3Z9A
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

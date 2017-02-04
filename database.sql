@@ -377,10 +377,15 @@ CREATE TABLE NotifyType
 CREATE TABLE Notification
 (
 	notifyid	BIGSERIAL PRIMARY KEY,
-	type		CHAR(24),
+
+	type		CHAR(24) REFERENCES
+		notifyType	ON UPDATE CASCADE,
+		
 
 	message		text,
 	active		boolean,
+
+	role		CHAR(8)  default 'ALL',
 
 	user_confirmation	boolean,
 
