@@ -50,7 +50,7 @@ require Exporter;
 		 dates_range_intersect
 		 display_error display_message
 		 push_errors	print_errors
-		 unxss unxss_an xnatural xfloat valid_email
+		 unxss unxss_an xnatural xfloat valid_email valid_int
 		 date_search_hashref unxss_pk valid_boolean
 		 round decimal_fmt
 		 commify_series commify
@@ -1371,6 +1371,24 @@ sub xfloat
 
   return undef;
 }
+
+=item B<valid_int($string)>
+
+("0.01", "02", "3","+4","-1","a","b","A","-")
+
+Only second and third are integer
+
+
+=cut
+
+sub valid_int
+{
+  my $str = shift;
+
+  return ($str =~ m/^\d+$/);
+
+}
+
 
 =item B<valid_email( $str )>
 
