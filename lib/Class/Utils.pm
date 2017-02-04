@@ -104,7 +104,10 @@ sub set_today
 #print STDERR "shared_today 2 $shared_today\n";
 }
 
-=item B<today>
+=item B<today_x>
+
+
+Can be used with set_today, to test timings related stuff.
 
 Return today's date as YYYY-MM-DD string.  If you set
 Class::Utils::today earlier it will return that value.
@@ -112,7 +115,7 @@ Class::Utils::today earlier it will return that value.
 =cut
 # Get today's date
 #
-sub today
+sub today_x
 {
   my
     $shared_today = shmget(1161, 1024, IPC_CREAT|0600);
@@ -136,12 +139,46 @@ sub today
 
 Return the current time as HH:MM:SS.
 
-=cut
+=cut_x
+
 # Get the time
-sub now
+sub now_x
 {
   return( POSIX::strftime('%H:%M:%S', localtime) );
 }
+
+=head2 today
+
+based on utc.
+
+=cut
+
+sub today
+{
+  my $c_today_now_utc   = Class::Utils::today_now_utc();
+  my $c_today_utc	= chomp_date($c_today_now_utc);
+
+  return $c_today_utc;
+
+
+}
+
+=head2 now
+
+based on utc.
+
+=cut now
+
+sub now
+{
+  my $c_today_now_utc   = Class::Utils::today_now_utc();
+  my $c_today_time      = chomp_time($c_today_now_utc);
+  #yyyy-mm-dd hh-mm-ss
+  #11-20
+
+  return $c_today_time;
+}
+
 
 =item B<today_now_utc>
 
@@ -158,9 +195,10 @@ sub today_now_utc
   my $now   = $o_dt->hms;
   my $today_now = "$today $now +0000";
 
-
   return $today_now;
 }
+
+
 
 
 
