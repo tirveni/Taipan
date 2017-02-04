@@ -10,6 +10,11 @@
 
 \c taipan 
 \echo	*** DROP Tables
+
+DROP TABLE IF EXISTS UserNotified	CASCADE;
+DROP TABLE IF EXISTS Notification	CASCADE;
+DROP TABLE IF EXISTS NotifyType		CASCADE;
+
 DROP TABLE IF EXISTS TagsOfPage		CASCADE;
 DROP TABLE IF EXISTS TagType		CASCADE;
 DROP TABLE IF EXISTS PageStaticLang	CASCADE;
@@ -359,6 +364,59 @@ CREATE TABLE TagsOfPage
 		AppUser  ON UPDATE CASCADE,
         
         PRIMARY KEY(TagType,PageID,Priority)
+);
+
+
+CREATE TABLE NotifyType
+(
+	notifyType	char(24) PRIMARY KEY,
+	description	text
+);
+
+
+CREATE TABLE Notification
+(
+	notifyid	BIGSERIAL PRIMARY KEY,
+	type		CHAR(24),
+
+	message		text,
+	active		boolean,
+
+	user_confirmation	boolean,
+
+	email_required		boolean,
+	mobile_required		boolean,
+
+        active_from     timestamp with time zone, -- UTC
+        active_till     timestamp with time zone, -- UTC
+
+        created_at      timestamp 
+                with time zone default (now() at time zone 'utc')   ,
+        update_userid          text REFERENCES 
+		AppUser  ON UPDATE CASCADE
+	
+
+);
+
+CREATE TABLE UserNotified
+(
+	notifyid		BigInt	References
+		Notification	ON Update CASCADe,
+	
+	
+        userid          text REFERENCES 
+		AppUser  ON UPDATE CASCADE,
+
+	tried			smallint,
+	user_confirmation	boolean,
+
+        created_at      timestamp 
+                with time zone default (now() at time zone 'utc')   ,
+        update_userid          text REFERENCES 
+		AppUser  ON UPDATE CASCADE,
+
+	PRIMARY KEY(notifyid,userid)
+
 );
 
 
