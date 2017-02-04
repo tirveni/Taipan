@@ -1,0 +1,8 @@
+
+
+[% FOREACH advise = notifications %]
+
+	<p>[% advise.notifyid %]: [% advise.message %]</p>
+
+[% END %]
+

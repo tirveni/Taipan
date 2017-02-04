@@ -21,6 +21,8 @@ use Class::Rock;
 use Class::Key;
 use Class::General;
 use Class::Appuser;
+use Class::Advise;
+
 
 =head1 NAME
 
@@ -326,6 +328,34 @@ sub home : Path('home') :Args(0)
   ##User
   $o_appuser = Class::Appuser->new($dbic,$i_login);
   $role  = $o_appuser->role;
+
+
+  ##IF Notifications Are permitted
+  my $is_notify_sys_on;
+
+  if ($is_notify_sys_on eq 't')
+  {
+
+    my @list;
+    my $rs_advisories = Class::Advise::get_notifications($dbic);
+
+    while (my $row_notify = $rs_advisories->next() )
+    {
+      my $o_advise = Class::Advise->new($dbic,$row_notify);
+      $c->log->info("$m Notify: $o_advise");
+
+
+      push(@list,
+	   {
+	    notifyid	=> $o_advise->notifyid,
+	    message	=> $o_advise->message,
+	   }
+	  );
+    }
+
+    $c->stash->{notifications} = \@list;
+
+  }
 
 
 }
