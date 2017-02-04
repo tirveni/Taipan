@@ -51,7 +51,7 @@ require Exporter;
 		 display_error display_message
 		 push_errors	print_errors
 		 unxss unxss_an xnatural xfloat valid_email
-		 date_search_hashref unxss_pk
+		 date_search_hashref unxss_pk valid_boolean
 		 round decimal_fmt
 		 commify_series commify
 		 user_login user muser
@@ -1419,6 +1419,57 @@ sub valid_ctype
   return $x_value;
 
 }
+
+
+=head2 valid_boolean(input)
+
+Returns: a string of t/f. Else Undef.
+
+Example:
+
+("0.01", "02","3","+4","-1","a","b","A","-",
+"f","t","on","off","F","T","true","false","FALSE")
+
+Only from above: 02,3,f,t,F,T,true,false,False Return Boolean values.
+
+=cut
+
+sub valid_boolean
+{
+  my $in_val = shift;
+
+  my $is_int = valid_int($in_val);
+  my $value;
+
+  if($is_int)
+  {
+    if ($in_val > 0)
+    {
+      $value = 't';
+    }
+    else
+    {
+      $value = 'f';
+    }
+  }
+  else
+  {
+    $in_val = lc($in_val);
+    if ($in_val eq 't'||$in_val eq 'true'||$in_val eq 'on')
+    {
+      $value = 't';
+    }
+    elsif($in_val eq 'f'||$in_val eq 'false'||$in_val eq 'off')
+    {
+      $value = 'f';
+    }
+
+  }
+
+  return $value;
+
+}
+
 
 =head1 Date Search for DBIC.
 
