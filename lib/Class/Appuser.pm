@@ -395,6 +395,8 @@ sub create
   my $rs	= $dbic->resultset('Appuser');
 
   $pars->{role} = 'GUEST';
+  my $userid = trim($pars->{userid});
+  $pars->{userid} = $userid;
 
   my $mrec = $rs->find_or_create($pars);
   my $o_appuser;
