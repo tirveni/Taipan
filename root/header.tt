@@ -12,14 +12,14 @@
 	href="[% c.uri_for('/static/images/btn_88x31_built.png') %]">
 
 
-
-
 <link rel="stylesheet" href="[% c.uri_for('/static/css/materialize.css') %]" type="text/css" rel="stylesheet" media="screen,projection,print" />
 <link rel="stylesheet" href="[% c.uri_for('/static/css/style.css') %]" type="text/css" rel="stylesheet" media="screen,projection,print"/>
 
 <script src="[% c.uri_for('/static/js/jquery-2.1.4.min.js') %]"></script>
 <script src="[% c.uri_for('/static/js/materialize.min.js') %]"></script>
 <script src="[% c.uri_for('/static/js/mustache.js') %]"></script>
+
+<script src="[% c.uri_for('/static/js/xutils.js') %]"></script>
 
 </head>
 	

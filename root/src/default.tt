@@ -1,0 +1,14 @@
+
+
+<h2>
+404
+</h2>
+
+[% IF err_msg %]
+	<p>[% err_msg %]</p>
+[% ELSE %]
+	<p> 
+		We do not have a page with this exact name 
+			<b>[% pathnotfound %]</b>.
+	</p>
+[% END %]

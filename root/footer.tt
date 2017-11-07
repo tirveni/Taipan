@@ -17,7 +17,7 @@
  		<li>&copy; Taipan 2016.</li>
 	</ul>
    <ul class='right'>
-    		[%# PROCESS menub/every.tt %]
+    		[% PROCESS menub/every.tt %]
    	</ul>
 
 	</div>
