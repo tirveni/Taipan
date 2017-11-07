@@ -1,6 +1,4 @@
 
-
-
 Taipan: Boiler plate for Perl Catalyst Web application.
 
 -------------------------------------------------------------------------------
@@ -29,14 +27,6 @@ seed.sql: tables role,privilege,access.
 
 -------------------------------------------------------------------------------
 
-Static Pages: is accessible by all the users.
-
-Add Static Pages through: SQL/pages.sql
-
-url /leaf/contactus.
-
--------------------------------------------------------------------------------
-
 ORM Generation after database changes.
 DB: taipan, Password: pwabcd, User: tirveni
 
@@ -58,6 +48,7 @@ cpanm -i  Catalyst::Plugin::Session::Store::Redis
 cpanm -i Catalyst::Plugin::RunAfterRequest
 
 
+--------------------------------------------
 #Postgres
 
 + Create Postgres User
@@ -65,3 +56,22 @@ CREATE USER taipan NOSUPERUSER CREATEDB PASSWORD 'taipan';
 
 + now Create the Database
 createdb -h localhost -U taipan -E taipan
+
++ Upload database
+psql -h localhost -U eloor taipan
+
++ Fill in the Basic Data
+\i database.sql; \i seed.sql
+
++ Run Application
+perl script/taipan_server.pl 
+
+
+-------------------------------------------------------------------------------
+
+Static Pages: is accessible by all the users.
+
+Add Static Pages through: SQL/pages.sql
+
+url /leaf/contactus.
+
