@@ -47,6 +47,7 @@ INSERT INTO Privilege VALUES ('privileges/info',	  	'SU', 'Edit Permission');
 
 -- Login/Logout/Default
 INSERT INTO Privilege VALUES ('login/index',    'UNKN', 'Login Page');
+INSERT INTO Privilege VALUES ('g/user/login',   'UNKN', 'Login Page REST');
 INSERT INTO Privilege VALUES ('logout/index',   'GUEST', 'Logout for All users other than UNKN');
 INSERT into privilege VALUES ('default','UNKN','Default');
 
@@ -67,6 +68,7 @@ insert into access values ('logout/index','DISABLED');
 INSERT INTO Access VALUES ('',                  'UNKN');
 INSERT INTO Access VALUES ('index',             'UNKN');
 INSERT INTO Access VALUES ('login/index',       'UNKN');
+INSERT INTO Access VALUES ('g/user/login',       'UNKN');
 --index and home
 INSERT INTO Access VALUES ('index',             'SU');
 INSERT INTO Access VALUES ('index',             'MANAGER');
