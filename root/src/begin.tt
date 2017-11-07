@@ -14,6 +14,10 @@ Taipan is based on Perl' Catalyst MVC Framework.
 		<div class='col l8 m8 s8'>PostgreSQL</div>
 	</div>
 	<div class='collection-item row'>
+		<div class='col l4 m4 s4'>DB NoSQL</div>
+		<div class='col l8 m8 s8'>Redis</div>
+	</div>
+	<div class='collection-item row'>
 		<div class='col l4 m4 s4'>JS</div>
 		<div class='col l8 m8 s8'>Jquery</div>
 	</div>
