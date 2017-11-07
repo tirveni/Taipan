@@ -43,8 +43,11 @@ The root page (/)
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
+    $c->stash->{page}->{title} = 'Perl Catalyst';
+    $c->stash->{template} = 'src/begin.tt';
+
     # Hello World
-    $c->response->body( $c->welcome_message );
+    #$c->response->body( $c->welcome_message );
 }
 
 =head2 default
