@@ -62,9 +62,15 @@ sub default :Path {
     $c->response->status(404);
 }
 
-=head2
+=head2 auto
 
-Runs on every request
+Runs before every request to the application to check permissions.
+
+Checks for API Key or HTTP Session.
+
+Two API Keys are required: input id(key_guava)/key(key_jamun)
+
+Default user is UNKN (unknown).
 
 =cut
 
@@ -212,7 +218,7 @@ sub auto : Private
   $pg_allow  = 0;
 
   ##--- User  -> PSQL PERMIT
-#  try  {
+  try  {
 
     my ($o_appuser);
     $c->log->info("$m  Appuser($i_login): $o_appuser ");
@@ -258,11 +264,11 @@ sub auto : Private
       ##Rx_5
     }
 
-#  }				##Try
-#    catch($error)
-#    {
-#      push_errors(\@errors,1110221,$error) if($error);
-#    }  ;
+  }				##Try
+    catch($error)
+    {
+      push_errors(\@errors,1110221,$error) if($error);
+    }  ;
 
   ##--- D. Errors are put in the Log
   ##---
