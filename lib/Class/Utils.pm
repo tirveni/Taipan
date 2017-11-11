@@ -65,7 +65,7 @@ require Exporter;
 		 maphash myname trim int_or_string
 		 get_array_from_argument
 		 config get_random_string extract_digits
-		 get_redis get_redis_queue redis_save_hash_field
+		 get_redis get_redis_queue redis_save_hash_field redis_save_hash
 		/;
 
 =pod
@@ -2571,6 +2571,53 @@ sub redis_save_hash_field
 
   return ($success,$delkey,$err_msg);
 
+
+}
+
+=head2 redis_save_hash($o_xredis,$key_redis,\%hvals,\@ignore_keys)
+
+Fill all the values in h_vals to in Redis Hash:key_redis. Ignore the
+Keys which are in @ignore_keys
+
+Returns: (@errors)
+
+=cut
+
+sub redis_save_hash
+{
+  my $o_xredis          = shift;
+  my $key_redis         = shift;
+  my $h_vals            = shift;
+  my $a_ignore_keys     = shift;
+
+  my @errors;
+
+  try
+  {
+
+    foreach my $xkey (keys %$h_vals)
+    {
+      my ($xval,$is_saved,$is_deleted,$err_msg,$is_ignore);
+
+      my $xval = trim($h_vals->{$xkey});
+      $xkey = trim($xkey);      
+
+      $is_ignore = str_in_array($a_ignore_keys,$xkey)
+        if ($a_ignore_keys);
+
+      ##-- Save Here if Not in Ignore Array.    
+      if (!$is_ignore && $xval)
+      {
+        ($is_saved,$is_deleted,$err_msg) = 
+          redis_save_hash_field($o_xredis,$key_redis,$xkey,$xval);
+      }
+
+      push(@errors,$err_msg);
+    }
+
+  };
+
+  return (@errors);
 
 }
 
