@@ -546,6 +546,15 @@ CREATE TABLE CityLang
 );
 
 
+-- View V_city
+CREATE VIEW v_city AS select a.citycode,a.cityname,
+        a.city_country,a.city_state,s.statename,
+        c.countryname 
+        FROM city a,state s,country c 
+        WHERE a.city_country=s.state_country 
+                AND a.city_state=s.statecode 
+                AND s.state_country=c.countrycode ;
+
 
 CREATE TABLE timezone 
 (
