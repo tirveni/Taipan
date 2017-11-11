@@ -72,9 +72,14 @@ sub city :Path('/g/address/city') :Args(0)  : ActionClass('REST')
 
 REST Verb POST
 
-In Data: Hash{userid,password}
+In Data:
+{country_code,state_code,new_state_code,new_state_name,city_name,code}
 
-Returns: Hash {userid}
+1.Add only city (state is available): country_code,state_code,city_name
+
+2.Add State and City: country_code,new_state_code,new_state_name,city_name
+
+Success Returns: Hash {country_code,state_code,city_code,name}
 
 =cut
 
@@ -107,7 +112,7 @@ sub city_POST
     {
       ($country_code,$state_code)  = split(/:/,$code_cou_sta);
       $country_code	= unxss($country_code);
-      $state_code	= unxss($country_code);
+      $state_code	= unxss($state_code);
     }
     $c->log->info("$m CC:$country_code,ST:$state_code,City:$city_name");
   }
@@ -206,14 +211,16 @@ sub states :Path('/g/address/states') :Args(1)  : ActionClass('REST')
 }
 
 
-=head2  g/address/states	GET
+=head2  g/address/states/:page	GET
 
-list_GET method. Output is json.
+ Output is json.
 
-data.cities
+Input:{countrycode|country}
 
 Country is optional: iCountry||country. IF country is given then
-search is made for cities only in the Country.
+search is made for states only in the Country.
+
+OutPut:    {countrycode,countryname,statename,statecode,name,code}
 
 Example: /G/address?q=new delhi&country=IN
 
