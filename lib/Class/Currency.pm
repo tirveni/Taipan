@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 #
 # Copyright Tirveni Yadav, 2015-07-30.
-# License: GPLv3
+# License: AGPLv3
 #
 
 
@@ -467,6 +467,6 @@ sub get_currencies
 =head1 LICENSE
 
 This is free software; you can redistribute it and/or modify it under
-GPLv3. Copyright tirveni@udyansh.org
+AGPLv3. Copyright tirveni@udyansh.org
 
 =cut
