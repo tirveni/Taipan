@@ -2,41 +2,63 @@
 -- Database for taipan 
 -- --
 -- 
--- Version 0.1
+-- Version 0.2
 -- Tirveni Yadav <tirveni@udyansh.org>
 -- use database taipan;
 --
+-- 0.2: Address,City,State,Country,TimeZone
+-- 2017-11-11
 --
 
 \c taipan 
-\echo	*** DROP Tables
+\echo *** DROP Tables
 
+\echo *** Drop Address country,state,city,timezone....
+DROP TABLE IF EXISTS CURRENCY;
+DROP TABLE IF EXISTS ADDRESS;
+DROP TABLE IF EXISTS Zone;
+DROP TABLE IF EXISTS TimeZone;
+DROP TABLE IF EXISTS CITY;
+DROP TABLE IF EXISTS CityLang;
+DROP TABLE IF EXISTS StateLang;
+DROP TABLE IF EXISTS State;
+DROP TABLE IF EXISTS Country_More;
+DROP TABLE IF EXISTS CountryLang;
+DROP TABLE IF EXISTS Country;
+
+\echo *** Drop Notices....
 DROP TABLE IF EXISTS UserNotified	CASCADE;
 DROP TABLE IF EXISTS Notification	CASCADE;
 DROP TABLE IF EXISTS NotifyType		CASCADE;
 
+\echo *** Drop Static Pages....
 DROP TABLE IF EXISTS TagsOfPage		CASCADE;
 DROP TABLE IF EXISTS TagType		CASCADE;
 DROP TABLE IF EXISTS PageStaticLang	CASCADE;
 DROP TABLE IF EXISTS PageStatic		CASCADE;
+
+\echo *** Drop Languages and Messages....
 DROP TABLE IF EXISTS LanguageType	CASCADE;	
 DROP TABLE IF EXISTS Message		CASCADE;	
 DROP TABLE IF EXISTS MessageLang	CASCADE;	
 
+\echo *** Drop PODs....
 DROP TABLE IF EXISTS Ipx_pod_host	CASCADE;	
 DROP TABLE IF EXISTS Ipx_pod		CASCADE;	
 
+\echo *** Drop TypeValues and AppUser....
 DROP TABLE IF EXISTS TypeValues		CASCADE;
 
 DROP TABLE IF EXISTS AppUserKey		CASCADE;
 DROP TABLE IF EXISTS AppUser		CASCADE;
 
-
+\echo *** Drop Roles,Privileges,Access....
 DROP TABLE IF EXISTS Roles		CASCADE;
 DROP TABLE IF EXISTS PrivilegeCategory	CASCADE;
 DROP TABLE IF EXISTS Privilege		CASCADE;
 DROP TABLE IF EXISTS Access		CASCADE;
 
+\echo *** Drop Logs....
 DROP TABLE IF EXISTS LogException	CASCADE;
 DROP TABLE IF EXISTS LoginAttempts    	CASCADE;
 
@@ -425,4 +447,156 @@ CREATE TABLE UserNotified
 
 );
 
+
+
+CREATE TABLE Country
+(
+        CountryCode             char(3) PRIMARY KEY ,
+        CountryName             text,
+        verified                boolean default 't'
+) ;
+
+
+CREATE TABLE CountryLang
+(
+        CountryCode             char(3) REFERENCES
+                Country  ON UPDATE CASCADE,
+        CountryName             text,
+        LanguageType    char(4) REFERENCES 
+                LanguageType  ON UPDATE CASCADE,
+
+        PRIMARY KEY(CountryCode,LanguageType)
+);
+
+-- CountrMore
+CREATE TABLE country_more 
+(
+    countrycode         character(2) PRIMARY KEY,
+    currencycode        character(3),
+    continent           character(2),
+    iso3                character(3),
+    isd                 text,
+    capital             text
+);
+
+
+
+CREATE TABLE State
+(
+        State_Country           char(3) REFERENCES 
+                Country  ON UPDATE CASCADE,
+        StateCode               char(3),
+        StateName               text,
+
+        verified                boolean default 't',
+        userid                  text,
+        created_at              timestamp with time zone 
+                default (now() at time zone 'utc'),
+
+        PRIMARY KEY( State_Country, StateCode )
+) ;
+
+CREATE TABLE StateLang
+(
+        State_Country           char(3) REFERENCES 
+                Country  ON UPDATE CASCADE,
+        StateCode               char(3),
+        StateName               text,
+        LanguageType    char(4) REFERENCES 
+                LanguageType  ON UPDATE CASCADE,
+        FOREIGN KEY( state_country,statecode) REFERENCES
+                State  ON UPDATE CASCADE,
+        PRIMARY KEY( State_Country, StateCode, LanguageType )
+        
+);
+
+
+CREATE TABLE City
+(
+        City_Country            char(3),
+        City_State              char(3),
+        CityCode                char(20),
+        CityName                text,
+        Latitude                text,
+        Longitude               text,
+
+        verified                boolean default 't',
+        userid                  text,
+        created_at              timestamp with time zone 
+                default (now() at time zone 'utc'),
+
+        FOREIGN KEY( City_country,City_state) REFERENCES
+                State  ON UPDATE CASCADE,
+        PRIMARY KEY( City_Country, City_State, CityCode )
+);
+
+--Description of a City/Town in a specified Language
+CREATE TABLE CityLang
+(
+        City_Country            char(3),
+        City_State              char(3), 
+        CityCode                char(20), 
+        LanguageType    char(4) REFERENCES 
+                LanguageType  ON UPDATE CASCADE,
+        CityName                text,
+        FOREIGN KEY( City_country,City_state,CityCode) REFERENCES
+                City  ON UPDATE CASCADE,
+        PRIMARY KEY( City_Country, City_State, CityCode,LanguageType )
+                
+);
+
+
+
+CREATE TABLE timezone 
+(
+        zone_id         int not null,
+        abbreviation    text   NOT NULL,
+        time_start      int NOT NULL,
+        gmt_offset      int NOT NULL,
+        dst             CHAR(1) NOT NULL
+);
+CREATE INDEX i_timezone_zone_id ON timezone(zone_id);
+CREATE INDEX i_timezone_time_start ON timezone(time_start);
+
+CREATE TABLE zone
+(
+        zone_id         int NOT NULL ,
+        CountryCode             char(3) REFERENCES
+                Country  ON UPDATE CASCADE,
+        zone_name VARCHAR(35) PRIMARY KEY 
+);
+CREATE UNIQUE INDEX i_zone_zone_id ON zone(zone_id);
+
+
+
+CREATE TABLE Address
+(
+        AddressID               serial primary key ,
+        StreetAddress1          text,
+        StreetAddress2          text,
+        StreetAddress3          text,
+        address_city            char(20),
+        address_state           char(3),
+        address_country         char(3),
+        Address_Area            char(8),
+        Address_Locality        char(8),
+        AddressVerified         char(1),
+        Directions              text,
+        priority                int,
+        pincode                 text,
+        created_at      timestamp 
+                with time zone default (now() at time zone 'utc'),   
+        foreign key( address_Country, address_State, address_City ) 
+                references City  ON UPDATE CASCADE
+) ;
+
+CREATE TABLE Currency
+(
+        CurrencyCode            char(3) PRIMARY KEY,
+        CurrencyName            text,
+        Symbol                  char(30),
+        RoundingFactor          smallint,
+        Country                 char(2) REFERENCES Country
+
+);
 

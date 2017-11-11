@@ -110,6 +110,36 @@ __PACKAGE__->set_primary_key("code");
 
 =head1 RELATIONS
 
+=head2 citylangs
+
+Type: has_many
+
+Related object: L<Taipan::Schema::Result::Citylang>
+
+=cut
+
+__PACKAGE__->has_many(
+  "citylangs",
+  "Taipan::Schema::Result::Citylang",
+  { "foreign.languagetype" => "self.code" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 countrylangs
+
+Type: has_many
+
+Related object: L<Taipan::Schema::Result::Countrylang>
+
+=cut
+
+__PACKAGE__->has_many(
+  "countrylangs",
+  "Taipan::Schema::Result::Countrylang",
+  { "foreign.languagetype" => "self.code" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 pagestaticlangs
 
 Type: has_many
@@ -121,6 +151,21 @@ Related object: L<Taipan::Schema::Result::Pagestaticlang>
 __PACKAGE__->has_many(
   "pagestaticlangs",
   "Taipan::Schema::Result::Pagestaticlang",
+  { "foreign.languagetype" => "self.code" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 statelangs
+
+Type: has_many
+
+Related object: L<Taipan::Schema::Result::Statelang>
+
+=cut
+
+__PACKAGE__->has_many(
+  "statelangs",
+  "Taipan::Schema::Result::Statelang",
   { "foreign.languagetype" => "self.code" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
@@ -146,8 +191,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2016-11-10 16:23:53
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:nzzyIUCsIB6dRnBSyc60Pw
+# Created by DBIx::Class::Schema::Loader v0.07025 @ 2017-11-11 11:09:03
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:hqBFj4FCYIVkJVNMMTinLg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
