@@ -60,6 +60,24 @@ All the Keys for the Database REDIS
 my $c_pod_id = Taipan->config->{podid};
 my $podid   = "taipan:$c_pod_id:";
 
+=head2 Country,City
+
+Expires in An Hour
+
+=cut
+
+Readonly        $red_prefix_has_country         => "$podid:red_hash_country";
+Readonly        $red_prefix_has_city            => "$podid:red_hash_city";
+
+
+=head2 Currency
+
+Expires in An Day
+
+=cut
+
+Readonly        $red_prefix_hash_currency       => "$podid:red_hash_currency";
+
 =head2 Msg/Tvals
 
 Refreshed SomeHow? as wall?
