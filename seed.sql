@@ -3,8 +3,25 @@
 
 -- Inserts
 
+----------------------
 \echo *** Error and Messages ***
 \copy message (msgid,type,name,message)  from 'SQL/errors.csv' delimiter '|'  ;
+
+\echo *** Add Countries *** 
+\i SQL/country.sql
+
+\echo *** TimeZone ***
+\i SQL/timezone.sql
+
+\echo *** States ***
+\copy state(state_country,statecode,statename)  from 'SQL/states.csv' delimiter '|'  ;
+
+\echo *** Cities ****
+\copy city(city_country,city_state,citycode,cityname)  from 'SQL/cities.csv' delimiter '|'  ;
+
+\echo *** Currencies  ****
+\copy currency(currencycode,currencyname,symbol)  from 'SQL/currency.csv' delimiter '|'  ;
+----------------------
 
 \echo roles
 INSERT into Roles VALUES ('SU',        	1,   'Administrator');

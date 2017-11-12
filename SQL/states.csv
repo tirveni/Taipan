@@ -1,0 +1,294 @@
+US|AL |Alabama  
+US|AK |Alaska  
+US|AS |American Samoa 
+US|AZ |Arizona  
+US|AR |Arkansas  
+US|CA |California  
+US|CO |Colorado  
+US|CT |Connecticut  
+US|DE |Delaware  
+US|DC |Dist. of Columbia 
+US|FL |Florida  
+US|GA |Georgia  
+US|GU |Guam  
+US|HI |Hawaii  
+US|ID |Idaho  
+US|IL |Illinois  
+US|IN |Indiana  
+US|IA |Iowa  
+US|KS |Kansas  
+US|KY |Kentucky  
+US|LA |Louisiana  
+US|ME |Maine  
+US|MD |Maryland  
+US|MH |Marshall Islands 
+US|MA |Massachusetts  
+US|MI |Michigan  
+US|FM |Micronesia 
+US|MN |Minnesota  
+US|MS |Mississippi  
+US|MO |Missouri  
+US|MT |Montana  
+US|NE |Nebraska  
+US|NV |Nevada  
+US|NH |New Hampshire  
+US|NJ |New Jersey  
+US|NM |New Mexico  
+US|NY |New York  
+US|NC |North Carolina  
+US|ND |North Dakota  
+US|MP |Northern Marianas 
+US|OH |Ohio  
+US|OK |Oklahoma  
+US|OR |Oregon  
+US|PW |Palau 
+US|PA |Pennsylvania  
+US|PR |Puerto Rico  
+US|RI |Rhode Island  
+US|SC |South Carolina  
+US|SD |South Dakota  
+US|TN |Tennessee  
+US|TX |Texas  
+US|UT |Utah  
+US|VT |Vermont  
+US|VA |Virginia  
+US|VI |Virgin Islands 
+US|WA |Washington  
+US|WV |West Virginia  
+US|WI |Wisconsin  
+US|WY |Wyoming  
+IN|AP|Andhra Pradesh
+IN|AR|Arunachal Pradesh
+IN|AS|Assam
+IN|BR|Bihar
+IN|CG|Chhattisgarh
+IN|GA|Goa
+IN|GJ|Gujarat
+IN|HR|Haryana
+IN|HP|Himachal Pradesh
+IN|JK|Jammu and Kashmir
+IN|JH|Jharkhand
+IN|KA|Karnataka
+IN|KL|Kerala
+IN|MP|Madhya Pradesh
+IN|TS|Telangana
+IN|MH|Maharashtra
+IN|MN|Manipur
+IN|ML|Meghalaya
+IN|MZ|Mizoram
+IN|NL|Nagaland
+IN|OR|Orissa
+IN|PB|Punjab
+IN|RJ|Rajasthan
+IN|SK|Sikkim
+IN|TN|Tamil Nadu
+IN|TR|Tripura
+IN|UK|Uttarakhand
+IN|UP|Uttar Pradesh
+IN|WB|West Bengal
+IN|AN|Andaman and Nicobar Islands
+IN|CH|Chandigarh
+IN|DH|Dadra and Nagar Haveli
+IN|DD|Daman and Diu
+IN|DL|Delhi
+IN|LD|Lakshadweep
+IN|PY|Pondicherry
+GB|I0|Aberconwy and Colwyn
+GB|I1|Aberdeen City
+GB|I2|Aberdeenshire
+GB|I3|Anglesey
+GB|I4|Angus
+GB|I5|Antrim
+GB|I6|Argyll and Bute
+GB|I7|Armagh
+GB|I8|Avon
+GB|I9|Ayrshire
+GB|IB|Bath and NE Somerset
+GB|IC|Bedfordshire
+GB|IE|Belfast
+GB|IF|Berkshire
+GB|IG|Berwickshire
+GB|IH|BFPO
+GB|II|Blaenau Gwent
+GB|IJ|Buckinghamshire
+GB|IK|Caernarfonshire
+GB|IM|Caerphilly
+GB|IO|Caithness
+GB|IP|Cambridgeshire
+GB|IQ|Cardiff
+GB|IR|Cardiganshire
+GB|IS|Carmarthenshire
+GB|IT|Ceredigion
+GB|IU|Channel Islands
+GB|IV|Cheshire
+GB|IW|City of Bristol
+GB|IX|Clackmannanshire
+GB|IY|Clwyd
+GB|IZ|Conwy
+GB|J0|Cornwall/Scilly
+GB|J1|Cumbria
+GB|J2|Denbighshire
+GB|J3|Derbyshire
+GB|J4|Derry/Londonderry
+GB|J5|Devon
+GB|J6|Dorset
+GB|J7|Down
+GB|J8|Dumfries and Galloway
+GB|J9|Dunbartonshire
+GB|JA|Dundee
+GB|JB|Durham
+GB|JC|Dyfed
+GB|JD|East Ayrshire
+GB|JE|East Dunbartonshire
+GB|JF|East Lothian
+GB|JG|East Renfrewshire
+GB|JH|East Riding Yorkshire
+GB|JI|East Sussex
+GB|JJ|Edinburgh
+GB|JK|England
+GB|JL|Essex
+GB|JM|Falkirk
+GB|JN|Fermanagh
+GB|JO|Fife
+GB|JP|Flintshire
+GB|JQ|Glasgow
+GB|JR|Gloucestershire
+GB|JS|Greater London
+GB|JT|Greater Manchester
+GB|JU|Gwent
+GB|JV|Gwynedd
+GB|JW|Hampshire
+GB|JX|Hartlepool
+GB|HAW|Hereford and Worcester
+GB|JY|Hertfordshire
+GB|JZ|Highlands
+GB|K0|Inverclyde
+GB|K1|Inverness-Shire
+GB|K2|Isle of Man
+GB|K3|Isle of Wight
+GB|K4|Kent
+GB|K5|Kincardinshire
+GB|K6|Kingston Upon Hull
+GB|K7|Kinross-Shire
+GB|K8|Kirklees
+GB|K9|Lanarkshire
+GB|KA|Lancashire
+GB|KB|Leicestershire
+GB|KC|Lincolnshire
+GB|KD|Londonderry
+GB|KE|Merseyside
+GB|KF|Merthyr Tydfil
+GB|KG|Mid Glamorgan
+GB|KI|Mid Lothian
+GB|KH|Middlesex
+GB|KJ|Monmouthshire
+GB|KK|Moray
+GB|KL|Neath & Port Talbot
+GB|KM|Newport
+GB|KN|Norfolk
+GB|KP|North Ayrshire
+GB|KQ|North East Lincolnshire
+GB|KR|North Lanarkshire
+GB|KT|North Lincolnshire
+GB|KU|North Somerset
+GB|KV|North Yorkshire
+GB|KO|Northamptonshire
+GB|KW|Northern Ireland
+GB|KX|Northumberland
+GB|KZ|Nottinghamshire
+GB|L0|Orkney and Shetland Isles
+GB|L1|Oxfordshire
+GB|L2|Pembrokeshire
+GB|L3|Perth and Kinross
+GB|L4|Powys
+GB|L5|Redcar and Cleveland
+GB|L6|Renfrewshire
+GB|L7|Rhonda Cynon Taff
+GB|L8|Rutland
+GB|L9|Scottish Borders
+GB|LB|Shetland
+GB|LC|Shropshire
+GB|LD|Somerset
+GB|LE|South Ayrshire
+GB|LF|South Glamorgan
+GB|LG|South Gloucesteshire
+GB|LH|South Lanarkshire
+GB|LI|South Yorkshire
+GB|LJ|Staffordshire
+GB|LK|Stirling
+GB|LL|Stockton On Tees
+GB|LM|Suffolk
+GB|LN|Surrey
+GB|LO|Swansea
+GB|LP|Torfaen
+GB|LQ|Tyne and Wear
+GB|LR|Tyrone
+GB|LS|Vale Of Glamorgan
+GB|LT|Wales
+GB|LU|Warwickshire
+GB|LV|West Berkshire
+GB|LW|West Dunbartonshire
+GB|LX|West Glamorgan
+GB|LY|West Lothian
+GB|LZ|West Midlands
+GB|M0|West Sussex
+GB|M1|West Yorkshire
+GB|M2|Western Isles
+GB|M3|Wiltshire
+GB|M4|Wirral
+GB|M5|Worcestershire
+GB|M6|Wrexham
+GB|M7|York
+CA|AB|Alberta
+CA|BC|British Columbia
+CA|MB|Manitoba
+CA|NB|New Brunswick
+CA|NL|Newfoundland and Labrador
+CA|NT|Northwest Territories
+CA|NS|Nova Scotia
+CA|NU|Nunavut
+CA|ON|Ontario
+CA|PE|Prince Edward Island
+CA|QC|Quebec
+CA|SK|Saskatchewan
+CA|YT|Yukon
+AU|ACT|Australian Capital Territory
+AU|NSW|New South Wales
+AU|NT|Northern Territory
+AU|QLD|Queensland
+AU|SA|South Australia
+AU|TAS|Tasmania
+AU|VIC|Victoria
+AU|WA|Western Australia
+MX|AG|Aguascalientes
+MX|BJ|Baja California
+MX|BS|Baja California Sur
+MX|CP|Campeche
+MX|CH|Chiapas
+MX|CI|Chihuahua
+MX|CU|Coahuila
+MX|CL|Colima
+MX|DF|Distrito Federal
+MX|DG|Durango
+MX|GJ|Guanajuato
+MX|GR|Guerrero
+MX|HG|Hidalgo
+MX|JA|Jalisco
+MX|EM|Mexico
+MX|MH|Michoacan
+MX|MR|Morelos
+MX|NA|Nayarit
+MX|NL|Nuevo Leon
+MX|OA|Oaxaca
+MX|PU|Puebla
+MX|QA|Queretaro
+MX|QR|Quintana Roo
+MX|SL|San Luis Potosi
+MX|SI|Sinaloa
+MX|SO|Sonora
+MX|TA|Tabasco
+MX|TM|Tamaulipas
+MX|TL|Tlaxcala
+MX|VL|Veracruz
+MX|YC|Yucatan
+MX|ZT|Zacatecas
