@@ -114,6 +114,32 @@ DEFUNCT: Class::Key
 Readonly	$red_prefix_apikey  => "$podid:red_hash_appuserkey";
 
 
+=head1 MAIL PROVIDERS
+
+Sending E-Mails through SMTP or Elastice
+
+=head2 Elastic
+
+Used in Mail::Elastic
+
+=cut
+
+Readonly        $elastic_api_username   => 'info@example.io';
+Readonly        $elastic_api_key        => 'aaaa-vv-ccc-ddd-ee';
+
+
+=head2 SMTP
+
+Used in Mail::Redmail
+
+=cut
+
+Readonly        $smtp_server            => 'mail.example.io';
+Readonly        $smtp_port              => '25';
+Readonly        $smtp_username          => 'info@example.io';
+Readonly        $smtp_password          => 'pass#info132';
+
+
 
 1;
 
