@@ -39,6 +39,19 @@ Mail::Letter - Utility methods for sending e-mail and SMS.
 
 Mail::Letter implements an OO interface for sending e-mail.
 
+Example:
+
+    my $h_mx;
+    $h_mx->{to}		= 'ato@example.in';
+    $h_mx->{from}	= 'afrom@volans.in';
+    $h_mx->{subject}	= 'Lion King subject';
+    $h_mx->{body}	= 'Lion Pride';
+
+    my $o_letter	= Mail::Letter->new($h_mx);
+
+    $o_letter->send_elastic or     $o_letter->send_smtp
+
+
 =head2 new
 
 Store the default SMTP and SMS servers for this installation.
