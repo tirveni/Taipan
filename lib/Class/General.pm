@@ -227,9 +227,23 @@ sub input_keys
 }
 
 
-=head2 page_details
+=head2 page_details($c,$pageid)
 
 Private method to get page contents
+
+Input: $obj_catalyst,$pageid
+
+Output: page_content
+
+[Note:$obj_catalyst is required to fill in the details in the Stash]
+
+Data in the Catalyst Stash:
+
+ home->content: is the Page content
+
+ meta->desc: is meta-desc
+
+ meta->keywords: is meta->keywords
 
 =cut
 
@@ -249,27 +263,28 @@ sub page_details
   {
     $content     = $o_page->content_lang($c);
 
-    #$c->log->debug("$m :: OBJ content: $content");  
+    #$c->log->debug("$m :: OBJ content: $content");
     $c->stash->{home}->{content} = $content;
 
-#   my $attribs     = $o_page->tags($c);
-#
-#    if ($attribs)
-#    {
-#      my $meta_desc   = $attribs->{'meta-desc-staticpage'};
-#      my $list_ofmeta = $attribs->{'meta-staticpage'};
+    my $h_tags     = $o_page->tags($c);
 
-#      $c->log->debug("$m :: meta_desc:$meta_desc ");  
-#      $c->log->debug("$m :: list Meta: @$list_ofmeta");  
+    if ($h_tags)
+    {
+      my $meta_desc   = $h_tags->{'meta-desc'};
+      my $list_ofmeta = $h_tags->{'meta-keywords'};
 
-#      $c->stash->{meta}->{desc}		= $meta_desc;
+      #$c->log->debug("$m :: meta_desc:$meta_desc ");
+      #$c->log->debug("$m :: list Meta: @$list_ofmeta");
 
-#      $c->stash->{meta}->{listofmeta}   = $list_ofmeta;
-#      ##This is Reference to Array.
+      $c->stash->{meta}->{desc}		= $meta_desc;
+      $c->stash->{meta}->{keywords}	= $list_ofmeta;
+      ##This is Reference to Array.
 
-#    }
+    }
 
   }
+
+  return $content;
 
 }
 

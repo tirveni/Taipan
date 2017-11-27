@@ -18,7 +18,7 @@ use TryCatch;
 use Class::Utils qw(today now trim unxss valid_date push_errors print_errors);
 
 
-our $VERSION = "1.00";
+our $VERSION = "1.01";
 
 =head1 Pagestatic
 
@@ -38,7 +38,7 @@ sub new
   my $dbic	= shift;
   my $arg_pageid   = shift;
 
-  my $m = "C::Loge->new";
+  my $m = "C/pagestatic->new";
 
   my $row    = $arg_pageid;
 
@@ -78,11 +78,11 @@ sub dbrecord
 
 }
 
-#End method create
+=head1 ACCESSORS
 
 =head2 pageid
 
-get articleid of the Pagestatic
+get Pageid of the Pagestatic
 
 =cut
 
@@ -90,12 +90,33 @@ sub pageid
 {
   my $self = shift;
 
-  #Return the name of the Buser
+  #Return the PageID
   my $r_articleid = $self->dbrecord->get_column('pageid');
 
   return $r_articleid;
 
 }
+
+=head2 pagename
+
+get pagename of the Pagestatic
+
+=cut
+
+sub pagename
+{
+  my $self = shift;
+
+  #Return the pagename
+  my $r_articleid = $self->dbrecord->get_column('pagename');
+
+  return $r_articleid;
+
+}
+
+=head1 CONTENT
+
+Content of the Page
 
 =head2 content
 
@@ -151,13 +172,83 @@ sub content_lang
 
 }
 
+=head2 content_edit($content,$userid)
+
+Returns: updated_row
+
+=cut
+
+sub content_edit
+{
+  my $self	= shift;
+  my $input	= shift;
+  my $userid	= shift;
+
+  my $row_ps = $self->dbrecord;
+
+  my $h_edit;
+  $h_edit->{content} = $input;
+  $h_edit->{update_userid} = $userid;
+
+  my $updated_row;
+  if (defined($row_ps) && $input && $userid)
+  {
+    $updated_row = $row_ps->update($h_edit);
+  }
+
+  return $updated_row;
+}
+
+=head1 tags
+
+Manges Tags
+
+TagsOfPage: meta-desc, meta-keywords
+
+=head atag(tag_type,priority)
+
+Returns: $row_tag
+
+=cut
+
+sub atag
+{
+  my $self = shift;
+  my $tag_type	= shift;
+  my $priority	= shift;
+
+  ##
+  my $row_page	 = $self->dbrecord;
+  my ($errors);
+
+  $priority = int($priority);
+  my ($h_edit,$row_tag,$ready_up);
+
+  ##-- 1. Desc Type
+  if (defined($row_page))
+  {
+    $row_tag = $row_page->find_related
+      ('tagsofpages',
+       {
+	tagtype  => $tag_type,
+	priority => $priority,
+       },
+      );
+  }
+
+  return $row_tag;
+
+}
+
 =head2 tags($dbic)
 
 Get Tags of PageStatic
 
-Returns: Hash{meta-desc-staticpage(text),meta-staticpage(array)}
+Returns: Hash{meta-desc(text),meta-keywords(array)}
 
-{meta-desc-staticpage=>description,meta-staticpage=>\[description]}
+{meta-desc=>description,meta-keywords=>\[description]}
+
+Priority Descending.
 
 =cut
 
@@ -170,16 +261,17 @@ sub tags
   my $row_page	= $self->dbrecord;
 
   my $m = "C/pagestatic->tags";
-  my $meta_str_1 = 'meta-desc-staticpage';
+  my $meta_str_1 = 'meta-desc';
+  my $meta_str_2 = 'meta-keywords';
 
   ##Meta desc
   my @order = ('priority desc');
-  my $tags_desc_rs;
+  my $rs_tags_desc;
 
   ##--- 1A Get the RS Tags
   ##--- Search Tags of Pages Type: Desc
   {
-    $tags_desc_rs = $row_page->search_related
+    $rs_tags_desc = $row_page->search_related
       ('tagsofpages',
        {
 	tagtype  => $meta_str_1,
@@ -191,27 +283,27 @@ sub tags
   }
 
   ##--- 1B Get the Meta Description
-  if (defined($tags_desc_rs))
+  if (defined($rs_tags_desc))
   {
-    $tags_desc_rs = $tags_desc_rs->first;
+    my $row_tag = $rs_tags_desc->first;
     my $meta_desc_str;
-    if ($tags_desc_rs)
+    if (defined($row_tag))
     {
-      $meta_desc_str		= $tags_desc_rs->details;
+      $meta_desc_str		= $row_tag->details;
     }
     $h_vals->{$meta_str_1}	= $meta_desc_str;
   }
 
 
-  my $meta_str_2 = 'meta-staticpage';
-  my $tags_meta_rs;
+
+  my $rs_tags_meta;
 
   ##--- 2A Meta: Other Metas
   ##--- Search Tags of Pages Type: Other than Desc
   {
 
     ##Meta (Only)
-    my $tags_meta_rs = $row_page->search_related
+    $rs_tags_meta = $row_page->search_related
       ('tagsofpages',
        {
 	tagtype  => $meta_str_2,
@@ -219,10 +311,11 @@ sub tags
       );
   }
 
-  ##--- 2B
+  ##--- 2B: Put the data in the List, then array
+  if (defined($rs_tags_meta))
   {
     my @list;
-    while ( my $tag = $tags_meta_rs->next )
+    while ( my $tag = $rs_tags_meta->next )
     {
 
       my $content = $tag->details;
@@ -234,6 +327,129 @@ sub tags
   }
 
   return $h_vals;
+
+}
+
+=head2 tag_edit($type,$priority,h_edit)
+
+h_edit: {priority,details,userid}
+
+Return: ($errors,$updated_row)
+
+Used for Editing or Creating
+
+=cut
+
+sub tag_edit
+{
+  my $self	= shift;
+  my $tag_type	= shift;
+  my $in_vals	= shift;
+  my $priority	= shift;
+
+  my $m = "C/pagestatic->tag_edit";
+
+  ##only these types are edited.
+  my $meta_str_1 = 'meta-desc';
+  my $meta_str_2 = 'meta-keywords';
+
+  ##Check TagType  my $
+
+  ##
+  my $row_page	 = $self->dbrecord;
+  my ($errors,$updated_row);
+
+  $priority = int($priority) || 1;
+  $tag_type = trim($tag_type);
+  my ($h_edit,$row_tag,$ready_up);
+  print "$m Input Tag: $tag_type \n";
+
+  ##-- 1. Desc Type
+  if (defined($row_page) && ($tag_type eq $meta_str_1))
+  {
+    $row_tag = $self->atag($meta_str_1,1);
+
+    $h_edit->{details}		= $in_vals->{details};
+    $h_edit->{update_userid}	= $in_vals->{userid};
+    $h_edit->{priority}		= 1;
+    $ready_up = 1;
+    print "$m Found:$meta_str_1,$priority,$row_tag \n";
+
+
+  }##IF Tag Type One
+  else
+  {
+    $row_tag = $self->atag($meta_str_2,$priority);
+    print "$m Found:$meta_str_2,$priority,$row_tag \n";
+
+    $h_edit->{details}		= $in_vals->{details};
+    $h_edit->{update_userid}	= $in_vals->{userid};
+    $h_edit->{priority}		= $priority;
+    $ready_up = 1;
+  }##Else Tag Type
+
+  my $err_msg;
+  try  {
+
+    if ($row_tag && $ready_up > 0)
+    {
+      $updated_row = $row_tag->update($h_edit);
+      print "$m Update \n";
+
+    }
+    elsif ($ready_up > 0)
+    {
+      $h_edit->{tagtype} = $tag_type;
+      $updated_row = $row_page->create_related('tagsofpages',$h_edit);
+      print "$m Create \n";
+    }
+
+  }
+    catch($err_msg)
+    {
+      push(@$errors,$err_msg);
+      print "$m $err_msg \n";
+    }  ;
+
+
+  return ($errors,$updated_row);
+}
+
+
+=head2 types_tags($dbic [,in_type])
+
+returns: \@list
+
+{type,description}
+
+=cut
+
+sub types_tags
+{
+  my $dbic	= shift;
+  my $in_type	= shift;
+
+  $in_type = trim($in_type) if($in_type);
+
+  my $rs_tt = $dbic->resultset('Tagtype');
+
+  my @list;
+
+  while (my $row = $rs_tt->next())
+  {
+    my $type		= $row->tagtype;
+    my $description	= $row->description;
+
+    push(@list,
+	 {
+	  type		=> $type,
+	  description	=> $description,
+	 },
+	);
+
+  }
+
+  return \@list;
 
 }
 
