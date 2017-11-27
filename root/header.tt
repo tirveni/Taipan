@@ -7,6 +7,9 @@
 				
 </title>
 
+[% PROCESS meta.tt %] 
+
+
 <head>
 	<link rel="shortcut icon" 
 	href="[% c.uri_for('/static/images/btn_88x31_built.png') %]">

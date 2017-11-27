@@ -1,0 +1,7 @@
+[% IF meta.desc %]      
+        <meta name="description"  content="[% meta.desc %]" />
+[% END %]
+
+[% IF meta.keywords %]
+        <meta name="keyword" content="[% FOR mk IN meta.keywords %][% mk %],[% END %]" />
+[% END %]
