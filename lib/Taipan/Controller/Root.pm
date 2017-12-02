@@ -218,7 +218,10 @@ sub auto : Private
     ##--- Keys Exist.
   GET_USER_FROM_KEYS:
     $i_login = $fruit_userid;
-    $c->log->debug("$m UserID: $i_login");
+    $c->log->debug("$m Key UserID: $i_login");
+    my %kh = ( user => $i_login );
+    $c->stash->{hello} = \%kh; 
+
   }
   else
   {

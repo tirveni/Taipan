@@ -1632,17 +1632,24 @@ sub decimal_fmt
 Return the login field of the currently-selected user.
 
 =cut
-# Login ID
+
 sub user_login
 {
   my $c = shift;
 
   my $userid;
 
-  if ($c->user_exists)
+  try
   {
-    $userid = $c->user->get('login')||$c->user->get('userid');
-  }
+    if ($c->user_exists)
+    {
+      $userid = $c->user->get('login')||$c->user->get('userid');
+    }
+    else
+    {
+      $userid = $c->stash->{hello}->{user}; ##Key Login
+    }
+  };
 
   return $userid;
 }
