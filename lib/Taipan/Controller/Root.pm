@@ -211,6 +211,25 @@ sub auto : Private
 
   }
 
+  ##
+  if (defined($fruit_userid))
+  {
+    ##--- B2
+    ##--- Keys Exist.
+  GET_USER_FROM_KEYS:
+    $i_login = $fruit_userid;
+    $c->log->debug("$m UserID: $i_login");
+  }
+  else
+  {
+    ##--- B3: CATALYST User
+  GET_USER_FROM_CATALYST:
+    ##Check if User Exists in the Catalyst Session.
+    $h_attempt->{userid}     = $i_login ;
+    $h_attempt->{user_agent} = $c->request->user_agent();
+  }##End Else FruitUSerid
+
+
   my $path_default_fwd = "default?url=$i_action";
 
   ##--- C. PERMISSION Handling BEGIN
