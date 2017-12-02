@@ -91,9 +91,10 @@ sub pageid
   my $self = shift;
 
   #Return the PageID
-  my $r_articleid = $self->dbrecord->get_column('pageid');
+  my $r_value = $self->dbrecord->get_column('pageid');
+  $r_value = trim($r_value);
 
-  return $r_articleid;
+  return $r_value;
 
 }
 
@@ -108,11 +109,12 @@ sub pagename
   my $self = shift;
 
   #Return the pagename
-  my $r_articleid = $self->dbrecord->get_column('pagename');
+  my $r_value = $self->dbrecord->get_column('pagename');
 
-  return $r_articleid;
+  return $r_value;
 
 }
+
 
 =head1 CONTENT
 
@@ -197,6 +199,53 @@ sub content_edit
   }
 
   return $updated_row;
+}
+
+=head2 create($dbic,{pageid,pagename,content})
+
+Returns: ($error,$row_page)
+
+=cut
+
+sub create
+{
+  my $dbic	= shift;
+  my $h_vals	= shift;
+
+  my $fx = "C/pagestatic/create";
+  my $rs_page = $dbic->resultset('Pagestatic');
+
+  my $pageid	= Class::Utils::unxss_pk($h_vals->{pageid});
+  my $content	= $h_vals->{content};
+  my $pagename	= $h_vals->{pagename};
+  my $userid	= $h_vals->{userid};
+
+
+  my $h_add;
+  {
+    $h_add->{pageid}	= $pageid;    
+    $h_add->{update_userid} = $userid;
+    $h_add->{pagename} = $pagename;
+    $h_add->{content} = $content;
+  }
+
+
+  print "$fx $pageid,$content,$pagename,$userid \n";
+  my ($row_page,$error);
+  if($pageid && $content && $pagename && $userid)
+  {
+    try
+    {
+      $row_page = $rs_page->create($h_add);
+    }
+      catch($error)
+      {
+	print "$fx $error \n";
+      };
+  }
+
+  return ($error,$row_page);
+
 }
 
 =head1 tags
