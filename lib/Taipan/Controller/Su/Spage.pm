@@ -96,14 +96,11 @@ sub index_GET
 
   $c->log->info("$fx PageID:$pageid / $o_pagestatic");
 
-  my $h_rest;
-  $h_rest->{pageid}	= $pageid;
-  $h_rest->{content}	= $page_content;
-  $h_rest->{pagename}	= $page_name;
-  #$h_rest->{created_at} = $o_pagestatic->created_at;
-
   if ($o_pagestatic)
   {
+    my $h_rest;
+    my $h_ps = _ps_display($o_pagestatic);
+    $h_rest->{staticpage} = $h_ps;
     $self->status_ok( $c, entity => $h_rest );
   }
   else
@@ -163,9 +160,76 @@ sub index_POST
   if ($o_pagestatic)
   {
     my $h_rest;
-    $h_rest->{pageid}	= $pageid;
-    $h_rest->{content}	= $o_pagestatic->content;
-    $h_rest->{pagename}	= $o_pagestatic->pagename;
+    my $h_ps = _ps_display($o_pagestatic);
+    $h_rest->{staticpage} = $h_ps;
+    $self->status_ok( $c, entity => $h_rest );
+  }
+  else
+  {
+    my $msg = "Page could not be added:$error";
+    $h_rest->{error_msg} = $msg;
+    $c->res->status(402);
+    $c->stash->{rest} = $h_rest;
+    return;
+    ##R_1
+  }
+
+
+}
+
+
+=head2 /su/spage/:pageid	POST
+
+Returns: {pageid,pagename,content,created_at}
+
+Output is in JSON/XML format.
+
+
+=cut
+
+sub index_PUT
+{
+  my $self	= shift;
+  my $c		= shift;
+  my $in_pageid	= shift;
+
+  my $fx = "su/spange/index_PUT";
+  my ($h_rest,$error,$row_page);
+  my $dbic = $c->model('TDB')->schema;
+
+  my ($content,$pagename,$pageid);
+  {
+    $pageid	= trim($in_data->{pageid});
+    $content	= trim($in_data->{content});
+    $pagename	= trim($in_data->{pagename});
+  }
+
+  my $h_in;
+  {
+    $h_in->{pageid}	= $pageid;
+    $h_in->{content}	= $content;
+    $h_in->{pagename}	= $pagename;
+    $h_in->{userid}	= $c_userid;
+  }
+  $c->log->info("$fx U:$c_userid");
+
+  if ($c_userid && $o_pagestatic && ($content || $pagename))
+  {
+    ($error,$row_page) = $o_pagestatic->edit($h_in);
+    $c->log->info("$fx Error:$error");
+  }
+
+  if (defined($row_page))
+  {
+    $pageid = $row_page->get_column('pageid');
+    $o_pagestatic = Class::Pagestatic->new($dbic,$pageid);
+  }
+
+  if ($o_pagestatic)
+  {
+    my $h_rest;
+    my $h_ps = _ps_display($o_pagestatic);
+    $h_rest->{staticpage} = $h_ps;
     $self->status_ok( $c, entity => $h_rest );
   }
   else
@@ -195,6 +259,29 @@ sub tag :Path('/su/spage/tag') :Args(3)
   my ( $self, $c, $pageid,$tagtype,$in_priority ) = @_;
 
   my $f = "Su/Spage/tag";
+
+}
+
+=head1 PRIVATE FUNCTIONS
+
+Helper for Static Page object
+
+=head2 _ps_display($o_pagestatic)
+
+Uniform function for Static Page REST Object.
+
+=cut
+
+sub _ps_display
+{
+  my $o_pagestatic = shift;
+
+  my $h_ps;
+  $h_ps->{pageid}	= $o_pagestatic->pageid;
+  $h_ps->{content}	= $o_pagestatic->content;
+  $h_ps->{pagename}	= $o_pagestatic->pagename;
+
+  return $h_ps;
 
 }
 

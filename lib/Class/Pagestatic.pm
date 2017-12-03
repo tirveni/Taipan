@@ -109,7 +109,7 @@ sub pagename
   my $self = shift;
 
   #Return the pagename
-  my $r_value = $self->dbrecord->get_column('pagename');
+  my $r_value = trim($self->dbrecord->get_column('pagename'));
 
   return $r_value;
 
@@ -131,7 +131,7 @@ sub content
   my $self = shift;
 
   #Return the name of the Buser
-  my $r_content = $self->dbrecord->get_column('content');
+  my $r_content = trim($self->dbrecord->get_column('content'));
 
   return $r_content;
 
@@ -174,31 +174,46 @@ sub content_lang
 
 }
 
-=head2 content_edit($content,$userid)
+=head2 edit({userid,pagename,content})
 
 Returns: updated_row
 
 =cut
 
-sub content_edit
+sub edit
 {
   my $self	= shift;
-  my $input	= shift;
-  my $userid	= shift;
+  my $h_in	= shift;
+
+  my $mx = "C/ps/edit";
+  my $input	= $h_in->{content};
+  my $page_name = $h_in->{pagename};
+  my $userid	= $h_in->{userid};
 
   my $row_ps = $self->dbrecord;
 
   my $h_edit;
-  $h_edit->{content} = $input;
-  $h_edit->{update_userid} = $userid;
 
-  my $updated_row;
-  if (defined($row_ps) && $input && $userid)
+  $h_edit->{content}		= $input	if($input);
+  $h_edit->{pagename}		= $page_name	if($page_name);
+  $h_edit->{update_userid}	= $userid;
+
+
+  my ($error,$updated_row);
+  if (defined($row_ps) && ($input||$page_name) && $userid)
   {
-    $updated_row = $row_ps->update($h_edit);
+    try
+    {
+      $h_edit->{created_at}	= Class::Utils::today_now_utc();
+      $updated_row = $row_ps->update($h_edit);
+    }
+      catch($error)
+      {
+	print "$mx Error: $error\n";
+      };
   }
 
-  return $updated_row;
+  return ($error,$updated_row);
 }
 
 =head2 create($dbic,{pageid,pagename,content})
