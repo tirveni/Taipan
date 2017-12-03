@@ -34,7 +34,8 @@ INSERT INTO Roles VALUES ('DISABLED' ,  1001,'DISABLED');
 
 -- User
 INSERT INTO APPUSER VALUES( 'UNKN','Unknown','DETAILS UNKNOWN','PWD','2014-11-01','1','UNKN');
-INSERT INTO APPUSER VALUES( 'admin@abc.com','Viper','Handles Administration', 'g3BkGZVnIIlVJnhUVyB0MOZRKhs','2013-01-01','1','SU');
+INSERT INTO APPUSER VALUES( 'admin@example.org','Viper','Handles Administration', 'g3BkGZVnIIlVJnhUVyB0MOZRKhs','2013-01-01','1','SU');
+INSERT into appuserkey values ('admin@example.org','3333','4444','2017-01-01','2020-01-01','t');
 
 
 INSERT into PrivilegeCategory VALUES('GUEST','Privileges for GUEST');
@@ -61,6 +62,8 @@ INSERT INTO Privilege VALUES ('privileges/rolelist',	  	'SU', 'List Roles');
 INSERT INTO Privilege VALUES ('privileges/accesslist',  	'SU', 'Available Permissions for a role');
 INSERT INTO Privilege VALUES ('privileges/allowed',	  	'SU', 'Allowed Permissions for a role');
 INSERT INTO Privilege VALUES ('privileges/info',	  	'SU', 'Edit Permission');
+INSERT INTO Privilege VALUES ('su/spage/index',	  	'SU', 'Add Static Page');
+INSERT INTO Privilege VALUES ('su/spage/tag',	  	'SU', 'Add tag of Static Page');
 
 -- Login/Logout/Default
 INSERT INTO Privilege VALUES ('login/index',    'UNKN', 'Login Page');
@@ -74,6 +77,8 @@ INSERT into access VALUES ('default',		'GUEST');
 INSERT into access VALUES ('default',		'STAFF');
 INSERT into access VALUES ('default',		'MANAGER');
 INSERT into access VALUES ('default',		'SU');
+INSERT into access VALUES ('su/spage/index',		'SU');
+INSERT into access VALUES ('su/spage/tag',		'SU');
 
 \echo ** Access Logout For Everyone.
 insert into access values ('logout/index','SU');
@@ -156,3 +161,9 @@ INSERT INTO NotifyType values ('MISC','Miscellaneous Notication');
 
 
 
+INSERT INTO tagtype VALUES('meta-desc','Description of a Page');
+INSERT INTO tagtype VALUES('meta-keywords','tags of a Page');
+
+
+INSERT into tagsofpage values ('meta-keywords','contactus',2,'Contact Taipan');
+INSERT into tagsofpage values ('meta-desc','contactus',1,'Contact Admin');
