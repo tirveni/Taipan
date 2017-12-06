@@ -609,3 +609,14 @@ CREATE TABLE Currency
 
 );
 
+
+CREATE TABLE version
+(
+        db_version              text PRIMARY KEY,
+        db_version_date         date,
+        db_comment              text,
+        created_at              timestamp 
+                with time zone default (now() at time zone 'utc') 
+        
+);
+
