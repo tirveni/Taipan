@@ -70,7 +70,7 @@ ApiUserKey: id(key_guava),key(key_jamun).
 =cut
 
 my ($o_redis,$c_prefix_key_appuser,$c_key_expires,$c_prefix_appuserkey);
-my ($c_err_invalid_apikey);
+my ($c_err_invalid_apikey,$c_is_key_cache_permitted);
 {
   $o_redis		= Class::Utils::get_redis;
   $c_key_expires	= $Class::Rock::seconds_inten || 60;
@@ -635,7 +635,7 @@ sub check_auth_keys
   }
 
   ##-- 1.First Check Throuugh REDIS
-  if ($i_guava && $i_jamun && $in_date)
+  if ($c_is_key_cache_permitted && $i_guava && $i_jamun && $in_date)
   {
     ($v_method,$userid,$list_errors) =
       Class::Key::red_check_auth_keys($i_guava,$i_jamun,$in_date);
@@ -663,10 +663,14 @@ sub check_auth_keys
     print "$m Found $rs_appuserkey  \n";
     if (defined($row_appuserkey))
     {
-      Class::Key::store_in_red($row_appuserkey);
-      print "$m Saved in Redis. Now Get Userid  \n";
       $userid = $row_appuserkey->get_column('userid');
       $v_method = $row_appuserkey->get_column('method');
+
+      if ($c_is_key_cache_permitted)
+      {
+	Class::Key::store_in_red($row_appuserkey);
+	print "$m Saved in Redis. Now Get Userid  \n";
+      }
     }
     print "$m M:$v_method, U:$userid  \n";
   }
